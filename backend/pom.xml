@@ -7,6 +7,7 @@
         <artifactId>neuefische-capstone-project-2022-parent</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
+
     <artifactId>neuefische-capstone-project-2022-backend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>neuefische-capstone-project-2022-backend</name>
