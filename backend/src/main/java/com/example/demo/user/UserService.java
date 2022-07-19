@@ -13,7 +13,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     public void createNewUser(UserCreationData userCreationData) {
-        if (!userCreationData.getPassword().equals(userCreationData.getPasswordRepeated())) {
+        if (!userCreationData.getPassword().equals(userCreationData.getPasswordRepeat())) {
             throw new IllegalArgumentException("passwords do not match");
         }
 
