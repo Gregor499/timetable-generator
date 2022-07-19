@@ -29,7 +29,10 @@ public class LoginController {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginData.getUsername(), loginData.getPassword()));
             User user = userService.findByUsername(loginData.getUsername()).orElseThrow();
-            String jwt = jwtService.createJwt(new HashMap<>(), user.getId());
+            HashMap<String, Object> roles = new HashMap<>();
+            roles.put("userRole", "user");
+            //roles.put("adminRole", "admin");
+            String jwt = jwtService.createJwt(roles, user.getId());
             return ResponseEntity.ok(new LoginResponse(jwt));
         } catch (AuthenticationException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

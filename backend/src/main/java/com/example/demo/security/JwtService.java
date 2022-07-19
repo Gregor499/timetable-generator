@@ -26,12 +26,13 @@ public class JwtService {
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(subject)
-                .setIssuedAt(Date.from(Instant.now().plus(Duration.ofMinutes(5))))
+                .setIssuedAt(Date.from(Instant.now()))
+                .setExpiration(Date.from(Instant.now().plus(Duration.ofHours(1))))
                 .signWith(SignatureAlgorithm.HS256, secret)
                 .compact();
     }
 
-    public Claims extractAllCLaims(String token) {
+    public Claims extractAllClaims(String token) {
         return Jwts.parser()
                 .setSigningKey(secret)
                 .parseClaimsJws(token)

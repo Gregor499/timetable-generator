@@ -3,6 +3,7 @@ package com.example.demo.security;
 import com.example.demo.user.User;
 import com.example.demo.user.UserService;
 import io.jsonwebtoken.Claims;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,15 +18,11 @@ import java.io.IOException;
 import java.util.List;
 
 @Component
+@RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
     private final UserService userService;
-
-    public JwtAuthFilter(JwtService jwtService, UserService userService) {
-        this.jwtService = jwtService;
-        this.userService = userService;
-    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -33,7 +30,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         String token = getToken(request);
         if (token != null && !token.isBlank()) {
             try {
-                Claims claims = jwtService.extractAllCLaims(token);
+                Claims claims = jwtService.extractAllClaims(token);
                 setSecurityContext(claims);
             } catch (Exception e) {
                 response.setStatus(401);
@@ -51,7 +48,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     }
 
     private void setSecurityContext(Claims claims) {
-        List<SimpleGrantedAuthority> grantedAuthorities = claims.get("roles") == null ? List.of() : ((List<String>) claims.get("roles")).stream().map(SimpleGrantedAuthority::new).toList();
+        List<SimpleGrantedAuthority> grantedAuthorities = claims.get("userRole") == null ? List.of() : ((List<String>) claims.get("userRole")).stream().map(SimpleGrantedAuthority::new).toList();
 
         User user = userService.findById(claims.getSubject()).orElseThrow();
 
