@@ -1,9 +1,11 @@
 package com.example.demo.timetable;
 
+import com.example.demo.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -32,4 +34,9 @@ public class TimeUnitService {
         }
         return timeUnitList;
     }
+
+    public Optional<TimeUnit> findByTime(String time){
+        return timeUnitRepository.findTimeUnitsByTime(time);
+    }
+
 }

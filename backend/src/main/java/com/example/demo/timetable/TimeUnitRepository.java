@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface TimeUnitRepository extends MongoRepository<TimeUnit, String> {
-    Optional<TimeUnit> findByBegin(int begin);
+    Optional<TimeUnit> findTimeUnitsByTime(String time);
 }
