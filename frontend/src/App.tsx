@@ -12,7 +12,6 @@ export default function App() {
                 <Route path={"/timetable"} element={<Timetable/>}/>
                 <Route path={"/register"} element={<Register/>}/>
                 <Route path={"/login"} element={<Login/>}/>
-                <Route path={"/start-page"} element={<Startpage/>}/>
             </Routes>
         </BrowserRouter>
 

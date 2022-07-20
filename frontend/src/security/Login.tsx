@@ -1,5 +1,5 @@
 import {FormEvent, useState} from "react";
-import {useNavigate} from "react-router-dom";
+import {NavLink, useNavigate} from "react-router-dom";
 import {loginUser} from "../service/apiService";
 
 export default function Login() {
@@ -14,14 +14,14 @@ export default function Login() {
         ev.preventDefault()
         loginUser({username, password})
             .then(loginResponse => localStorage.setItem("jwt", loginResponse.jwt))
-            .then(() => (nav("/start-page")))
+            .then (() => nav("/"))
             .catch(() => setErrorMessage("Login failed"))
     }
 
     return (
         <div>
             <h3>login</h3>
-            <form onSubmit={login}>
+            <form  onSubmit={login}>
                 <input type="text" value={username} onChange={event => setUsername(event.target.value)} placeholder="username"/>
                 <input type="text" value={password} onChange={event => setPassword(event.target.value)} placeholder="password"/>
                 <input type="submit" value="Login"/>

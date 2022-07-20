@@ -1,8 +1,6 @@
 import {NavLink} from "react-router-dom";
 import {ReactNode, useEffect, useState} from "react";
 import axios, {AxiosResponse} from "axios";
-import {loginUser} from "./service/apiService";
-import {LoginResponse} from "./service/models";
 
 export default function Startpage() {
 
@@ -19,7 +17,6 @@ export default function Startpage() {
             setUsername(value.toString())
         })
             .catch(()=> setErrorMessage("username not found"))
-
     })
 
     return (
