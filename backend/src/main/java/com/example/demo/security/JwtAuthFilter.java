@@ -48,7 +48,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     }
 
     private void setSecurityContext(Claims claims) {
-        List<SimpleGrantedAuthority> grantedAuthorities = claims.get("userRole") == null ? List.of() : ((List<String>) claims.get("userRole")).stream().map(SimpleGrantedAuthority::new).toList();
+        List<SimpleGrantedAuthority> grantedAuthorities = claims.get("userRole") == null ? List.of() : List.of(new SimpleGrantedAuthority("ROLE_" + claims.get("userRole")));
 
         User user = userService.findById(claims.getSubject()).orElseThrow();
 
