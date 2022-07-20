@@ -1,12 +1,13 @@
 import "./Timetable.css"
 
-export default function Timetable() {
 
+
+export default function Timetable() {
     return (
         <div>
             <h1 className="headline">Timetable</h1>
 
-            <table className= "coll">
+            <table className= "table">
                 <thead>
                 <tr>
                     <th>Uhrzeit</th>
@@ -54,5 +55,6 @@ export default function Timetable() {
                 </tbody>
             </table>
         </div>
+
     );
 }

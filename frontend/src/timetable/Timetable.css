@@ -1,4 +1,5 @@
 table, th, td {
     border: thin solid;
     border-collapse: collapse;
+    table-layout: auto;
 }
