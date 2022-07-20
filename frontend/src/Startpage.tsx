@@ -16,7 +16,7 @@ export default function Startpage() {
             .then((response: AxiosResponse<String>) => response.data).then((value) => {
             setUsername(value.toString())
         })
-            .catch(()=> setErrorMessage("username not found"))
+            .catch(()=> setErrorMessage(""))
     })
 
     return (
