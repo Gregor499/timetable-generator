@@ -33,7 +33,7 @@ public class TimeUnitService {
         int nextTimeInMinutes = timeInMinutes;
 
         //adding the desired length
-        for (int i = endInMinutes; i >= timeInMinutes; i = i - timeUnit.getLength()) {
+        for (int i = endInMinutes; i > timeInMinutes; i = i - timeUnit.getLength()) {
             nextTimeInMinutes = nextTimeInMinutes + timeUnit.getLength();
 
             //converting back to "xx:xx" time
