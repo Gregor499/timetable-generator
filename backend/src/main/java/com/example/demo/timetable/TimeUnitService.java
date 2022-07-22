@@ -26,13 +26,17 @@ public class TimeUnitService {
 
         String timeUnitTime = timeUnitRepository.findTimeUnitsById(timeUnit.getId()).orElseThrow().getTime();
         String timeUnitEnd = timeUnitRepository.findTimeUnitsById(timeUnit.getId()).orElseThrow().getEnd();
+
+        //converting "xx:xx" time to minutes
         int timeInMinutes = (getNumericValue(timeUnitTime.charAt(0)) * 600 + (getNumericValue(timeUnitTime.charAt(1)) * 60 + getNumericValue(timeUnitTime.charAt(3)) * 10 + getNumericValue(timeUnitTime.charAt(4))));
         int endInMinutes = (getNumericValue(timeUnitEnd.charAt(0)) * 600 + (getNumericValue(timeUnitEnd.charAt(1)) * 60 + getNumericValue(timeUnitEnd.charAt(3)) * 10 + getNumericValue(timeUnitEnd.charAt(4))));
         int nextTimeInMinutes = timeInMinutes;
 
-        for (int i = endInMinutes; i >= timeInMinutes; i = i - timeUnit.getLength()) {         //mit Gleichzeichen ?
+        //adding the desired length
+        for (int i = endInMinutes; i >= timeInMinutes; i = i - timeUnit.getLength()) {
             nextTimeInMinutes = nextTimeInMinutes + timeUnit.getLength();
 
+            //converting back to "xx:xx" time
             int hours = 0;
             int minutes;
             for (int j = nextTimeInMinutes; j >= 60; j = j - 60) {
@@ -56,18 +60,15 @@ public class TimeUnitService {
                 minutesString = minutes + "";
             }
             timeUnit.setTime(hoursString + ":" + minutesString);
+
+            //setting the timeUnit id to time
             timeUnit.setId(timeUnit.getTime());
             timeUnitRepository.save(timeUnit);
         }
         return findAll(timeUnitEnd);
     }
 
-    public Optional<TimeUnit> findById(String id) {
-        return timeUnitRepository.findTimeUnitsById(id);
-    }
-
     public List<TimeUnit> findAll(String end){
         return timeUnitRepository.findAll();
     }
-
 }
