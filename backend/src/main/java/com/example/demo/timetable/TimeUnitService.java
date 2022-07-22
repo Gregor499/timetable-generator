@@ -2,41 +2,72 @@ package com.example.demo.timetable;
 
 import com.example.demo.user.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
+
+import static java.lang.Character.getNumericValue;
 
 @Service
 @RequiredArgsConstructor
+
 public class TimeUnitService {
     private final TimeUnitRepository timeUnitRepository;
+    public List<TimeUnit> createTimeUnitList(TimeUnit timeUnit) {
+        timeUnitRepository.deleteAll();
+        timeUnit.setId(timeUnit.getTime());
+        timeUnitRepository.save(timeUnit);
 
-    LinkedList<TimeUnit> timeUnitList;
+        String timeUnitTime = timeUnitRepository.findTimeUnitsById(timeUnit.getId()).orElseThrow().getTime();
+        String timeUnitEnd = timeUnitRepository.findTimeUnitsById(timeUnit.getId()).orElseThrow().getEnd();
+        int timeInMinutes = (getNumericValue(timeUnitTime.charAt(0)) * 600 + (getNumericValue(timeUnitTime.charAt(1)) * 60 + getNumericValue(timeUnitTime.charAt(3)) * 10 + getNumericValue(timeUnitTime.charAt(4))));
+        int endInMinutes = (getNumericValue(timeUnitEnd.charAt(0)) * 600 + (getNumericValue(timeUnitEnd.charAt(1)) * 60 + getNumericValue(timeUnitEnd.charAt(3)) * 10 + getNumericValue(timeUnitEnd.charAt(4))));
+        int nextTimeInMinutes = timeInMinutes;
 
-    public LinkedList<TimeUnit> createTimeUnitList(TimeUnit timeUnit, int length, String end) {
-        timeUnitList.add(timeUnit);
-        int timeInMinutes = timeUnit.getTime().charAt(0) + (timeUnit.getTime().charAt(1) * 10) + ((timeUnit.getTime().charAt(3) + timeUnit.getTime().charAt(4) * 10) / 60);
-        int endInMinutes = timeUnit.getTime().charAt(0) + (timeUnit.getTime().charAt(1) * 10) + ((timeUnit.getTime().charAt(3) + timeUnit.getTime().charAt(4) * 10) / 60);
-
-        for (int i = endInMinutes; i > 0; i--) {
-            int nextTimeInMinutes = timeInMinutes + length;
+        for (int i = endInMinutes; i >= timeInMinutes; i = i - timeUnit.getLength()) {         //mit Gleichzeichen ?
+            nextTimeInMinutes = nextTimeInMinutes + timeUnit.getLength();
 
             int hours = 0;
             int minutes;
-            for (int j = nextTimeInMinutes; j >= 60; j = j / 60) {
+            for (int j = nextTimeInMinutes; j >= 60; j = j - 60) {
                 hours++;
             }
             minutes = nextTimeInMinutes - (60 * hours);
 
-            timeUnit.setTime(hours + ":" + minutes);
-            timeUnitList.add(timeUnit);
+            String hoursString;
+
+            if (hours / 10 < 1) {
+                hoursString = "0" + hours;
+            } else {
+                hoursString = hours + "";
+            }
+
+            String minutesString;
+
+            if (minutes / 10 < 1) {
+                minutesString = "0" + minutes;
+            } else {
+                minutesString = minutes + "";
+            }
+            timeUnit.setTime(hoursString + ":" + minutesString);
+            timeUnit.setId(timeUnit.getTime());
+            timeUnitRepository.save(timeUnit);
         }
-        return timeUnitList;
+        return findAll(timeUnitEnd);
     }
 
-    public Optional<TimeUnit> findByTime(String time){
-        return timeUnitRepository.findTimeUnitsByTime(time);
+    public Optional<TimeUnit> findById(String id) {
+        return timeUnitRepository.findTimeUnitsById(id);
+    }
+
+    public List<TimeUnit> findAll(String end){
+        return timeUnitRepository.findAll();
     }
 
 }

@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.LinkedList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/time")
@@ -16,8 +17,7 @@ public class TimeTableController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
-    LinkedList<TimeUnit> createTimeUnitList(TimeUnit timeUnit, int length, String end) {
-        TimeUnit timeUnitTest = new TimeUnit("0","8:00");
-        return timeUnitService.createTimeUnitList(timeUnitTest, 5, "22:00");
+    List<TimeUnit> createTimeUnitList(@RequestBody TimeUnit timeUnit) {
+        return timeUnitService.createTimeUnitList(timeUnit);
     }
 }

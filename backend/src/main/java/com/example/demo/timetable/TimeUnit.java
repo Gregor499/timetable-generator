@@ -17,4 +17,6 @@ public class TimeUnit {
     private String id;
     @Indexed(unique = true)
     private String time;
+    private int length;
+    private String end;
 }
