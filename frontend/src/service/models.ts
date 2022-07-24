@@ -19,8 +19,3 @@ export interface TimeUnit {
     length: number
     end: string
 }
-
-/*
-export interface TimeUnitList{
-    timeunit: TimeUnit
-}*/

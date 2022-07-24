@@ -1,5 +1,5 @@
 import {FormEvent, useState} from "react";
-import {NavLink, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {loginUser} from "../service/apiService";
 
 export default function Login() {

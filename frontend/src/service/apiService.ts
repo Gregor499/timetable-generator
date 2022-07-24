@@ -1,6 +1,5 @@
 import {LoginData, LoginResponse, TimeUnit, UserCreationData} from "./models";
 import axios, {AxiosResponse} from "axios";
-import TimeUnits from "../timetable/TimeUnits";
 
 export const registerUser = (userCreationData: UserCreationData) => {
     return axios.post("api/users", userCreationData)
