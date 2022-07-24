@@ -20,4 +20,9 @@ public class TimeTableController {
     List<TimeUnit> createTimeUnitList(@RequestBody TimeUnit timeUnit) {
         return timeUnitService.createTimeUnitList(timeUnit);
     }
+
+    @GetMapping
+    List<TimeUnit> getTimeUnitList(){
+        return timeUnitService.findAll("");
+    }
 }

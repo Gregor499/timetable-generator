@@ -1,4 +1,4 @@
-import {LoginData, LoginResponse, UserCreationData} from "./models";
+import {LoginData, LoginResponse, TimeUnit, UserCreationData} from "./models";
 import axios, {AxiosResponse} from "axios";
 
 export const registerUser = (userCreationData: UserCreationData) =>{
@@ -8,4 +8,9 @@ export const registerUser = (userCreationData: UserCreationData) =>{
 export const loginUser = (loginData: LoginData) =>{
     return axios.post("api/auth/login", loginData)
         .then((response: AxiosResponse<LoginResponse>) => response.data)
+}
+
+export const getTimeUnitList = () => {
+    return axios.get("api/time")
+        .then((response: AxiosResponse<TimeUnit[]>) => response.data)
 }

@@ -12,3 +12,15 @@ export interface LoginData{
 export interface LoginResponse{
     jwt: string
 }
+
+export interface TimeUnit {
+    id: string
+    time: string
+    length: number
+    end: string
+}
+
+/*
+export interface TimeUnitList{
+    timeunit: TimeUnit
+}*/
