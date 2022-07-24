@@ -1,7 +1,7 @@
 import "./Timetable.css"
 import axios from "axios";
 import {FormEvent, useEffect, useState} from "react";
-import {getTimeUnitList, loginUser} from "../service/apiService";
+import {loginUser, postTimeUnitCreationData} from "../service/apiService";
 import {TimeUnit} from "../service/models";
 import TimeUnits from "./TimeUnits";
 
@@ -11,7 +11,7 @@ export default function Timetable() {
     const [errorMessage, setErrorMessage] = useState("")
 
     useEffect(() => {
-        getTimeUnitList()
+        postTimeUnitCreationData()
             .then(data => setTimeUnitList(data))
             .catch(() => setErrorMessage("timeUnits do not load"));
     }, [])
