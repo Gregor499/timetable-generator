@@ -24,14 +24,14 @@ export default function Timetable() {
             <table className="table">
                 <thead>
                 <tr>
-                    <th>Uhrzeit</th>
-                    <th>Montag</th>
-                    <th>Dienstag</th>
-                    <th>Mittwoch</th>
-                    <th>Donnerstag</th>
-                    <th>Freitag</th>
-                    <th>Samstag</th>
-                    <th>Sonntag</th>
+                    <th>Time</th>
+                    <th>Monday</th>
+                    <th>Tuesday</th>
+                    <th>Wednesday</th>
+                    <th>Thursday</th>
+                    <th>Friday</th>
+                    <th>Saturday</th>
+                    <th>Sunday</th>
                 </tr>
                 </thead>
 

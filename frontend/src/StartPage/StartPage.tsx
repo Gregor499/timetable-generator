@@ -2,7 +2,7 @@ import {NavLink} from "react-router-dom";
 import {useEffect, useState} from "react";
 import axios, {AxiosResponse} from "axios";
 
-export default function Startpage() {
+export default function StartPage() {
 
     const [username, setUsername] = useState("du bist nicht eingeloggt")
     const [errorMessage, setErrorMessage] = useState("")
@@ -24,7 +24,7 @@ export default function Startpage() {
             <h3>Hallo, {username}</h3>
             {errorMessage && <div>{errorMessage}</div>}
 
-            <NavLink to={"/timetable"}><button>create</button></NavLink>
+            <NavLink to={"/questions"}><button>Lets´s go !</button></NavLink>
 
             <NavLink to={"/register"}><button>register</button></NavLink>
 
