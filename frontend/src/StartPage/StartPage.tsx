@@ -1,12 +1,12 @@
 import {NavLink} from "react-router-dom";
-import {useEffect, useState} from "react";
+import {FormEvent, useEffect, useState} from "react";
 import axios, {AxiosResponse} from "axios";
 
 export default function StartPage() {
 
-    const [username, setUsername] = useState("du bist nicht eingeloggt")
+    const [username, setUsername] = useState("du bist nicht eingeloggt !")
     const [errorMessage, setErrorMessage] = useState("")
-
+    const [loginStatus, setLoginStatus] = useState(true)
     let token = localStorage.getItem("jwt")
 
     useEffect(() => {
@@ -17,18 +17,32 @@ export default function StartPage() {
             setUsername(value.toString())
         })
             .catch(()=> setErrorMessage(""))
+        if (token== null){
+            setLoginStatus(false)
+            setUsername("du bist nicht eingeloggt !")
+        }
     })
+
+    const loginOut = () => {
+        setLoginStatus(false)
+        localStorage.removeItem("jwt");
+    }
 
     return (
         <div>
-            <h3>Hallo, {username}</h3>
+            <h3>Hallo {username}</h3>
             {errorMessage && <div>{errorMessage}</div>}
 
             <NavLink to={"/questions"}><button>Lets´s go !</button></NavLink>
 
             <NavLink to={"/register"}><button>register</button></NavLink>
 
-            <NavLink to={"/login"}><button>login</button></NavLink>
+            {!loginStatus && <NavLink to={"/login"}><button>login</button></NavLink>}
+
+            {loginStatus && <form onSubmit= {loginOut}>
+                <input type="submit" value="logout"/>
+            </form>
+            }
 
         </div>
 );
