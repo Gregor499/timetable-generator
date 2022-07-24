@@ -23,6 +23,6 @@ public class TimeTableController {
 
     @GetMapping
     List<TimeUnit> getTimeUnitList(){
-        return timeUnitService.findAll("");
+        return timeUnitService.findAll();
     }
 }

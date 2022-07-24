@@ -65,10 +65,10 @@ public class TimeUnitService {
             timeUnit.setId(timeUnit.getTime());
             timeUnitRepository.save(timeUnit);
         }
-        return findAll(timeUnitEnd);
+        return findAll();
     }
 
-    public List<TimeUnit> findAll(String end){
+    public List<TimeUnit> findAll(){
         return timeUnitRepository.findAll();
     }
 }
