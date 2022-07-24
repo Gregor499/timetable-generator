@@ -4,7 +4,7 @@ import axios, {AxiosResponse} from "axios";
 
 export default function StartPage() {
 
-    const [username, setUsername] = useState("du bist nicht eingeloggt !")
+    const [username, setUsername] = useState("")
     const [errorMessage, setErrorMessage] = useState("")
     const [loginStatus, setLoginStatus] = useState(true)
     let token = localStorage.getItem("jwt")
@@ -19,7 +19,7 @@ export default function StartPage() {
             .catch(()=> setErrorMessage(""))
         if (token== null){
             setLoginStatus(false)
-            setUsername("du bist nicht eingeloggt !")
+            setUsername("you are not logged in !")
         }
     })
 
