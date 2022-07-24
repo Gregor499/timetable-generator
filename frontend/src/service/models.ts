@@ -19,3 +19,20 @@ export interface TimeUnit {
     length: number
     end: string
 }
+
+export interface SleepTime {
+    sleepLength: string
+}
+
+export interface WorkStartTime {
+    workStartTime: string
+}
+
+export interface PreparationTimeMorning {
+    preparationTimeMorning: string
+}
+
+export interface WorkWayTime {
+    workWayTime: string
+}
+
