@@ -1,5 +1,5 @@
 import {NavLink} from "react-router-dom";
-import {ReactNode, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import axios, {AxiosResponse} from "axios";
 
 export default function Startpage() {
