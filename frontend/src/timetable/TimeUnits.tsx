@@ -1,12 +1,12 @@
 import {TimeUnit} from "../service/models";
 
-interface TimeTableProps{
+interface TimeTableProps {
     timeUnit: TimeUnit
 }
 
-export default function TimeUnits (props: TimeTableProps){
+export default function TimeUnits(props: TimeTableProps) {
 
-    return(
+    return (
         <tr>
             <th>{props.timeUnit.time}</th>
             <th></th>

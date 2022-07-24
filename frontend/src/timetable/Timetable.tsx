@@ -11,10 +11,10 @@ export default function Timetable() {
     useEffect(() => {
         postTimeUnitCreationData()
             .then(data => setTimeUnitList(data))
-            .catch(() => setErrorMessage("timeUnitList doesnt load"));
+            .catch(() => setErrorMessage("timeUnitList does not load"));
     }, [])
 
-    const timeUnits = timeUnitList.map(timeUnit => <TimeUnits timeUnit={timeUnit}/>
+    const timeUnits = timeUnitList.map(timeUnit => <TimeUnits key={timeUnit.id} timeUnit={timeUnit}/>
     )
 
     return (

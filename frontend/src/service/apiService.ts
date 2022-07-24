@@ -15,6 +15,10 @@ export const postTimeUnitCreationData = () => {
         "time": "08:00",
         "length": "5",
         "end": "22:00"
+    }, {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('jwt')}`
+        }
     })
         .then((response: AxiosResponse<TimeUnit[]>) => response.data)
 }
