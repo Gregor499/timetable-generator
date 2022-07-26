@@ -30,7 +30,7 @@ export default function StartPage() {
 
     return (
         <div>
-            <h3>Hallo {username}</h3>
+            <h3>Hello {username}</h3>
             {errorMessage && <div>{errorMessage}</div>}
 
             <NavLink to={"/questions"}><button>Lets´s go !</button></NavLink>
