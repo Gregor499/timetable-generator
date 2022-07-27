@@ -1,27 +1,35 @@
-import {Question, TimeUnit} from "../service/models";
+import {Question, TimeAnswer, TimeUnit} from "../service/models";
 import {useEffect, useState} from "react";
-import {postAnswerType1, postTimeUnitCreationData} from "../service/apiService";
+import {postTimeAnswer, postTimeUnitCreationData} from "../service/apiService";
 import AnswerProperties from "./AnswerProperties";
 
 interface QuestionProps {
     question: Question
+    timeAnswer?: TimeAnswer
 }
 
 export default function QuestionComponent(props: QuestionProps) {
     const [timeUnitList, setTimeUnitList] = useState<Array<TimeUnit>>([])
     const [errorMessage, setErrorMessage] = useState("")
-    const [sleepLength, setSleepLength] = useState("")
 
+    const setTimeAnswer = (questionId: string, time: string) => {
 
-    const answerType1 = (answerType1: string) => {
-        postAnswerType1({sleepLength})
+            const timeAnswer: TimeAnswer = {
+                "questionId": "",
+                "time": ""
+            }
+
+            timeAnswer.questionId = {questionId} + ""
+            timeAnswer.time = {time} + ""
+            console.log(timeAnswer)
+
+        postTimeAnswer(timeAnswer)
             .catch(() => setErrorMessage("error posting answer")
             )
     }
 
     useEffect(() => {
         postTimeUnitCreationData({
-            "id": "00:00",
             "time": "00:00",
             "length": 5,
             "end": "24:00"
@@ -30,43 +38,27 @@ export default function QuestionComponent(props: QuestionProps) {
             .catch(() => setErrorMessage("timeUnitList does not load"));
     }, [])
 
-    const timeUnits = timeUnitList.map(timeUnit => <AnswerProperties key={timeUnit.id} timeUnit={timeUnit}/>
+    const maxStart = 4.5 * 60
+    const maxEnd = 10 * 60
+
+    const timeUnits = timeUnitList.map(timeUnit => {
+        if (props.question.type == "workStart" && timeUnit.timeInMinutes! <= maxStart) {
+            return <AnswerProperties key={timeUnit.id} timeUnit={timeUnit}/>;
+        }
+        if (props.question.type == "workEnd" && timeUnit.timeInMinutes! <= maxEnd && timeUnit.timeInMinutes! >= maxStart) {
+            return <AnswerProperties key={timeUnit.id} timeUnit={timeUnit}/>;
+        }
+    })
+
+    return (
+        <div>
+            <p>{props.question.question}</p>
+
+            <label htmlFor="time">Time: </label>
+
+            <select name={props.question.type} id={props.question.questionId} onChange={event => setTimeAnswer(props.question.questionId, event.target.value)}>
+                {timeUnits}
+            </select>
+        </div>
     )
-
-    if (props.question.type == "time") {
-        return (
-            <div>
-                <p>{props.question.question}</p>
-
-                <label htmlFor="time">Time: </label>
-
-                <select name="time" id="time" onChange={event => answerType1(event.target.value)}>
-                    {timeUnits}
-                </select>
-            </div>
-        )
-    }
-
-    if (props.question.type == "checkBox") {
-        return (
-            <div>
-                <p>{props.question.question}</p>
-
-
-            </div>
-        )
-    }
-
-    else
-        return (
-            <div>
-                <p>{props.question.question}</p>
-
-                <label htmlFor="time">Time: </label>
-
-                <select name="time" id="time" onChange={event => answerType1(event.target.value)}>
-                    {timeUnits}
-                </select>
-            </div>
-        )
 }

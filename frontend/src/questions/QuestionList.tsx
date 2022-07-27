@@ -1,22 +1,22 @@
 import {NavLink} from "react-router-dom";
 import {FormEvent, useEffect, useState} from "react";
 import axios from "axios";
-import {getQuestionList, postAnswerType1, postTimeUnitCreationData} from "../service/apiService";
+import {getQuestionList} from "../service/apiService";
 import AnswerProperties from "./AnswerProperties";
 import QuestionComponent from "./QuestionComponent";
 import {Question, TimeUnit} from "../service/models";
 
 export default function QuestionList() {
 
-    const[questionList, setQuestionList] = useState<Array<Question>>([])
+    const [questionList, setQuestionList] = useState<Array<Question>>([])
     const [errorMessage, setErrorMessage] = useState("")
 
 
-/*    const questionAnswerType1 = (answerType1: string) => {
-        postAnswerType1({sleepLength})
-            .catch(() => setTimeError("time must be written in 'xx:xx' format")
-            )
-    }*/
+    /*    const questionAnswerType1 = (answerType1: string) => {
+            postAnswerType1({sleepLength})
+                .catch(() => setTimeError("time must be written in 'xx:xx' format")
+                )
+        }*/
 
     useEffect(() => {
         getQuestionList()
@@ -24,13 +24,13 @@ export default function QuestionList() {
             .catch(() => setErrorMessage("questionList doesnt load"));
     }, [])
 
-    const questions = questionList.map(question=> <QuestionComponent key={question.id} question={question}/>
+    const questions = questionList.map(question => <QuestionComponent key={question.id} question={question}/>
     )
 
     return (
         <div>
             <h1> Questions:</h1>
-                {questions}
+            {questions}
 
             {/*            <p>2. When does your need work start ?</p>
 

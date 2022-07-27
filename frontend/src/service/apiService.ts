@@ -1,6 +1,6 @@
 import {
     LoginData,
-    LoginResponse, PreparationTimeMorning, Question, SleepLength,
+    LoginResponse, PreparationTimeMorning, Question, SleepLength, TimeAnswer,
     TimeUnit,
     UserCreationData,
     WorkStartTime,
@@ -26,7 +26,7 @@ export const postTimeUnitCreationData = (timeUnit: TimeUnit) => {
         .then((response: AxiosResponse<TimeUnit[]>) => response.data)
 }
 
-export const postQuestionList = () => {
+/*export const postQuestionList = () => {
     return axios.post("api/questions",[
         {
             "id": "1",
@@ -44,7 +44,7 @@ export const postQuestionList = () => {
         }
     })
         .then((response: AxiosResponse<Question[]>) => response.data)
-}
+}*/
 
 export const getQuestionList = () => {
     return axios.get("api/questions", {
@@ -55,8 +55,8 @@ export const getQuestionList = () => {
         .then((response: AxiosResponse<Question[]>) => response.data)
 }
 
-export const postAnswerType1 = (sleepLength: SleepLength) => {
-    return axios.post("api/answers1", sleepLength, {
+export const postTimeAnswer = (timeAnswer: TimeAnswer) => {
+    return axios.post("api/answers1", timeAnswer, {
         headers: {
             Authorization: `Bearer ${localStorage.getItem('jwt')}`
         }

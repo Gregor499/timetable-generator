@@ -28,13 +28,21 @@ public class TimeUnitService {
         String timeUnitEnd = timeUnitRepository.findTimeUnitById(timeUnit.getId()).orElseThrow().getEnd();
 
         //converting "xx:xx" time to minutes
-        int timeInMinutes = (getNumericValue(timeUnitTime.charAt(0)) * 600 + (getNumericValue(timeUnitTime.charAt(1)) * 60 + getNumericValue(timeUnitTime.charAt(3)) * 10 + getNumericValue(timeUnitTime.charAt(4))));
-        int endInMinutes = (getNumericValue(timeUnitEnd.charAt(0)) * 600 + (getNumericValue(timeUnitEnd.charAt(1)) * 60 + getNumericValue(timeUnitEnd.charAt(3)) * 10 + getNumericValue(timeUnitEnd.charAt(4))));
+        int timeInMinutes = (getNumericValue(timeUnitTime.charAt(0)) * 600 + (getNumericValue(timeUnitTime.charAt(1)) * 60 +
+                getNumericValue(timeUnitTime.charAt(3)) * 10 + getNumericValue(timeUnitTime.charAt(4))));
+
+        timeUnit.setTimeInMinutes(timeInMinutes);
+        timeUnitRepository.save(timeUnit);
+
+        int endInMinutes = (getNumericValue(timeUnitEnd.charAt(0)) * 600 + (getNumericValue(timeUnitEnd.charAt(1)) * 60 +
+                getNumericValue(timeUnitEnd.charAt(3)) * 10 + getNumericValue(timeUnitEnd.charAt(4))));
+
         int nextTimeInMinutes = timeInMinutes;
 
         //adding the desired length
         for (int i = endInMinutes; i > timeInMinutes; i = i - timeUnit.getLength()) {
             nextTimeInMinutes = nextTimeInMinutes + timeUnit.getLength();
+            timeUnit.setTimeInMinutes(nextTimeInMinutes);
 
             //converting back to "xx:xx" time
             int hours = 0;

@@ -14,10 +14,11 @@ export interface LoginResponse{
 }
 
 export interface TimeUnit {
-    id: string
+    id?: string
     time: string
     length: number
     end: string
+    timeInMinutes? : number
 }
 
 export interface Question {
@@ -27,14 +28,25 @@ export interface Question {
     type: string
 }
 
-export interface Answer {
-    id: string
+export interface TimeAnswer {
+    id?: string
+    questionId: string
+
+    time: string
+}
+
+export interface WeekdayAnswer {
+    id?: string
     questionsId: string
     answer: string
-    colour: string
-    time: string
-    weekday: string
 
+    monday: boolean
+    tuesday: boolean
+    wednesday: boolean
+    thursday: boolean
+    friday: boolean
+    saturday: boolean
+    sunday: boolean
 }
 
 export interface SleepLength {
