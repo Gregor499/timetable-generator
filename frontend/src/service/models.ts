@@ -20,7 +20,24 @@ export interface TimeUnit {
     end: string
 }
 
-export interface SleepTime {
+export interface Question {
+    id: string
+    questionId: string
+    question: string
+    type: string
+}
+
+export interface Answer {
+    id: string
+    questionsId: string
+    answer: string
+    colour: string
+    time: string
+    weekday: string
+
+}
+
+export interface SleepLength {
     sleepLength: string
 }
 

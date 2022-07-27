@@ -9,7 +9,12 @@ export default function Timetable() {
     const [errorMessage, setErrorMessage] = useState("")
 
     useEffect(() => {
-        postTimeUnitCreationData()
+        postTimeUnitCreationData({
+            "id": "8:00",
+            "time": "08:00",
+            "length": 5,
+            "end": "22:00"
+        })
             .then(data => setTimeUnitList(data))
             .catch(() => setErrorMessage("timeUnitList does not load"));
     }, [])

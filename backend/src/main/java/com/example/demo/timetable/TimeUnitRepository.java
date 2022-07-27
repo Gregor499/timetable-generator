@@ -10,6 +10,5 @@ import java.util.Optional;
 
 @Repository
 public interface TimeUnitRepository extends MongoRepository<TimeUnit, String> {
-    Optional<TimeUnit> findTimeUnitsById(String id);
-    List<TimeUnit> findAllTimeUnitsByEnd(String end);
+    Optional<TimeUnit> findTimeUnitById(String id);
 }

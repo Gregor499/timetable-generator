@@ -3,7 +3,7 @@ import StartPage from "./StartPage/StartPage";
 import Timetable from "./timetable/Timetable";
 import Register from "./security/Register";
 import Login from "./security/Login";
-import Questions from "./questions/Questions";
+import QuestionList from "./questions/QuestionList";
 
 export default function App() {
     return (
@@ -13,7 +13,7 @@ export default function App() {
                 <Route path={"/timetable"} element={<Timetable/>}/>
                 <Route path={"/register"} element={<Register/>}/>
                 <Route path={"/login"} element={<Login/>}/>
-                <Route path={"/questions"} element={<Questions/>}/>
+                <Route path={"/questions"} element={<QuestionList/>}/>
             </Routes>
         </BrowserRouter>
 

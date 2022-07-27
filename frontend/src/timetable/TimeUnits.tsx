@@ -11,7 +11,7 @@ export default function TimeUnits(props: TimeTableProps) {
             <th>{props.timeUnit.time}</th>
             <th></th>
             <th></th>
-            <th></th>
+            <th /*className= "blocked"*/></th>
             <th></th>
             <th></th>
             <th></th>

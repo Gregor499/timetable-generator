@@ -1,6 +1,6 @@
 import {
     LoginData,
-    LoginResponse, PreparationTimeMorning, SleepTime,
+    LoginResponse, PreparationTimeMorning, Question, SleepLength,
     TimeUnit,
     UserCreationData,
     WorkStartTime,
@@ -17,12 +17,8 @@ export const loginUser = (loginData: LoginData) => {
         .then((response: AxiosResponse<LoginResponse>) => response.data)
 }
 
-export const postTimeUnitCreationData = () => {
-    return axios.post("api/time", {
-        "time": "08:00",
-        "length": "5",
-        "end": "22:00"
-    }, {
+export const postTimeUnitCreationData = (timeUnit: TimeUnit) => {
+    return axios.post("api/time", timeUnit, {
         headers: {
             Authorization: `Bearer ${localStorage.getItem('jwt')}`
         }
@@ -30,32 +26,37 @@ export const postTimeUnitCreationData = () => {
         .then((response: AxiosResponse<TimeUnit[]>) => response.data)
 }
 
-export const postQ1Answer = (sleepTime: SleepTime) => {
-    return axios.post("api/anwers", sleepTime, {
+export const postQuestionList = () => {
+    return axios.post("api/questions",[
+        {
+            "id": "1",
+            "questionId": "1",
+            "question": "sabusa?"
+        },
+        {
+            "id": "2",
+            "questionId": "2",
+            "question": "sabusava?"
+        }
+    ], {
         headers: {
             Authorization: `Bearer ${localStorage.getItem('jwt')}`
         }
     })
+        .then((response: AxiosResponse<Question[]>) => response.data)
 }
 
-export const postQ2Answer = (workStartTime: WorkStartTime) => {
-    return axios.post("api/anwers", workStartTime, {
+export const getQuestionList = () => {
+    return axios.get("api/questions", {
         headers: {
             Authorization: `Bearer ${localStorage.getItem('jwt')}`
         }
     })
+        .then((response: AxiosResponse<Question[]>) => response.data)
 }
 
-export const postQ3Answer = (preparationTimeMorning: PreparationTimeMorning) => {
-    return axios.post("api/anwers", preparationTimeMorning, {
-        headers: {
-            Authorization: `Bearer ${localStorage.getItem('jwt')}`
-        }
-    })
-}
-
-export const postQ4Answer = (workWayTime: WorkWayTime) => {
-    return axios.post("api/anwers", workWayTime, {
+export const postAnswerType1 = (sleepLength: SleepLength) => {
+    return axios.post("api/answers1", sleepLength, {
         headers: {
             Authorization: `Bearer ${localStorage.getItem('jwt')}`
         }
@@ -63,7 +64,7 @@ export const postQ4Answer = (workWayTime: WorkWayTime) => {
 }
 
 export const getQ1Data = (Q1ProcessedAnswer: Boolean) => {
-    return axios.get("api/anwers", {
+    return axios.get("api/answers1", {
         headers: {
             Authorization: `Bearer ${localStorage.getItem('jwt')}`
         }

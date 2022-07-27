@@ -1,53 +1,38 @@
 import {NavLink} from "react-router-dom";
-import {FormEvent, useState} from "react";
+import {FormEvent, useEffect, useState} from "react";
 import axios from "axios";
-import {postQ1Answer, postQ2Answer, postQ3Answer, postQ4Answer} from "../service/apiService";
+import {getQuestionList, postAnswerType1, postTimeUnitCreationData} from "../service/apiService";
+import AnswerProperties from "./AnswerProperties";
+import QuestionComponent from "./QuestionComponent";
+import {Question, TimeUnit} from "../service/models";
 
-export default function Questions() {
+export default function QuestionList() {
 
-    const [sleepLength, setSleepLength] = useState("")
-    const [timeError, setTimeError] = useState("")
-    const [workStartTime, setWorkStartTime] = useState("")
-    const [preparationTimeMorning, setPreparationTimeMorning] = useState("")
-    const [workWayTime, setWorkWayTime] = useState("")
-
-
-    const question1Input = (ev: FormEvent) => {
-        ev.preventDefault()
-            postQ1Answer({sleepLength})
-                .catch(() => setTimeError("time must be written in 'xx:xx' format")
-    )}
+    const[questionList, setQuestionList] = useState<Array<Question>>([])
+    const [errorMessage, setErrorMessage] = useState("")
 
 
-    const question2Input = (ev: FormEvent) => {
-        ev.preventDefault()
-        postQ2Answer({workStartTime})
+/*    const questionAnswerType1 = (answerType1: string) => {
+        postAnswerType1({sleepLength})
             .catch(() => setTimeError("time must be written in 'xx:xx' format")
-            )}
+            )
+    }*/
 
-    const question3Input = (ev: FormEvent) => {
-        ev.preventDefault()
-        postQ3Answer({preparationTimeMorning})
-            .catch(() => setTimeError("time must be written in 'xx:xx' format")
-            )}
+    useEffect(() => {
+        getQuestionList()
+            .then(data => setQuestionList(data))
+            .catch(() => setErrorMessage("questionList doesnt load"));
+    }, [])
 
-    const question4Input = (ev: FormEvent) => {
-        ev.preventDefault()
-        postQ4Answer({workWayTime})
-            .catch(() => setTimeError("time must be written in 'xx:xx' format")
-            )}
-    return(
+    const questions = questionList.map(question=> <QuestionComponent key={question.id} question={question}/>
+    )
+
+    return (
         <div>
             <h1> Questions:</h1>
-            <p>1. How long do you want to sleep on your work days ?</p>
+                {questions}
 
-            <form  onSubmit={question1Input}>
-                <input type="text" value={sleepLength} onChange={event => setSleepLength(event.target.value)} placeholder="sleep length in xx:xx format"/>
-                <input type="submit" value="enter"/>
-                {timeError && <div>{timeError}</div>}
-            </form>
-
-            <p>2. When does your need work start ?</p>
+            {/*            <p>2. When does your need work start ?</p>
 
             <form  onSubmit={question2Input}>
                 <input type="text" value={workStartTime} onChange={event => setWorkStartTime(event.target.value)} placeholder="start time in xx:xx format"/>
@@ -78,17 +63,21 @@ export default function Questions() {
                 <input type="text" value={workWayTime} onChange={event => setWorkWayTime(event.target.value)} placeholder="arrival time in xx:xx format"/>
                 <input type="submit" value="enter"/>
                 {timeError && <div>{timeError}</div>}
-            </form>
+            </form>*/}
 
-{/*
+
+            {/*
 
             <p>5. do you want to change your sleep habits on weekends ?</p>
             <p>6. which are your workdays
 */}
 
             <br/>
+            <br/>
 
-            <NavLink to={"/timetable"}><button>create</button></NavLink>
+            <NavLink to={"/timetable"}>
+                <button>create</button>
+            </NavLink>
         </div>
     )
 }

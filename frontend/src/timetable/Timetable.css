@@ -3,3 +3,9 @@ table, th, td {
     border-collapse: collapse;
     table-layout: auto;
 }
+
+th.blocked{
+    border-bottom: none;
+    border-top: none;
+    background-color: aqua;
+}

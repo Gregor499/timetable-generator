@@ -24,8 +24,8 @@ public class TimeUnitService {
         timeUnit.setId(timeUnit.getTime());
         timeUnitRepository.save(timeUnit);
 
-        String timeUnitTime = timeUnitRepository.findTimeUnitsById(timeUnit.getId()).orElseThrow().getTime();
-        String timeUnitEnd = timeUnitRepository.findTimeUnitsById(timeUnit.getId()).orElseThrow().getEnd();
+        String timeUnitTime = timeUnitRepository.findTimeUnitById(timeUnit.getId()).orElseThrow().getTime();
+        String timeUnitEnd = timeUnitRepository.findTimeUnitById(timeUnit.getId()).orElseThrow().getEnd();
 
         //converting "xx:xx" time to minutes
         int timeInMinutes = (getNumericValue(timeUnitTime.charAt(0)) * 600 + (getNumericValue(timeUnitTime.charAt(1)) * 60 + getNumericValue(timeUnitTime.charAt(3)) * 10 + getNumericValue(timeUnitTime.charAt(4))));
