@@ -1,25 +1,28 @@
 import "./Timetable.css"
 import {useEffect, useState} from "react";
-import {postTimeUnitCreationData} from "../service/apiService";
+import {getTimeUnitList, postTimeUnitCreationData} from "../service/apiService";
 import {TimeUnit} from "../service/models";
 import TimeUnits from "./TimeUnits";
+import AnswerProperties from "../questions/AnswerProperties";
 
 export default function Timetable() {
     const [timeUnitList, setTimeUnitList] = useState<Array<TimeUnit>>([])
     const [errorMessage, setErrorMessage] = useState("")
 
     useEffect(() => {
-        postTimeUnitCreationData({
-            "id": "8:00",
-            "time": "08:00",
-            "length": 5,
-            "end": "22:00"
-        })
+        getTimeUnitList()
             .then(data => setTimeUnitList(data))
             .catch(() => setErrorMessage("timeUnitList does not load"));
     }, [])
 
-    const timeUnits = timeUnitList.map(timeUnit => <TimeUnits key={timeUnit.id} timeUnit={timeUnit}/>
+    const maxStart = 8 * 60
+    const maxEnd = 22 * 60
+
+    const timeUnits = timeUnitList.map(timeUnit => {
+            if (timeUnit.timeInMinutes! >= maxStart && timeUnit.timeInMinutes! <= maxEnd) {
+                return <TimeUnits key={timeUnit.id} timeUnit={timeUnit}/>;
+            }
+        }
     )
 
     return (

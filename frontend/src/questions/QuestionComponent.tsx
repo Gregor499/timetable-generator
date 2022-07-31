@@ -1,6 +1,6 @@
 import {Question, TimeAnswer, TimeUnit} from "../service/models";
 import {useEffect, useState} from "react";
-import {postTimeAnswer, postTimeUnitCreationData} from "../service/apiService";
+import {getTimeUnitList, postTimeAnswer, postTimeUnitCreationData} from "../service/apiService";
 import AnswerProperties from "./AnswerProperties";
 import axios from "axios";
 
@@ -26,11 +26,7 @@ export default function QuestionComponent(props: QuestionProps) {
     }
 
     useEffect(() => {
-        postTimeUnitCreationData({
-            "time": "00:00",
-            "length": 5,
-            "end": "24:00"
-        })
+        getTimeUnitList()
             .then(data => setTimeUnitList(data))
             .catch(() => setErrorMessage("timeUnitList does not load"));
     }, [])

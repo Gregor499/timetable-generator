@@ -30,6 +30,11 @@ public class TimeTableController {
         return timeUnitService.createTimeUnitList(timeUnit);
     }
 
+    @GetMapping("time")
+    List<TimeUnit> getTimeUnitList(){
+        return timeUnitService.findAll();
+    }
+
     @PostMapping("/questions")
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody

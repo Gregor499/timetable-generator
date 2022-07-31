@@ -1,6 +1,7 @@
 import {NavLink} from "react-router-dom";
 import {FormEvent, useEffect, useState} from "react";
 import axios, {AxiosResponse} from "axios";
+import {postTimeUnitCreationData} from "../service/apiService";
 
 export default function StartPage() {
 
@@ -26,6 +27,15 @@ export default function StartPage() {
         setLoginStatus(false)
         localStorage.removeItem("jwt");
     }
+
+    useEffect(() => {
+        postTimeUnitCreationData({
+            "time": "00:00",
+            "length": 5,
+            "end": "24:00"
+        })
+            .catch(() => setErrorMessage("timeUnitList does not load"));
+    }, [])
 
     return (
         <div>
