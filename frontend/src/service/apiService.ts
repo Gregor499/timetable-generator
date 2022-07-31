@@ -56,7 +56,7 @@ export const getQuestionList = () => {
 }
 
 export const postTimeAnswer = (timeAnswer: TimeAnswer) => {
-    return axios.post("api/answers1", timeAnswer, {
+    return axios.post("api/answers", timeAnswer, {
         headers: {
             Authorization: `Bearer ${localStorage.getItem('jwt')}`
         }

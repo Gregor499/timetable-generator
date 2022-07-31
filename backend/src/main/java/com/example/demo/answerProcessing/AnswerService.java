@@ -1,27 +1,21 @@
-/*
 package com.example.demo.answerProcessing;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Objects;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class AnswerService {
-    AnswerRepository answerRepository;
+    private final AnswerRepository answerRepository;
 
-    private final boolean[][] processAnswer(Answer answer) {
-        boolean[][] answerArray = new boolean[7][288];
-        answerArray[1][2] = false;
+    public void addNewAnswer(TimeAnswer timeAnswer) {
 
-        if(Objects.equals(answer.getId(),"1"))
-
-    {
-        anwer
+        answerRepository.save(timeAnswer);
     }
-        return answerArray;
+
+    public List<TimeAnswer> findAll() {
+        return answerRepository.findAll();
+    }
 }
-*/

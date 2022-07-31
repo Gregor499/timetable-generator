@@ -1,4 +1,4 @@
-package com.example.demo.timetable;
+package com.example.demo.questionDB;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

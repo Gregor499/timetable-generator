@@ -13,10 +13,9 @@ export default function StartPage() {
         axios.get("/api/users", {headers: {
             Authorization: `Bearer ${token}`,
             }})
-            .then((response: AxiosResponse<String>) => response.data).then((value) => {
-            setUsername(value.toString())
-        })
+            .then((response: AxiosResponse<String>) => response.data)
             .catch(()=> setErrorMessage(""))
+
         if (token== null){
             setLoginStatus(false)
             setUsername("you are not logged in !")

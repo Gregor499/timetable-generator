@@ -1,4 +1,4 @@
-package com.example.demo.timetable;
+package com.example.demo.questionDB;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;

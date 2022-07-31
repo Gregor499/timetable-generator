@@ -1,4 +1,4 @@
-package com.example.demo.timetable;
+package com.example.demo.questionDB;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,7 +15,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
         @Id
         String id;
 
-        String questionId;
+        int order;
         String question;
         String type;
     }

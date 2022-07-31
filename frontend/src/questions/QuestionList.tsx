@@ -24,7 +24,7 @@ export default function QuestionList() {
             .catch(() => setErrorMessage("questionList doesnt load"));
     }, [])
 
-    const questions = questionList.map(question => <QuestionComponent key={question.id} question={question}/>
+    const questions = questionList.sort((s1, s2) => s1.order - s2.order).map(question => <QuestionComponent key={question.id} question={question}/>
     )
 
     return (

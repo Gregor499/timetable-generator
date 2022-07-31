@@ -2,6 +2,7 @@ import {Question, TimeAnswer, TimeUnit} from "../service/models";
 import {useEffect, useState} from "react";
 import {postTimeAnswer, postTimeUnitCreationData} from "../service/apiService";
 import AnswerProperties from "./AnswerProperties";
+import axios from "axios";
 
 interface QuestionProps {
     question: Question
@@ -15,13 +16,9 @@ export default function QuestionComponent(props: QuestionProps) {
     const setTimeAnswer = (questionId: string, time: string) => {
 
             const timeAnswer: TimeAnswer = {
-                "questionId": "",
-                "time": ""
+                questionId: questionId,
+                time: time
             }
-
-            timeAnswer.questionId = {questionId} + ""
-            timeAnswer.time = {time} + ""
-            console.log(timeAnswer)
 
         postTimeAnswer(timeAnswer)
             .catch(() => setErrorMessage("error posting answer")
@@ -56,7 +53,7 @@ export default function QuestionComponent(props: QuestionProps) {
 
             <label htmlFor="time">Time: </label>
 
-            <select name={props.question.type} id={props.question.questionId} onChange={event => setTimeAnswer(props.question.questionId, event.target.value)}>
+            <select name={props.question.type} id={props.question.id} onChange={event => setTimeAnswer(props.question.id, event.target.value)}>
                 {timeUnits}
             </select>
         </div>

@@ -1,15 +1,15 @@
-export interface UserCreationData{
+export interface UserCreationData {
     username: string
     password: string
     passwordRepeat: string
 }
 
-export interface LoginData{
+export interface LoginData {
     username: string
     password: string
 }
 
-export interface LoginResponse{
+export interface LoginResponse {
     jwt: string
 }
 
@@ -18,12 +18,12 @@ export interface TimeUnit {
     time: string
     length: number
     end: string
-    timeInMinutes? : number
+    timeInMinutes?: number
 }
 
 export interface Question {
     id: string
-    questionId: string
+    order: number
     question: string
     type: string
 }
@@ -31,7 +31,6 @@ export interface Question {
 export interface TimeAnswer {
     id?: string
     questionId: string
-
     time: string
 }
 
