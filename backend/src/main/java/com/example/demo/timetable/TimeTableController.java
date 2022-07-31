@@ -1,7 +1,9 @@
 package com.example.demo.timetable;
 
-import com.example.demo.answerProcessing.AnswerService;
-import com.example.demo.answerProcessing.TimeAnswer;
+import com.example.demo.answerDB.AnswerService;
+import com.example.demo.answerDB.TimeAnswer;
+import com.example.demo.answerProcessing.ProcessedAnswer;
+import com.example.demo.answerProcessing.ProcessedAnswerService;
 import com.example.demo.questionDB.Question;
 import com.example.demo.questionDB.QuestionService;
 import com.example.demo.user.User;
@@ -19,19 +21,20 @@ import java.util.List;
 public class TimeTableController {
     private final TimeUnitService timeUnitService;
     private final QuestionService questionService;
-
     private final AnswerService answerService;
-
     private final UserService userService;
+    private final ProcessedAnswerService processedAnswerService;
+
     @PostMapping("/time")
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
     List<TimeUnit> createTimeUnitList(@RequestBody TimeUnit timeUnit) {
-        return timeUnitService.createTimeUnitList(timeUnit);
+        timeUnitService.saveTimeUnitListInDb(timeUnitService.createTimeUnitList(timeUnit));
+        return timeUnitService.findAll();
     }
 
     @GetMapping("time")
-    List<TimeUnit> getTimeUnitList(){
+    List<TimeUnit> getTimeUnitList() {
         return timeUnitService.findAll();
     }
 
@@ -57,7 +60,12 @@ public class TimeTableController {
     }
 
     @GetMapping("/answers")
-    List<TimeAnswer> getAnswers(){
+    List<TimeAnswer> getAnswers() {
         return answerService.findAll();
+    }
+
+    @GetMapping("/submit")
+    List<ProcessedAnswer> getProcessedAnswers(Principal principal) {
+        return processedAnswerService.answerProcessing(principal);
     }
 }

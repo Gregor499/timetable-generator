@@ -11,13 +11,19 @@ export default function StartPage() {
     let token = localStorage.getItem("jwt")
 
     useEffect(() => {
-        axios.get("/api/users", {headers: {
-            Authorization: `Bearer ${token}`,
-            }})
+        axios.get("/api/users", {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        })
             .then((response: AxiosResponse<String>) => response.data)
-            .catch(()=> setErrorMessage(""))
+            .then((value) => {
+                setUsername(value.toString())
+                localStorage.setItem("userName", value.toString())
+            })
+            .catch(() => setErrorMessage(""))
 
-        if (token== null){
+        if (token == null) {
             setLoginStatus(false)
             setUsername("you are not logged in !")
         }
@@ -42,17 +48,23 @@ export default function StartPage() {
             <h3>Hello {username}</h3>
             {errorMessage && <div>{errorMessage}</div>}
 
-            <NavLink to={"/questions"}><button>Lets´s go !</button></NavLink>
+            <NavLink to={"/questions"}>
+                <button>Lets´s go !</button>
+            </NavLink>
 
-            <NavLink to={"/register"}><button>register</button></NavLink>
+            <NavLink to={"/register"}>
+                <button>register</button>
+            </NavLink>
 
-            {!loginStatus && <NavLink to={"/login"}><button>login</button></NavLink>}
+            {!loginStatus && <NavLink to={"/login"}>
+                <button>login</button>
+            </NavLink>}
 
-            {loginStatus && <form onSubmit= {loginOut}>
+            {loginStatus && <form onSubmit={loginOut}>
                 <input type="submit" value="logout"/>
             </form>
             }
 
         </div>
-);
+    );
 }
