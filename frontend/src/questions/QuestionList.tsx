@@ -1,10 +1,8 @@
 import {NavLink} from "react-router-dom";
 import {FormEvent, useEffect, useState} from "react";
-import axios from "axios";
-import {getQuestionList} from "../service/apiService";
-import AnswerProperties from "./AnswerProperties";
+import {getQuestionList, processAnswers} from "../service/apiService";
 import QuestionComponent from "./QuestionComponent";
-import {Question, TimeUnit} from "../service/models";
+import {Question} from "../service/models";
 
 export default function QuestionList() {
 
@@ -26,6 +24,13 @@ export default function QuestionList() {
 
     const questions = questionList.sort((s1, s2) => s1.order - s2.order).map(question => <QuestionComponent key={question.id} question={question}/>
     )
+
+    const process = (ev: FormEvent) => {
+        ev.preventDefault()
+        processAnswers()
+            .then(loginResponse => loginResponse)
+            .catch(setErrorMessage => ("processingFailed"))
+    }
 
     return (
         <div>
@@ -71,6 +76,11 @@ export default function QuestionList() {
             <p>5. do you want to change your sleep habits on weekends ?</p>
             <p>6. which are your workdays
 */}
+
+            <br/>
+            <br/>
+
+            <button onClick={process}>process</button>
 
             <br/>
             <br/>

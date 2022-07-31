@@ -73,6 +73,15 @@ export const postTimeAnswer = (timeAnswer: TimeAnswer) => {
     })
 }
 
+export const processAnswers = () => {
+    return axios.get("api/submit", {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('jwt')}`
+        }
+    })
+        .then((response: AxiosResponse<TimeUnit[]>) => response.data)
+}
+
 export const getQ1Data = (Q1ProcessedAnswer: Boolean) => {
     return axios.get("api/answers1", {
         headers: {
