@@ -7,7 +7,5 @@ import java.util.Optional;
 
 @Repository
 public interface AnswerRepository extends MongoRepository<TimeAnswer, String> {
-    Optional<TimeAnswer> findByQuestionId(String questionId);
-
     Optional<TimeAnswer> findByUserIdAndQuestionId(String userId, String questionId);
 }

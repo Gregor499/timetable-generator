@@ -15,7 +15,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class TimeUnit {
     @Id
     private String id;
-    //@Indexed(unique = true)
     private String time;
     private int length;
     private String end;

@@ -22,10 +22,6 @@ public class AnswerService {
         return answerRepository.findAll();
     }
 
-    public Optional<TimeAnswer> findByQuestionId(String questionId) {
-        return answerRepository.findByQuestionId(questionId);
-    }
-
     public Optional<TimeAnswer> findByUserIdAndQuestionId(String userId, String questionId) {
         return answerRepository.findByUserIdAndQuestionId(userId, questionId);
     }

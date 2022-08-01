@@ -3,7 +3,7 @@ package com.example.demo.timetable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
 
 import static java.lang.Character.getNumericValue;
 
@@ -12,7 +12,6 @@ import static java.lang.Character.getNumericValue;
 
 public class TimeUnitService {
     private final TimeUnitRepository timeUnitRepository;
-    private final List<TimeUnit> timeUnitList;
 
     public List<TimeUnit> createTimeUnitList(TimeUnit timeUnit) {
         timeUnit.setId(timeUnit.getTime());
@@ -21,21 +20,27 @@ public class TimeUnitService {
         String timeUnitEnd = timeUnit.getEnd();
 
         //converting "xx:xx" time to minutes
-        int timeInMinutes = (getNumericValue(timeUnitTime.charAt(0)) * 600 + (getNumericValue(timeUnitTime.charAt(1)) * 60 + getNumericValue(timeUnitTime.charAt(3)) * 10 + getNumericValue(timeUnitTime.charAt(4))));
+        int timeInMinutes = (getNumericValue(timeUnitTime.charAt(0)) * 600 + (getNumericValue(timeUnitTime.charAt(1)) * 60 +
+                getNumericValue(timeUnitTime.charAt(3)) * 10 + getNumericValue(timeUnitTime.charAt(4))));
 
         timeUnit.setTimeInMinutes(timeInMinutes);
 
         //save initial entry
-        timeUnitList.add(timeUnit);
+        Map<Integer, TimeUnit> timeUnitMap = new HashMap<>();
+        timeUnitMap.put(0, timeUnit);
 
-        int endInMinutes = (getNumericValue(timeUnitEnd.charAt(0)) * 600 + (getNumericValue(timeUnitEnd.charAt(1)) * 60 + getNumericValue(timeUnitEnd.charAt(3)) * 10 + getNumericValue(timeUnitEnd.charAt(4))));
+        int endInMinutes = (getNumericValue(timeUnitEnd.charAt(0)) * 600 + (getNumericValue(timeUnitEnd.charAt(1)) * 60 +
+                getNumericValue(timeUnitEnd.charAt(3)) * 10 + getNumericValue(timeUnitEnd.charAt(4))));
 
         int nextTimeInMinutes = timeInMinutes;
+
+        int b = 1;
 
         //adding the desired length
         for (int i = endInMinutes; i > timeInMinutes; i = i - timeUnit.getLength()) {
             nextTimeInMinutes = nextTimeInMinutes + timeUnit.getLength();
-            timeUnit.setTimeInMinutes(nextTimeInMinutes);
+            TimeUnit timeUnit1 = new TimeUnit();
+            timeUnit1.setTimeInMinutes(nextTimeInMinutes);
 
             //converting back to "xx:xx" time
             int hours = 0;
@@ -60,19 +65,19 @@ public class TimeUnitService {
             } else {
                 minutesString = minutes + "";
             }
-            timeUnit.setTime(hoursString + ":" + minutesString);
+            timeUnit1.setTime(hoursString + ":" + minutesString);
 
             //setting the timeUnit id to time
-            timeUnit.setId(timeUnit.getTime());
-            timeUnitList.add(timeUnit);
+            timeUnit1.setId(timeUnit1.getTime());
+            timeUnitMap.put(b, timeUnit1);
+            b++;
         }
-        return timeUnitList;
+        return timeUnitMap.values().stream().toList();
     }
 
-    public List<TimeUnit> saveTimeUnitListInDb(List<TimeUnit> timeUnitList) {
+    public void saveTimeUnitListInDb(List<TimeUnit> timeUnitList) {
         timeUnitRepository.deleteAll();
         timeUnitRepository.saveAll(timeUnitList);
-        return timeUnitList;
     }
 
     public List<TimeUnit> findAll() {

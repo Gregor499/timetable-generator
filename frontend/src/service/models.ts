@@ -48,6 +48,13 @@ export interface WeekdayAnswer {
     sunday: boolean
 }
 
+export interface ProcessedAnswer {
+    id: string
+    task: string
+    color: string
+    time: string[]
+}
+
 export interface SleepLength {
     sleepLength: string
 }

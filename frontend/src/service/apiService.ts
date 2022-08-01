@@ -1,6 +1,6 @@
 import {
     LoginData,
-    LoginResponse, PreparationTimeMorning, Question, SleepLength, TimeAnswer,
+    LoginResponse, PreparationTimeMorning, ProcessedAnswer, Question, SleepLength, TimeAnswer,
     TimeUnit,
     UserCreationData,
     WorkStartTime,
@@ -79,7 +79,7 @@ export const processAnswers = () => {
             Authorization: `Bearer ${localStorage.getItem('jwt')}`
         }
     })
-        .then((response: AxiosResponse<TimeUnit[]>) => response.data)
+        .then((response: AxiosResponse<ProcessedAnswer[]>) => response.data)
 }
 
 export const getQ1Data = (Q1ProcessedAnswer: Boolean) => {

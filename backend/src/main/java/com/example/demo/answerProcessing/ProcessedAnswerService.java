@@ -4,6 +4,7 @@ import com.example.demo.answerDB.AnswerService;
 import com.example.demo.answerDB.TimeAnswer;
 import com.example.demo.timetable.TimeUnit;
 import com.example.demo.timetable.TimeUnitService;
+import com.example.demo.user.User;
 import com.example.demo.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,17 +27,22 @@ public class ProcessedAnswerService {
     public List<ProcessedAnswer> answerProcessing(Principal principal) {
         processedAnswerRepository.deleteAll();
 
-        String userId = userService.findByUsername(principal.getName()).toString();
-        List<String> questionsIdsByCurrentUser = answerService.findAll().stream().filter(e -> e.getUserId().equals(userId)).map(TimeAnswer::getQuestionId).toList();
-        if (questionsIdsByCurrentUser.contains("62e12614a362100c83bb83ab") && questionsIdsByCurrentUser.contains("62e12621a362100c83bb83ac")) {
-            String answer1 = answerService.findByQuestionId("62e12614a362100c83bb83ab").orElseThrow().getTime();
-            String answer2 = answerService.findByQuestionId("62e12621a362100c83bb83ac").orElseThrow().getTime();
+        Optional<User> user = userService.findByUsername(principal.getName());
+        String userId = user.orElseThrow().getId();
 
+        List<String> questionsIdsByCurrentUser = answerService.findAll().stream().filter(e -> e.getUserId().equals(userId)).map(TimeAnswer::getQuestionId).toList();
+        if ((questionsIdsByCurrentUser.contains("62e12614a362100c83bb83ab") && questionsIdsByCurrentUser.contains("62e12621a362100c83bb83ac"))) {
+            String answer1 = answerService.findByUserIdAndQuestionId (userId, "62e12614a362100c83bb83ab").orElseThrow().getTime();
+            String answer2 = answerService.findByUserIdAndQuestionId (userId, "62e12621a362100c83bb83ac").orElseThrow().getTime();
             TimeUnit timeUnit = new TimeUnit();
             timeUnit.setTime(answer1);
             timeUnit.setEnd(answer2);
+            timeUnit.setLength(5);
             ProcessedAnswer processedAnswer_work = new ProcessedAnswer();
-            processedAnswer_work.setTimeList(timeUnitService.createTimeUnitList(timeUnit).stream().map(TimeUnit::getTime).toList());
+
+            List<TimeUnit> timeUnitList = timeUnitService.createTimeUnitList(timeUnit);
+            List<String> timeList = timeUnitList.stream().map(TimeUnit::getId).toList();
+            processedAnswer_work.setTimeList(timeList);
             processedAnswer_work.setTask("work");
             processedAnswer_work.setColor("#DF7401");
 
