@@ -53,10 +53,11 @@ public class TimeTableController {
     @PostMapping("/answers")
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
-    void addAnswer(@RequestBody TimeAnswer timeAnswer, Principal principal) {
+    TimeAnswer addAnswer(@RequestBody TimeAnswer timeAnswer, Principal principal) {
         User user = userService.findByUsername(principal.getName()).orElseThrow();
         timeAnswer.setUserId(user.getId());
         answerService.addNewAnswer(timeAnswer);
+        return answerService.findByUserIdAndQuestionId(timeAnswer.getUserId(), timeAnswer.getQuestionId()).orElseThrow();
     }
 
     @GetMapping("/answers")
@@ -64,7 +65,7 @@ public class TimeTableController {
         return answerService.findAll();
     }
 
-    @GetMapping("/submit")
+    @GetMapping("/processedAnswers")
     List<ProcessedAnswer> getProcessedAnswers(Principal principal) {
         return processedAnswerService.answerProcessing(principal);
     }

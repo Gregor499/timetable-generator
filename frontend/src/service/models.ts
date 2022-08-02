@@ -31,7 +31,8 @@ export interface Question {
 export interface TimeAnswer {
     id?: string
     questionId: string
-    time: string
+    time?: string
+    timeInMinutes: number
 }
 
 export interface WeekdayAnswer {
@@ -52,7 +53,7 @@ export interface ProcessedAnswer {
     id: string
     task: string
     color: string
-    time: string[]
+    timeList: string[]
 }
 
 export interface SleepLength {

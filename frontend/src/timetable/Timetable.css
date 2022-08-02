@@ -4,7 +4,7 @@ table, th, td {
     table-layout: auto;
 }
 
-th.blocked{
+th.work{
     border-bottom: none;
     border-top: none;
     background-color: aqua;
