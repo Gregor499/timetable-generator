@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+import static java.lang.Character.getNumericValue;
+
 @Service
 @RequiredArgsConstructor
 public class AnswerService {
@@ -15,6 +17,30 @@ public class AnswerService {
         if (findByUserIdAndQuestionId(timeAnswer.getUserId(), timeAnswer.getQuestionId()).isPresent()) {
             answerRepository.delete(findByUserIdAndQuestionId(timeAnswer.getUserId(), timeAnswer.getQuestionId()).orElseThrow());
         }
+        int hours = 0;
+        int minutes;
+        for (int j = timeAnswer.timeInMinutes; j >= 60; j = j - 60) {
+            hours++;
+        }
+        minutes = timeAnswer.timeInMinutes - (60 * hours);
+
+        String hoursString;
+
+        if (hours / 10 < 1) {
+            hoursString = "0" + hours;
+        } else {
+            hoursString = hours + "";
+        }
+
+        String minutesString;
+
+        if (minutes / 10 < 1) {
+            minutesString = "0" + minutes;
+        } else {
+            minutesString = minutes + "";
+        }
+        timeAnswer.setTime(hoursString + ":" + minutesString);
+
         answerRepository.save(timeAnswer);
     }
 

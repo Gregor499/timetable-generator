@@ -1,21 +1,23 @@
-import {TimeUnit} from "../service/models";
+import "./TimeUnits.css"
+import {ProcessedAnswer, TimeUnit} from "../service/models";
 
 interface TimeTableProps {
     timeUnit: TimeUnit
+    processedAnswer?: ProcessedAnswer
 }
 
 export default function TimeUnits(props: TimeTableProps) {
-
-    return (
-        <tr>
-            <th>{props.timeUnit.time}</th>
-            <th></th>
-            <th></th>
-            <th /*className= "blocked"*/></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-        </tr>
-    )
+     const isOccupied = props.processedAnswer?.timeList.includes(props.timeUnit.time)
+return (
+    <tr>
+        <th>{props.timeUnit.time}</th>
+        <th className={isOccupied? props.processedAnswer?.task:""}>{props.processedAnswer?.task}</th>
+        <th className={isOccupied? props.processedAnswer?.task:""}>{props.processedAnswer?.task}</th>
+        <th className={isOccupied? props.processedAnswer?.task:""}>{props.processedAnswer?.task}</th>
+        <th className={isOccupied? props.processedAnswer?.task:""}>{props.processedAnswer?.task}</th>
+        <th className={isOccupied? props.processedAnswer?.task:""}>{props.processedAnswer?.task}</th>
+        <th>{props.processedAnswer?.task}</th>
+        <th>{props.processedAnswer?.task}</th>
+    </tr>
+)
 }
