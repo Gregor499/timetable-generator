@@ -17,6 +17,7 @@ public class ProcessedAnswer {
     String id;
     String task;
     String color;
+    String userId;
     List<String> timeList;
     //String weekday;
 }

@@ -1,21 +1,17 @@
 import {Question, TimeAnswer, TimeUnit} from "../service/models";
 import {useEffect, useState} from "react";
-import {getTimeUnitList, postTimeAnswer, postTimeUnitCreationData} from "../service/apiService";
+import {getTimeUnitList, postTimeAnswer} from "../service/apiService";
 import AnswerProperties from "./AnswerProperties";
-import axios from "axios";
-import TimeUnits from "../timetable/TimeUnits";
 
 interface QuestionProps {
     question: Question
-    timeAnswer?: TimeAnswer
+    answers: Array<TimeAnswer>
+    answerCallback: () => void
 }
 
 export default function QuestionComponent(props: QuestionProps) {
     const [timeUnitList, setTimeUnitList] = useState<Array<TimeUnit>>([])
     const [errorMessage, setErrorMessage] = useState("")
-    const [sleepEndAnswer, setSleepEndAnswer] = useState<number>(0)
-    const [workStartAnswer, setWorkStartAnswer] = useState<number>(0)
-    const [workEndAnswer, setWorkEndAnswer] = useState<number>(0)
 
     const setTimeAnswer = (questionId: string, timeInMinutes: number) => {
         const timeAnswer: TimeAnswer = {
@@ -23,11 +19,8 @@ export default function QuestionComponent(props: QuestionProps) {
             timeInMinutes: timeInMinutes
         }
         postTimeAnswer(timeAnswer)
+            .then(() => props.answerCallback())
             .catch(() => setErrorMessage("error posting answer"))
-
-        if (timeAnswer.questionId == "62e12614a362100c83bb83ab") {
-            setWorkStartAnswer(timeAnswer.timeInMinutes!)
-        }
     }
 
     useEffect(() => {
@@ -37,18 +30,20 @@ export default function QuestionComponent(props: QuestionProps) {
     }, [])
 
     const timeUnitsToChoose = timeUnitList.map(timeUnit => {
-        if (props.question.type == "sleepEnd") {
+        if (!props.question.previousQuestionId) {
             return <AnswerProperties key={timeUnit.id} timeUnit={timeUnit}/>;
+        } else {
+            const previousQuestionAnswer = props.answers.find(answer => answer.questionId === props.question.previousQuestionId)
+            if(previousQuestionAnswer){
+                if(timeUnit.timeInMinutes! >= previousQuestionAnswer.timeInMinutes){
+                    return <AnswerProperties key={timeUnit.id} timeUnit={timeUnit}/>;
+                }
+            } else {
+                return <AnswerProperties key={timeUnit.id} timeUnit={timeUnit}/>;
+
+            }
         }
-        if (props.question.type == "workStart" && timeUnit.timeInMinutes! >= sleepEndAnswer) {
-            return <AnswerProperties key={timeUnit.id} timeUnit={timeUnit}/>;
-        }
-        if (props.question.type == "workEnd" && timeUnit.timeInMinutes! >= workStartAnswer) {
-            return <AnswerProperties key={timeUnit.id} timeUnit={timeUnit}/>;
-        }
-        if (props.question.type == "sleepStart" && timeUnit.timeInMinutes! >= workEndAnswer) {
-            return <AnswerProperties key={timeUnit.id} timeUnit={timeUnit}/>;
-        }
+
     })
 
     return (

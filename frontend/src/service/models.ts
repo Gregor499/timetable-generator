@@ -26,6 +26,7 @@ export interface Question {
     order: number
     question: string
     type: string
+    previousQuestionId: string
 }
 
 export interface TimeAnswer {

@@ -8,14 +8,15 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "questions")
 
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public class Question {
-        @Id
-        String id;
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Question {
+    @Id
+    String id;
 
-        int order;
-        String question;
-        String type;
-    }
+    int order;
+    String question;
+    String type;
+    String previousQuestionId;
+}
