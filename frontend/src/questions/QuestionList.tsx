@@ -1,13 +1,15 @@
 import {NavLink} from "react-router-dom";
 import {FormEvent, useEffect, useState} from "react";
-import {getProcessAnswers, getQuestionList} from "../service/apiService";
+import {getProcessAnswers, getQuestionList, getTimeAnswer} from "../service/apiService";
 import QuestionComponent from "./QuestionComponent";
-import {Question} from "../service/models";
+import {Question, TimeAnswer} from "../service/models";
 
 export default function QuestionList() {
 
     const [questionList, setQuestionList] = useState<Array<Question>>([])
     const [errorMessage, setErrorMessage] = useState("")
+    const [allAnswers, setAllAnswers] = useState<Array<TimeAnswer>>([])
+
 
 
     /*    const questionAnswerType1 = (answerType1: string) => {
@@ -22,7 +24,17 @@ export default function QuestionList() {
             .catch(() => setErrorMessage("questionList doesnt load"));
     }, [])
 
-    const questions = questionList.sort((s1, s2) => s1.order - s2.order).map(question => <QuestionComponent key={question.id} question={question}/>
+    const onAnswer = () => {
+
+        getQuestionList()
+            .then(data => setQuestionList(data))
+            .catch(() => setErrorMessage("questionList doesnt load"));
+        getTimeAnswer()
+            .then(data => setAllAnswers(data))
+    }
+
+    const questions = questionList.sort((s1, s2) => s1.order - s2.order).map(question => <QuestionComponent
+        key={question.id} question={question} answers={allAnswers} answerCallback={onAnswer}/>
     )
 
     return (

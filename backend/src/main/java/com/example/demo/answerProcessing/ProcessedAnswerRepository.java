@@ -7,6 +7,6 @@ import java.util.Optional;
 
 @Repository
 public interface ProcessedAnswerRepository extends MongoRepository<ProcessedAnswer, String> {
-    Optional<ProcessedAnswer> findByUserIdAndQuestionId(String userId, String questionId);
+    Optional<ProcessedAnswer> findByUserId(String userId);
 
 }

@@ -42,8 +42,8 @@ public class ProcessedAnswerService {
 
     public void cleanUpExistingProcessedAnswers(String userId, List<String> questionsIdsByCurrentUser) {
         for (String questionId : questionsIdsByCurrentUser) {
-            if (processedAnswerRepository.findByUserIdAndQuestionId(userId, questionId).isPresent()) {
-                processedAnswerRepository.delete(processedAnswerRepository.findByUserIdAndQuestionId(userId, questionId).orElseThrow());
+            if (processedAnswerRepository.findByUserId(userId).isPresent()) {
+                processedAnswerRepository.delete(processedAnswerRepository.findByUserId(userId).orElseThrow());
             }
         }
     }
@@ -107,6 +107,7 @@ public class ProcessedAnswerService {
         processedAnswer.setTimeList(timeList);
         processedAnswer.setTask(processingData.task);
         processedAnswer.setColor(processingData.color);
+        processedAnswer.setUserId("test");
         processedAnswerRepository.save(processedAnswer);
     }
 }

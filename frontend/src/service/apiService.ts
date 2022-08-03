@@ -71,7 +71,16 @@ export const postTimeAnswer = (timeAnswer: TimeAnswer) => {
             Authorization: `Bearer ${localStorage.getItem('jwt')}`
         }
     })
-        .then((response: AxiosResponse<TimeAnswer>) => response.data)
+        .then((response: AxiosResponse<TimeAnswer[]>) => response.data)
+}
+
+export const getTimeAnswer = () => {
+    return axios.get("api/answers", {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('jwt')}`
+        }
+    })
+        .then((response: AxiosResponse<TimeAnswer[]>) => response.data)
 }
 
 export const getProcessAnswers = () => {
