@@ -1,6 +1,6 @@
 import {NavLink} from "react-router-dom";
 import {FormEvent, useEffect, useState} from "react";
-import {getProcessAnswers, getQuestionList, getTimeAnswer} from "../service/apiService";
+import {getQuestionList, getTimeAnswer} from "../service/apiService";
 import QuestionComponent from "./QuestionComponent";
 import {Question, TimeAnswer} from "../service/models";
 

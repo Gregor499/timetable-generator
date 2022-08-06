@@ -1,17 +1,12 @@
 import "./Timetable.css"
 import {useEffect, useState} from "react";
-import {getProcessAnswers, getTimeUnitList} from "../service/apiService";
-import {ProcessedAnswer, TimeUnit} from "../service/models";
+import {getProcessedTimeAnswers, getTimeUnitList} from "../service/apiService";
+import {ProcessedTimeAnswer, TimeUnit} from "../service/models";
 import TimeUnits from "./TimeUnits";
-
-interface TimeTableProps {
-    timeUnit: TimeUnit
-    processedAnswer?: ProcessedAnswer
-}
 
 export default function Timetable() {
     const [timeUnitList, setTimeUnitList] = useState<Array<TimeUnit>>([])
-    const [processedAnswerList, setProcessedAnswerList] = useState<Array<ProcessedAnswer>>([])
+    const [processedTimeAnswerList, setProcessedTimeAnswerList] = useState<Array<ProcessedTimeAnswer>>([])
     const [errorMessage, setErrorMessage] = useState("")
 
     useEffect(() => {
@@ -19,55 +14,77 @@ export default function Timetable() {
             .then(data => setTimeUnitList(data))
             .catch(() => setErrorMessage("timeUnitList does not load"));
 
-        getProcessAnswers()
-            .then(data => setProcessedAnswerList(data))
+        getProcessedTimeAnswers()
+            .then(data => setProcessedTimeAnswerList(data))
             .catch(() => setErrorMessage("processedAnswerList does not load"));
+
+
     }, [])
+    let maxStart = 0
+    let maxEnd = 24 * 60
 
-
-    const maxStart = 0 * 60
-    const maxEnd = 24 * 60
-
-    const timeUnits = timeUnitList.map(timeUnit => {
-        if (timeUnit.timeInMinutes! >= maxStart && timeUnit.timeInMinutes! <= maxEnd) {
-                    return <TimeUnits key={timeUnit.id} timeUnit={timeUnit} workAnswer={processedAnswerList[0]} sleepMorningAnswer={processedAnswerList[1]} sleepNightAnswer={processedAnswerList[2]}/>;
+    processedTimeAnswerList.map(processedTimeAnswer => {
+        if (processedTimeAnswer.task.includes("sleepMorning")) {
+            maxStart = (Number(processedTimeAnswer.timeList[0].charAt(0)) * 600 + Number(processedTimeAnswer.timeList[0].charAt(1)) * 60 + Number(processedTimeAnswer.timeList[0].charAt(3)) * 10
+                + Number(processedTimeAnswer.timeList[0].charAt(5)))
+        }
+        if (processedTimeAnswer.task.includes("sleepNight")) {
+            maxEnd = (Number(processedTimeAnswer.timeList[processedTimeAnswer.timeList.length - 1].charAt(0)) * 600 + Number(processedTimeAnswer.timeList[0].charAt(1)) * 60 + Number(processedTimeAnswer.timeList[0].charAt(3)) * 10
+                + Number(processedTimeAnswer.timeList[0].charAt(5)))
         }
     })
 
-        return (
-            <div>
-                <h1 className="headline">Timetable</h1>
+    let task = ""
 
-                <table className="table">
-                    <thead>
-                    <tr>
-                        <th>Time</th>
-                        <th>Monday</th>
-                        <th>Tuesday</th>
-                        <th>Wednesday</th>
-                        <th>Thursday</th>
-                        <th>Friday</th>
-                        <th>Saturday</th>
-                        <th>Sunday</th>
-                    </tr>
-                    </thead>
+    const timeUnitsAndTasks = timeUnitList.map(timeUnit => {
+        if (timeUnit.timeInMinutes! >= maxStart && timeUnit.timeInMinutes! <= maxEnd) {
 
-                    <tbody>
-                    {timeUnits}
+            processedTimeAnswerList.map(processedTimeAnswer => {
+                processedTimeAnswer.timeList.map(time => {
+                    if (time.includes(timeUnit.time)) {
+                        task = (processedTimeAnswer.task)
+                    }
+                })
+            })
 
-                    {errorMessage && <tr>
-                        <th>{errorMessage}</th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                    </tr>}
-                    </tbody>
-                </table>
-            </div>
+            return <TimeUnits key={timeUnit.id} timeUnit={timeUnit} task={task}/>
+        }
+    })
 
-        );
-    }
+    return (
+        <div>
+            <h1 className="headline">Timetable</h1>
+
+            <table className="table">
+                <thead>
+                <tr>
+                    <th>Time</th>
+                    <th>Monday</th>
+                    <th>Tuesday</th>
+                    <th>Wednesday</th>
+                    <th>Thursday</th>
+                    <th>Friday</th>
+                    <th>Saturday</th>
+                    <th>Sunday</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                {timeUnitsAndTasks}
+
+                {errorMessage && <tr>
+                    <th>{errorMessage}</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>}
+                </tbody>
+            </table>
+        </div>
+
+    );
+}

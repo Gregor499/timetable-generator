@@ -21,15 +21,15 @@ public class ProcessedTimeAnswerService {
     private final ProcessedTimeAnswerRepository processedAnswerRepository;
 
 
-    public List<ProcessedTimeAnswer> timeAnswerProcessing(Principal principal) {
+    public List<ProcessedTimeAnswer> processTimeAnswers(Principal principal) {
 
         String userId = getUserId(principal);
 
         cleanUpExistingProcessedAnswers(userId, getProcessedAnswersByUserId(userId));
 
-        dataProcessing(userId);
+        timeAnswerProcessing(userId);
 
-        return processedAnswerRepository.findAll();
+        return processedAnswerRepository.getProcessedAnswerListByUserId(userId);
     }
 
     public String getUserId(Principal principal) {
@@ -38,16 +38,17 @@ public class ProcessedTimeAnswerService {
     }
 
     public void cleanUpExistingProcessedAnswers(String userId, List<ProcessedTimeAnswer> processedTimeAnswersByUserIdList) {
-        for (ProcessedTimeAnswer processedTimeAnswer : processedTimeAnswersByUserIdList) {
+        /*for (ProcessedTimeAnswer processedTimeAnswer : processedTimeAnswersByUserIdList) {
             if (processedTimeAnswer.userId.equals(userId)) {
                 processedAnswerRepository.delete(processedTimeAnswer);
             }
-        }
+        }*/
+        processedAnswerRepository.deleteAll();
     }
 
-    public void dataProcessing(String userId) {
+    public void timeAnswerProcessing(String userId) {
             safeProcessedAnswer("work", "#DF7401", userId, answerService.findByUserIdAndQuestionId(userId, "62e12614a362100c83bb83ab").orElseThrow().getTime(), answerService.findByUserIdAndQuestionId(userId, "62e12621a362100c83bb83ac").orElseThrow().getTime());
-            safeProcessedAnswer("sleepMorning", "#000000", userId, "00:00", answerService.findByUserIdAndQuestionId(userId, "62e952ca23e813590e3ae529").orElseThrow().getTime());
+            safeProcessedAnswer("sleepMorning", "#000000", userId, "04:00", answerService.findByUserIdAndQuestionId(userId, "62e952ca23e813590e3ae529").orElseThrow().getTime());
             safeProcessedAnswer("sleepNight", "#000000", userId, answerService.findByUserIdAndQuestionId(userId, "62e952b023e813590e3ae528").orElseThrow().getTime(), "12:00");
     }
 

@@ -1,10 +1,8 @@
 import {
     LoginData,
-    LoginResponse, PreparationTimeMorning, ProcessedAnswer, Question, SleepLength, TimeAnswer,
+    LoginResponse, ProcessedTimeAnswer, Question, TimeAnswer,
     TimeUnit,
     UserCreationData,
-    WorkStartTime,
-    WorkWayTime
 } from "./models";
 import axios, {AxiosResponse} from "axios";
 
@@ -83,11 +81,11 @@ export const getTimeAnswer = () => {
         .then((response: AxiosResponse<TimeAnswer[]>) => response.data)
 }
 
-export const getProcessAnswers = () => {
-    return axios.get("api/processedAnswers", {
+export const getProcessedTimeAnswers = () => {
+    return axios.get("api/processedTimeAnswers", {
         headers: {
             Authorization: `Bearer ${localStorage.getItem('jwt')}`
         }
     })
-        .then((response: AxiosResponse<ProcessedAnswer[]>) => response.data)
+        .then((response: AxiosResponse<ProcessedTimeAnswer[]>) => response.data)
 }

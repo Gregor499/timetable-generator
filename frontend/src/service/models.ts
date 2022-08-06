@@ -50,26 +50,10 @@ export interface WeekdayAnswer {
     sunday: boolean
 }
 
-export interface ProcessedAnswer {
+export interface ProcessedTimeAnswer {
     id: string
     task: string
     color: string
     timeList: string[]
-}
-
-export interface SleepLength {
-    sleepLength: string
-}
-
-export interface WorkStartTime {
-    workStartTime: string
-}
-
-export interface PreparationTimeMorning {
-    preparationTimeMorning: string
-}
-
-export interface WorkWayTime {
-    workWayTime: string
 }
 

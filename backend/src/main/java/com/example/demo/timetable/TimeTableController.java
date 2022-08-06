@@ -65,8 +65,8 @@ public class TimeTableController {
         return answerService.findAll();
     }
 
-    @GetMapping("/processedAnswers")
+    @GetMapping("/processedTimeAnswers")
     List<ProcessedTimeAnswer> getProcessedAnswers(Principal principal) {
-        return processedTimeAnswerService.timeAnswerProcessing(principal);
+        return processedTimeAnswerService.processTimeAnswers(principal);
     }
 }

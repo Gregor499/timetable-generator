@@ -3,3 +3,16 @@ th.work{
     border-top: none;
     background-color: #DF7401;
 }
+
+th.sleepMorning{
+    border-bottom: none;
+    border-top: none;
+    background-color: #868686;
+
+}
+
+th.sleepNight{
+    border-bottom: none;
+    border-top: none;
+    background-color: #868686;
+}

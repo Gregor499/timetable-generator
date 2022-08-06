@@ -1,13 +1,23 @@
-import {ProcessedAnswer, TimeUnit} from "../service/models";
-import {useEffect, useState} from "react";
-import {getProcessAnswers} from "../service/apiService";
+import {ProcessedTimeAnswer, TimeUnit} from "../service/models";
 
-interface TaskProps {
-    processedAnswer: ProcessedAnswer
-
+interface TimeTableProps {
+    timeUnit: TimeUnit
+    task: string
 }
 
-export default function Task(props: TaskProps) {
-    return (null
+export default function Task(props: TimeTableProps) {
+
+
+    return (
+        <tr>
+            <th>{props.timeUnit.time}</th>
+            <th className={props.task}>{props.task}</th>
+            <th className={props.task}>{props.task}</th>
+            <th className={props.task}>{props.task}</th>
+            <th className={props.task}>{props.task}</th>
+            <th className={props.task}>{props.task}</th>
+            <th></th>
+            <th></th>
+        </tr>
     )
 }
