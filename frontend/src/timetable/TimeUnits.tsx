@@ -3,21 +3,27 @@ import {ProcessedAnswer, TimeUnit} from "../service/models";
 
 interface TimeTableProps {
     timeUnit: TimeUnit
-    processedAnswer?: ProcessedAnswer
+    workAnswer?: ProcessedAnswer
+    sleepMorningAnswer?: ProcessedAnswer
+    sleepNightAnswer?: ProcessedAnswer
 }
 
 export default function TimeUnits(props: TimeTableProps) {
-     const isOccupied = props.processedAnswer?.timeList.includes(props.timeUnit.time)
-return (
-    <tr>
-        <th>{props.timeUnit.time}</th>
-        <th className={isOccupied? props.processedAnswer?.task:""}>{props.processedAnswer?.task}</th>
-        <th className={isOccupied? props.processedAnswer?.task:""}>{props.processedAnswer?.task}</th>
-        <th className={isOccupied? props.processedAnswer?.task:""}>{props.processedAnswer?.task}</th>
-        <th className={isOccupied? props.processedAnswer?.task:""}>{props.processedAnswer?.task}</th>
-        <th className={isOccupied? props.processedAnswer?.task:""}>{props.processedAnswer?.task}</th>
-        <th>{props.processedAnswer?.task}</th>
-        <th>{props.processedAnswer?.task}</th>
-    </tr>
-)
+    const isOccupiedByWork = props.workAnswer?.timeList.includes(props.timeUnit.time)
+    const isOccupiedByMorningSleep = props.sleepMorningAnswer?.timeList.includes(props.timeUnit.time)
+    const isOccupiedByNightSleep = props.sleepNightAnswer?.timeList.includes(props.timeUnit.time)
+
+
+    return (
+        <tr>
+            <th>{props.timeUnit.time}</th>
+            <th className={isOccupiedByWork ? props.workAnswer?.task : ""}>{isOccupiedByWork ? props.workAnswer?.task : ""}{isOccupiedByMorningSleep ? props.sleepMorningAnswer?.task : ""}{isOccupiedByNightSleep ? props.sleepNightAnswer?.task : ""}</th>
+            <th className={isOccupiedByWork ? props.workAnswer?.task : ""}>{isOccupiedByWork ? props.workAnswer?.task : ""}{isOccupiedByMorningSleep ? props.sleepMorningAnswer?.task : ""}{isOccupiedByNightSleep ? props.sleepNightAnswer?.task : ""}</th>
+            <th className={isOccupiedByWork ? props.workAnswer?.task : ""}>{isOccupiedByWork ? props.workAnswer?.task : ""}{isOccupiedByMorningSleep ? props.sleepMorningAnswer?.task : ""}{isOccupiedByNightSleep ? props.sleepNightAnswer?.task : ""}</th>
+            <th className={isOccupiedByWork ? props.workAnswer?.task : ""}>{isOccupiedByWork ? props.workAnswer?.task : ""}{isOccupiedByMorningSleep ? props.sleepMorningAnswer?.task : ""}{isOccupiedByNightSleep ? props.sleepNightAnswer?.task : ""}</th>
+            <th className={isOccupiedByWork ? props.workAnswer?.task : ""}>{isOccupiedByWork ? props.workAnswer?.task : ""}{isOccupiedByMorningSleep ? props.sleepMorningAnswer?.task : ""}{isOccupiedByNightSleep ? props.sleepNightAnswer?.task : ""}</th>
+            <th></th>
+            <th></th>
+        </tr>
+    )
 }

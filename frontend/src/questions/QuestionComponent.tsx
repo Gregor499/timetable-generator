@@ -8,7 +8,7 @@ interface QuestionProps {
     answers: Array<TimeAnswer>
     answerCallback: () => void
 }
-//test
+
 export default function QuestionComponent(props: QuestionProps) {
     const [timeUnitList, setTimeUnitList] = useState<Array<TimeUnit>>([])
     const [errorMessage, setErrorMessage] = useState("")

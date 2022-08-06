@@ -12,7 +12,7 @@ import java.util.List;
 @Document("processedAnswers")
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProcessedAnswer {
+public class ProcessedTimeAnswer {
     @Id
     String id;
     String task;

@@ -2,8 +2,8 @@ package com.example.demo.timetable;
 
 import com.example.demo.answerDB.AnswerService;
 import com.example.demo.answerDB.TimeAnswer;
-import com.example.demo.answerProcessing.ProcessedAnswer;
-import com.example.demo.answerProcessing.ProcessedAnswerService;
+import com.example.demo.answerProcessing.ProcessedTimeAnswer;
+import com.example.demo.answerProcessing.ProcessedTimeAnswerService;
 import com.example.demo.questionDB.Question;
 import com.example.demo.questionDB.QuestionService;
 import com.example.demo.user.User;
@@ -23,7 +23,7 @@ public class TimeTableController {
     private final QuestionService questionService;
     private final AnswerService answerService;
     private final UserService userService;
-    private final ProcessedAnswerService processedAnswerService;
+    private final ProcessedTimeAnswerService processedTimeAnswerService;
 
     @PostMapping("/time")
     @ResponseStatus(HttpStatus.CREATED)
@@ -66,7 +66,7 @@ public class TimeTableController {
     }
 
     @GetMapping("/processedAnswers")
-    List<ProcessedAnswer> getProcessedAnswers(Principal principal) {
-        return processedAnswerService.answerProcessing(principal);
+    List<ProcessedTimeAnswer> getProcessedAnswers(Principal principal) {
+        return processedTimeAnswerService.timeAnswerProcessing(principal);
     }
 }

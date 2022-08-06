@@ -25,12 +25,12 @@ export default function Timetable() {
     }, [])
 
 
-    const maxStart = 6 * 60
-    const maxEnd = 22 * 60
+    const maxStart = 0 * 60
+    const maxEnd = 24 * 60
 
     const timeUnits = timeUnitList.map(timeUnit => {
         if (timeUnit.timeInMinutes! >= maxStart && timeUnit.timeInMinutes! <= maxEnd) {
-                    return <TimeUnits key={timeUnit.id} timeUnit={timeUnit} processedAnswer={processedAnswerList[0]}/>;
+                    return <TimeUnits key={timeUnit.id} timeUnit={timeUnit} workAnswer={processedAnswerList[0]} sleepMorningAnswer={processedAnswerList[1]} sleepNightAnswer={processedAnswerList[2]}/>;
         }
     })
 
