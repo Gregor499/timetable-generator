@@ -14,8 +14,8 @@ public class AnswerService {
     private final AnswerRepository answerRepository;
 
     public void addNewAnswer(TimeAnswer timeAnswer) {
-        if (findByUserIdAndQuestionId(timeAnswer.getUserId(), timeAnswer.getQuestionId()).isPresent()) {
-            answerRepository.delete(findByUserIdAndQuestionId(timeAnswer.getUserId(), timeAnswer.getQuestionId()).orElseThrow());
+        if (findByUserIdAndQuestion(timeAnswer.getUserId(), timeAnswer.getQuestionId()).isPresent()) {
+            answerRepository.delete(findByUserIdAndQuestion(timeAnswer.getUserId(), timeAnswer.getQuestionId()).orElseThrow());
         }
         int hours = 0;
         int minutes;
@@ -50,5 +50,9 @@ public class AnswerService {
 
     public Optional<TimeAnswer> findByUserIdAndQuestionId(String userId, String questionId) {
         return answerRepository.findByUserIdAndQuestionId(userId, questionId);
+    }
+
+    public Optional<TimeAnswer> findByUserIdAndQuestion(String userId, String question) {
+        return answerRepository.findByUserIdAndQuestion(userId, question);
     }
 }

@@ -13,9 +13,10 @@ export default function QuestionComponent(props: QuestionProps) {
     const [timeUnitList, setTimeUnitList] = useState<Array<TimeUnit>>([])
     const [errorMessage, setErrorMessage] = useState("")
 
-    const setTimeAnswer = (questionId: string, timeInMinutes: number) => {
+    const setTimeAnswer = (questionId: string, question: string, timeInMinutes: number) => {
         const timeAnswer: TimeAnswer = {
             questionId: questionId,
+            question: question,
             timeInMinutes: timeInMinutes
         }
         postTimeAnswer(timeAnswer)
@@ -53,7 +54,7 @@ export default function QuestionComponent(props: QuestionProps) {
             <label htmlFor="time">Time: </label>
 
             <select name={props.question.type} id={props.question.id}
-                    onChange={event => setTimeAnswer(props.question.id, Number(event.target.value))}>
+                    onChange={event => setTimeAnswer(props.question.id, props.question.question, Number(event.target.value))}>
                 {timeUnitsToChoose}
             </select>
         </div>

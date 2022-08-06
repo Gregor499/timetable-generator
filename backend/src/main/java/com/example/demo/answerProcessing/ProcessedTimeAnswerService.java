@@ -47,9 +47,9 @@ public class ProcessedTimeAnswerService {
     }
 
     public void timeAnswerProcessing(String userId) {
-            safeProcessedAnswer("work", "#DF7401", userId, answerService.findByUserIdAndQuestionId(userId, "62e12614a362100c83bb83ab").orElseThrow().getTime(), answerService.findByUserIdAndQuestionId(userId, "62e12621a362100c83bb83ac").orElseThrow().getTime());
-            safeProcessedAnswer("sleepMorning", "#000000", userId, "04:00", answerService.findByUserIdAndQuestionId(userId, "62e952ca23e813590e3ae529").orElseThrow().getTime());
-            safeProcessedAnswer("sleepNight", "#000000", userId, answerService.findByUserIdAndQuestionId(userId, "62e952b023e813590e3ae528").orElseThrow().getTime(), "12:00");
+            safeProcessedAnswer("work", "#DF7401", userId, answerService.findByUserIdAndQuestion(userId, "When does your work start ?").orElseThrow().getTime(), answerService.findByUserIdAndQuestion(userId, "When does your work end ?").orElseThrow().getTime());
+            safeProcessedAnswer("sleepMorning", "#000000", userId, "00:00", answerService.findByUserIdAndQuestion(userId, "When do you want to wake up ?").orElseThrow().getTime());
+            safeProcessedAnswer("sleepNight", "#000000", userId, answerService.findByUserIdAndQuestion(userId, "When do you want to sleep ?").orElseThrow().getTime(), "12:00");
     }
 
     public void safeProcessedAnswer(String task, String color, String userId, String begin, String end) {
