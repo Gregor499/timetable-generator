@@ -49,17 +49,52 @@ public class ProcessedTimeAnswerService {
     }
 
     public void timeAnswerProcessing(String userId) {
-        safeProcessedAnswer("work", "#DF7401", userId, answerService.findByUserIdAndQuestion(userId, "When does your work start ?").orElseThrow().getTime(), answerService.findByUserIdAndQuestion(userId, "When does your work end ?").orElseThrow().getTime());
         safeProcessedAnswer("sleepMorning", "#000000", userId,
                 morningTimeShorter(answerService.findByUserIdAndQuestion(userId, "When do you want to wake up ?").orElseThrow().getTimeInMinutes()),
                 answerService.findByUserIdAndQuestion(userId, "When do you want to wake up ?").orElseThrow().getTime());
-        safeProcessedAnswer("sleepNight", "#000000", userId, answerService.findByUserIdAndQuestion(userId, "When do you want to sleep ?").orElseThrow().getTime(), "12:00");
+
+        safeProcessedAnswer("work", "#DF7401", userId, answerService.findByUserIdAndQuestion(userId, "When does your work start ?").orElseThrow().getTime(),
+                answerService.findByUserIdAndQuestion(userId, "When does your work end ?").orElseThrow().getTime());
+
+        safeProcessedAnswer("sleepNight", "#000000", userId, answerService.findByUserIdAndQuestion(userId, "When do you want to sleep ?").orElseThrow().getTime(),
+                eveningTimeShorter(answerService.findByUserIdAndQuestion(userId, "When do you want to sleep ?").orElseThrow().getTimeInMinutes()));
     }
 
     public String morningTimeShorter(int begin) {
         int shortenedTime = begin - 60;
         if (shortenedTime < 0) {
             shortenedTime = 0;
+        }
+
+        int hours = 0;
+        int minutes;
+        for (int j = shortenedTime; j >= 60; j = j - 60) {
+            hours++;
+        }
+        minutes = shortenedTime - (60 * hours);
+
+        String hoursString;
+
+        if (hours / 10 < 1) {
+            hoursString = "0" + hours;
+        } else {
+            hoursString = hours + "";
+        }
+
+        String minutesString;
+
+        if (minutes / 10 < 1) {
+            minutesString = "0" + minutes;
+        } else {
+            minutesString = minutes + "";
+        }
+        return hoursString + ":" + minutesString;
+    }
+
+    public String eveningTimeShorter(int begin) {
+        int shortenedTime = begin + 60;
+        if (shortenedTime > 1440) {
+            shortenedTime = 1440;
         }
 
         int hours = 0;

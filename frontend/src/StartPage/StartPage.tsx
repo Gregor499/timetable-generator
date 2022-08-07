@@ -37,7 +37,7 @@ export default function StartPage() {
     useEffect(() => {
         postTimeUnitCreationData({
             "time": "00:00",
-            "length": 5,
+            "length": 15,
             "end": "24:00"
         })
             .catch(() => setErrorMessage("timeUnitList does not load"));

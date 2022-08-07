@@ -29,15 +29,16 @@ export default function Timetable() {
                 + Number(processedTimeAnswer.timeList[0].charAt(5)))
         }
         if (processedTimeAnswer.task.includes("sleepNight")) {
-            maxEnd = (Number(processedTimeAnswer.timeList[processedTimeAnswer.timeList.length - 1].charAt(0)) * 600 + Number(processedTimeAnswer.timeList[0].charAt(1)) * 60 + Number(processedTimeAnswer.timeList[0].charAt(3)) * 10
-                + Number(processedTimeAnswer.timeList[0].charAt(5)))
+            maxEnd = (Number(processedTimeAnswer.timeList[processedTimeAnswer.timeList.length - 1].charAt(0)) * 600
+                + Number(processedTimeAnswer.timeList[processedTimeAnswer.timeList.length - 1].charAt(1)) * 60
+                + Number(processedTimeAnswer.timeList[processedTimeAnswer.timeList.length - 1].charAt(3)) * 10
+                + Number(processedTimeAnswer.timeList[processedTimeAnswer.timeList.length - 1].charAt(5)))
         }
     })
 
-    let task = ""
-
     const timeUnitsAndTasks = timeUnitList.map(timeUnit => {
         if (timeUnit.timeInMinutes! >= maxStart && timeUnit.timeInMinutes! <= maxEnd) {
+            let task = ""
 
             processedTimeAnswerList.map(processedTimeAnswer => {
                 processedTimeAnswer.timeList.map(time => {

@@ -14,7 +14,7 @@ public class AnswerService {
     private final AnswerRepository answerRepository;
 
     public void addNewAnswer(TimeAnswer timeAnswer) {
-        if (findByUserIdAndQuestion(timeAnswer.getUserId(), timeAnswer.getQuestionId()).isPresent()) {
+        if (findByUserIdAndQuestionId(timeAnswer.getUserId(), timeAnswer.getQuestionId()).isPresent()) {
             answerRepository.delete(findByUserIdAndQuestionId(timeAnswer.getUserId(), timeAnswer.getQuestionId()).orElseThrow());
         }
         int hours = 0;
