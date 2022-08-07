@@ -9,4 +9,5 @@ import java.util.Optional;
 @Repository
 public interface ProcessedTimeAnswerRepository extends MongoRepository<ProcessedTimeAnswer, String> {
     List<ProcessedTimeAnswer> getProcessedAnswerListByUserId(String userId);
+    void deleteProcessedTimeAnswersByUserId(String userid);
 }

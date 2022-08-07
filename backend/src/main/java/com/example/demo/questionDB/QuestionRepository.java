@@ -8,4 +8,5 @@ import java.util.Optional;
 @Repository
 public interface QuestionRepository extends MongoRepository<Question, String> {
     Optional<Question> findQuestionById(String id);
+    Optional<Question> findQuestionByOrder(int order);
 }

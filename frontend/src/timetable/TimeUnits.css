@@ -1,18 +1,41 @@
+th.morningSleep{
+    border-bottom: none;
+    border-top: none;
+    background-color: rgba(134, 134, 134, 0.6);
+}
+
+th.morningRoutine{
+    border-bottom: none;
+    border-top: none;
+    background-color: rgba(142, 255, 148, 0.71);
+}
+
+th.workWayTime{
+    border-bottom: none;
+    border-top: none;
+    background-color: rgba(48, 163, 255, 0.51);
+}
+
 th.work{
     border-bottom: none;
     border-top: none;
-    background-color: #DF7401;
+    background-color: rgba(255, 147, 28, 0.73);
 }
 
-th.sleepMorning{
+th.leisureTime{
     border-bottom: none;
     border-top: none;
-    background-color: #868686;
-
+    background-color: rgba(255, 232, 44, 0.68);
 }
 
-th.sleepNight{
+th.eveningRoutine{
     border-bottom: none;
     border-top: none;
-    background-color: #868686;
+    background-color: rgba(148, 85, 255, 0.5);
+}
+
+th.nightSleep{
+    border-bottom: none;
+    border-top: none;
+    background-color: rgba(134, 134, 134, 0.6);
 }

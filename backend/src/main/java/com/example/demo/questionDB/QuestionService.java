@@ -12,7 +12,13 @@ import java.util.List;
         private final QuestionRepository questionRepository;
 
         public void addNewQuestion(Question question) {
-            questionRepository.save(question);
+            if(question.order > 1) {
+                question.setPreviousQuestionId(questionRepository.findQuestionByOrder(question.order-1).orElseThrow().id);
+                questionRepository.save(question);
+            }
+            else {
+                questionRepository.save(question);
+            }
         }
 
         public List<Question> findAll(){

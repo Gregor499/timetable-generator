@@ -15,8 +15,8 @@ public class Question {
     @Id
     String id;
 
-    int order;
     String question;
+    int order;
     String type;
     String previousQuestionId;
 }

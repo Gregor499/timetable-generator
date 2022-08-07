@@ -24,11 +24,11 @@ export default function Timetable() {
     let maxEnd = 24 * 60
 
     processedTimeAnswerList.map(processedTimeAnswer => {
-        if (processedTimeAnswer.task.includes("sleepMorning")) {
+        if (processedTimeAnswer.task.includes("morningSleep")) {
             maxStart = (Number(processedTimeAnswer.timeList[0].charAt(0)) * 600 + Number(processedTimeAnswer.timeList[0].charAt(1)) * 60 + Number(processedTimeAnswer.timeList[0].charAt(3)) * 10
                 + Number(processedTimeAnswer.timeList[0].charAt(5)))
         }
-        if (processedTimeAnswer.task.includes("sleepNight")) {
+        if (processedTimeAnswer.task.includes("nightSleep")) {
             maxEnd = (Number(processedTimeAnswer.timeList[processedTimeAnswer.timeList.length - 1].charAt(0)) * 600
                 + Number(processedTimeAnswer.timeList[processedTimeAnswer.timeList.length - 1].charAt(1)) * 60
                 + Number(processedTimeAnswer.timeList[processedTimeAnswer.timeList.length - 1].charAt(3)) * 10
