@@ -10,12 +10,12 @@ import static java.lang.Character.getNumericValue;
 
 @Service
 @RequiredArgsConstructor
-public class AnswerService {
-    private final AnswerRepository answerRepository;
+public class TimeAnswerService {
+    private final TimeAnswerRepository timeAnswerRepository;
 
     public void addNewAnswer(TimeAnswer timeAnswer) {
         if (findByUserIdAndQuestionId(timeAnswer.getUserId(), timeAnswer.getQuestionId()).isPresent()) {
-            answerRepository.delete(findByUserIdAndQuestionId(timeAnswer.getUserId(), timeAnswer.getQuestionId()).orElseThrow());
+            timeAnswerRepository.delete(findByUserIdAndQuestionId(timeAnswer.getUserId(), timeAnswer.getQuestionId()).orElseThrow());
         }
         int hours = 0;
         int minutes;
@@ -41,18 +41,18 @@ public class AnswerService {
         }
         timeAnswer.setTime(hoursString + ":" + minutesString);
 
-        answerRepository.save(timeAnswer);
+        timeAnswerRepository.save(timeAnswer);
     }
 
     public List<TimeAnswer> findAll() {
-        return answerRepository.findAll();
+        return timeAnswerRepository.findAll();
     }
 
     public Optional<TimeAnswer> findByUserIdAndQuestionId(String userId, String questionId) {
-        return answerRepository.findByUserIdAndQuestionId(userId, questionId);
+        return timeAnswerRepository.findByUserIdAndQuestionId(userId, questionId);
     }
 
     public Optional<TimeAnswer> findByUserIdAndQuestion(String userId, String question) {
-        return answerRepository.findByUserIdAndQuestion(userId, question);
+        return timeAnswerRepository.findByUserIdAndQuestion(userId, question);
     }
 }

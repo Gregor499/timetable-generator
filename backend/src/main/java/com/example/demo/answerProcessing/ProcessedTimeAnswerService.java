@@ -1,6 +1,6 @@
 package com.example.demo.answerProcessing;
 
-import com.example.demo.answerDB.AnswerService;
+import com.example.demo.answerDB.TimeAnswerService;
 import com.example.demo.timetable.TimeUnit;
 import com.example.demo.timetable.TimeUnitService;
 import com.example.demo.user.User;
@@ -15,7 +15,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class ProcessedTimeAnswerService {
-    private final AnswerService answerService;
+    private final TimeAnswerService timeAnswerService;
     private final UserService userService;
     private final TimeUnitService timeUnitService;
     private final ProcessedTimeAnswerRepository processedAnswerRepository;
@@ -43,26 +43,26 @@ public class ProcessedTimeAnswerService {
 
     public void timeAnswerProcessing(String userId) {
         safeProcessedAnswer("morningSleep", "#000000", userId,
-                morningTimeShorter(answerService.findByUserIdAndQuestion(userId, "When do you want to wake up ?").orElseThrow().getTimeInMinutes()),
-                answerService.findByUserIdAndQuestion(userId, "When do you want to wake up ?").orElseThrow().getTime());
+                morningTimeShorter(timeAnswerService.findByUserIdAndQuestion(userId, "When do you want to wake up ?").orElseThrow().getTimeInMinutes()),
+                timeAnswerService.findByUserIdAndQuestion(userId, "When do you want to wake up ?").orElseThrow().getTime());
 
-        safeProcessedAnswer("morningRoutine", "#DF7401", userId, answerService.findByUserIdAndQuestion(userId, "When do you want to wake up ?").orElseThrow().getTime(),
-                answerService.findByUserIdAndQuestion(userId, "Until then do you need to be ready for the day?").orElseThrow().getTime());
+        safeProcessedAnswer("morningRoutine", "#DF7401", userId, timeAnswerService.findByUserIdAndQuestion(userId, "When do you want to wake up ?").orElseThrow().getTime(),
+                timeAnswerService.findByUserIdAndQuestion(userId, "Until then do you need to be ready for the day?").orElseThrow().getTime());
 
-        safeProcessedAnswer("workWayTime", "#DF7401", userId, answerService.findByUserIdAndQuestion(userId, "When do you want to begin going to work ?").orElseThrow().getTime(),
-                answerService.findByUserIdAndQuestion(userId, "When does your work start ?").orElseThrow().getTime());
+        safeProcessedAnswer("workWayTime", "#DF7401", userId, timeAnswerService.findByUserIdAndQuestion(userId, "When do you want to begin going to work ?").orElseThrow().getTime(),
+                timeAnswerService.findByUserIdAndQuestion(userId, "When does your work start ?").orElseThrow().getTime());
 
-        safeProcessedAnswer("work", "#DF7401", userId, answerService.findByUserIdAndQuestion(userId, "When does your work start ?").orElseThrow().getTime(),
-                answerService.findByUserIdAndQuestion(userId, "When does your work end ?").orElseThrow().getTime());
+        safeProcessedAnswer("work", "#DF7401", userId, timeAnswerService.findByUserIdAndQuestion(userId, "When does your work start ?").orElseThrow().getTime(),
+                timeAnswerService.findByUserIdAndQuestion(userId, "When does your work end ?").orElseThrow().getTime());
 
-        safeProcessedAnswer("leisureTime", "#DF7401", userId, answerService.findByUserIdAndQuestion(userId, "When does your leisure time start ?").orElseThrow().getTime(),
-                answerService.findByUserIdAndQuestion(userId, "When does your leisure time end ?").orElseThrow().getTime());
+        safeProcessedAnswer("leisureTime", "#DF7401", userId, timeAnswerService.findByUserIdAndQuestion(userId, "When does your leisure time start ?").orElseThrow().getTime(),
+                timeAnswerService.findByUserIdAndQuestion(userId, "When does your leisure time end ?").orElseThrow().getTime());
 
-        safeProcessedAnswer("eveningRoutine", "#DF7401", userId, answerService.findByUserIdAndQuestion(userId, "When do you want to start to get ready for bed ?").orElseThrow().getTime(),
-                answerService.findByUserIdAndQuestion(userId, "When do you want to sleep ?").orElseThrow().getTime());
+        safeProcessedAnswer("eveningRoutine", "#DF7401", userId, timeAnswerService.findByUserIdAndQuestion(userId, "When do you want to start to get ready for bed ?").orElseThrow().getTime(),
+                timeAnswerService.findByUserIdAndQuestion(userId, "When do you want to sleep ?").orElseThrow().getTime());
 
-        safeProcessedAnswer("nightSleep", "#000000", userId, answerService.findByUserIdAndQuestion(userId, "When do you want to sleep ?").orElseThrow().getTime(),
-                eveningTimeShorter(answerService.findByUserIdAndQuestion(userId, "When do you want to sleep ?").orElseThrow().getTimeInMinutes()));
+        safeProcessedAnswer("nightSleep", "#000000", userId, timeAnswerService.findByUserIdAndQuestion(userId, "When do you want to sleep ?").orElseThrow().getTime(),
+                eveningTimeShorter(timeAnswerService.findByUserIdAndQuestion(userId, "When do you want to sleep ?").orElseThrow().getTimeInMinutes()));
     }
 
     public String morningTimeShorter(int begin) {

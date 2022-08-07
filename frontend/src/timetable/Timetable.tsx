@@ -2,7 +2,7 @@ import "./Timetable.css"
 import {useEffect, useState} from "react";
 import {getProcessedTimeAnswers, getTimeUnitList} from "../service/apiService";
 import {ProcessedTimeAnswer, TimeUnit} from "../service/models";
-import TimeUnits from "./TimeUnits";
+import TimeUnitsAndTasks from "./TimeUnitsAndTasks";
 
 export default function Timetable() {
     const [timeUnitList, setTimeUnitList] = useState<Array<TimeUnit>>([])
@@ -48,7 +48,7 @@ export default function Timetable() {
                 })
             })
 
-            return <TimeUnits key={timeUnit.id} timeUnit={timeUnit} task={task}/>
+            return <TimeUnitsAndTasks key={timeUnit.id} timeUnit={timeUnit} task={task}/>
         }
     })
 

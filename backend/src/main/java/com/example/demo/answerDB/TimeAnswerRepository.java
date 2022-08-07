@@ -6,7 +6,7 @@ import java.util.Optional;
 
 
 @Repository
-public interface AnswerRepository extends MongoRepository<TimeAnswer, String> {
+public interface TimeAnswerRepository extends MongoRepository<TimeAnswer, String> {
     Optional<TimeAnswer> findByUserIdAndQuestionId(String userId, String questionId);
     Optional<TimeAnswer> findByUserIdAndQuestion(String userId, String question);
 }

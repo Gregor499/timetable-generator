@@ -1,6 +1,6 @@
 package com.example.demo.timetable;
 
-import com.example.demo.answerDB.AnswerService;
+import com.example.demo.answerDB.TimeAnswerService;
 import com.example.demo.answerDB.TimeAnswer;
 import com.example.demo.answerProcessing.ProcessedTimeAnswer;
 import com.example.demo.answerProcessing.ProcessedTimeAnswerService;
@@ -21,7 +21,7 @@ import java.util.List;
 public class TimeTableController {
     private final TimeUnitService timeUnitService;
     private final QuestionService questionService;
-    private final AnswerService answerService;
+    private final TimeAnswerService timeAnswerService;
     private final UserService userService;
     private final ProcessedTimeAnswerService processedTimeAnswerService;
 
@@ -56,13 +56,13 @@ public class TimeTableController {
     TimeAnswer addAnswer(@RequestBody TimeAnswer timeAnswer, Principal principal) {
         User user = userService.findByUsername(principal.getName()).orElseThrow();
         timeAnswer.setUserId(user.getId());
-        answerService.addNewAnswer(timeAnswer);
-        return answerService.findByUserIdAndQuestionId(timeAnswer.getUserId(), timeAnswer.getQuestionId()).orElseThrow();
+        timeAnswerService.addNewAnswer(timeAnswer);
+        return timeAnswerService.findByUserIdAndQuestionId(timeAnswer.getUserId(), timeAnswer.getQuestionId()).orElseThrow();
     }
 
     @GetMapping("/answers")
     List<TimeAnswer> getAnswers() {
-        return answerService.findAll();
+        return timeAnswerService.findAll();
     }
 
     @GetMapping("/processedTimeAnswers")
