@@ -2,6 +2,7 @@ import {Question, TimeAnswer, TimeUnit} from "../service/models";
 import {useEffect, useState} from "react";
 import {getTimeAnswer, getTimeUnitList, postTimeAnswer} from "../service/apiService";
 import AnswerProperties from "./AnswerProperties";
+import "./QuestionListComponent.css"
 
 interface QuestionProps {
     question: Question
@@ -56,12 +57,12 @@ export default function QuestionListComponent(props: QuestionProps) {
     })
 
     return (
-        <div id="test">
+        <div className="question">
             <p>{props.question.question}</p>
 
             <label htmlFor="time">Time: </label>
 
-            <select name={props.question.type} id={props.question.id}
+            <select className="questionAnswer" name={props.question.type} id={props.question.id}
                     onChange={event => setTimeAnswer(props.question.id, props.question.question, Number(event.target.value))}>
 
                 value=<AnswerProperties key={currentTimeAnswer} timeUnit={{

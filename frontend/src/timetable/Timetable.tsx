@@ -55,10 +55,10 @@ export default function Timetable() {
     return (
         <div>
             <h1 className="headline">Timetable</h1>
-
+            <div className="flex-container">
             <table className="table">
                 <thead>
-                <tr>
+                <tr className="flex-item">
                     <th>Time</th>
                     <th>Monday</th>
                     <th>Tuesday</th>
@@ -85,6 +85,7 @@ export default function Timetable() {
                 </tr>}
                 </tbody>
             </table>
+            </div>
         </div>
 
     );

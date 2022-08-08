@@ -1,0 +1,28 @@
+.startPage{
+    flex-flow: row wrap;
+
+    justify-content: space-around;
+
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.greeting{
+    font-size: 5em;
+    text-decoration-line: underline;
+    margin-left: auto;
+    width: 61%;
+}
+
+.navButton{
+    background: tomato;
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    margin-bottom: 20px;
+    line-height: 100%;
+    font-weight: bold;
+    font-size: 3em;
+    text-align: center;
+}

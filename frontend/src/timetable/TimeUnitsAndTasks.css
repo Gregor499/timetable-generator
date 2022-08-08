@@ -1,5 +1,17 @@
-th.timeUnits{
-    background-color: rgba(255, 158, 0, 0.68);
+tr.timeUnitsAndTasks{
+    background: tomato;
+
+    padding: 5px;
+    width: 80%;
+    height: 15px;
+    margin-top: 10px;
+    line-height: 15px;
+
+    color: black;
+    font-weight: bold;
+    font-family: "Apple Braille", serif;
+    font-size: 1em;
+    text-align: center;
 
 }
 

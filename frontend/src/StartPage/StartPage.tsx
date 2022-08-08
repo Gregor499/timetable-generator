@@ -2,6 +2,7 @@ import {NavLink} from "react-router-dom";
 import {FormEvent, useEffect, useState} from "react";
 import axios, {AxiosResponse} from "axios";
 import {postTimeUnitCreationData} from "../service/apiService";
+import "./StartPage.css"
 
 export default function StartPage() {
 
@@ -44,24 +45,24 @@ export default function StartPage() {
     }, [])
 
     return (
-        <div>
-            <h3>Hello {username}</h3>
+        <div className="startPage">
+            <h3 className="greeting">Hello {username}</h3>
             {errorMessage && <div>{errorMessage}</div>}
 
             <NavLink to={"/questions"}>
-                <button>Lets´s go !</button>
+                <button className="navButton">Lets´s go !</button>
             </NavLink>
 
             <NavLink to={"/register"}>
-                <button>register</button>
+                <button className="navButton">register</button>
             </NavLink>
 
             {!loginStatus && <NavLink to={"/login"}>
-                <button>login</button>
+                <button className="navButton">login</button>
             </NavLink>}
 
             {loginStatus && <form onSubmit={loginOut}>
-                <input type="submit" value="logout"/>
+                <input className="navButton" type="submit" value="logout"/>
             </form>
             }
 

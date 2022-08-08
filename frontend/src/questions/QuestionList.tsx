@@ -3,6 +3,8 @@ import {useEffect, useState} from "react";
 import {getQuestionList, getTimeAnswer} from "../service/apiService";
 import QuestionListComponent from "./QuestionListComponent";
 import {Question, TimeAnswer} from "../service/models";
+import "./QuestionList.css"
+
 
 export default function QuestionList() {
 
@@ -30,8 +32,9 @@ export default function QuestionList() {
             key={question.id} question={question} answers={allAnswers} answerCallback={onAnswer}/>)
 
 return (
-    <div>
-        <h1> Questions:</h1>
+    <body className="body">
+    <div className="questions">
+        <h1 className="questionHeadline"> Questions:</h1>
         {questions}
 
         {/*
@@ -52,8 +55,10 @@ return (
         <br/>
 
         <NavLink to={"/timetable"}>
-            <button>create</button>
+            <button className="createButton">create</button>
         </NavLink>
     </div>
+
+    </body>
 )
 }
