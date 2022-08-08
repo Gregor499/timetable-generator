@@ -1,5 +1,6 @@
 package com.example.demo.answerDB;
 
+import com.example.demo.timetable.TimeUnitService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,34 +13,14 @@ import static java.lang.Character.getNumericValue;
 @RequiredArgsConstructor
 public class TimeAnswerService {
     private final TimeAnswerRepository timeAnswerRepository;
+    private final TimeUnitService timeUnitService;
 
     public void addNewAnswer(TimeAnswer timeAnswer) {
         if (findByUserIdAndQuestionId(timeAnswer.getUserId(), timeAnswer.getQuestionId()).isPresent()) {
             timeAnswerRepository.delete(findByUserIdAndQuestionId(timeAnswer.getUserId(), timeAnswer.getQuestionId()).orElseThrow());
         }
-        int hours = 0;
-        int minutes;
-        for (int j = timeAnswer.timeInMinutes; j >= 60; j = j - 60) {
-            hours++;
-        }
-        minutes = timeAnswer.timeInMinutes - (60 * hours);
 
-        String hoursString;
-
-        if (hours / 10 < 1) {
-            hoursString = "0" + hours;
-        } else {
-            hoursString = hours + "";
-        }
-
-        String minutesString;
-
-        if (minutes / 10 < 1) {
-            minutesString = "0" + minutes;
-        } else {
-            minutesString = minutes + "";
-        }
-        timeAnswer.setTime(hoursString + ":" + minutesString);
+        timeAnswer.setTime(timeUnitService.timeInMinutesToTimeConverter(timeAnswer.timeInMinutes));
 
         timeAnswerRepository.save(timeAnswer);
     }

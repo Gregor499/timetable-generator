@@ -43,29 +43,7 @@ public class TimeUnitService {
             timeUnit1.setTimeInMinutes(nextTimeInMinutes);
 
             //converting back to "xx:xx" time
-            int hours = 0;
-            int minutes;
-            for (int j = nextTimeInMinutes; j >= 60; j = j - 60) {
-                hours++;
-            }
-            minutes = nextTimeInMinutes - (60 * hours);
-
-            String hoursString;
-
-            if (hours / 10 < 1) {
-                hoursString = "0" + hours;
-            } else {
-                hoursString = hours + "";
-            }
-
-            String minutesString;
-
-            if (minutes / 10 < 1) {
-                minutesString = "0" + minutes;
-            } else {
-                minutesString = minutes + "";
-            }
-            timeUnit1.setTime(hoursString + ":" + minutesString);
+            timeUnit1.setTime(timeInMinutesToTimeConverter(nextTimeInMinutes));
 
             //setting the timeUnit id to time
             timeUnit1.setId(timeUnit1.getTime());
@@ -73,6 +51,33 @@ public class TimeUnitService {
             b++;
         }
         return timeUnitMap.values().stream().toList();
+    }
+
+    public String timeInMinutesToTimeConverter(int minutes){
+        int hourCounter = 0;
+        int minuteCounter;
+        for (int j = minutes; j >= 60; j = j - 60) {
+            hourCounter++;
+        }
+        minuteCounter = minutes - (60 * hourCounter);
+
+        String hoursString;
+
+        if (hourCounter / 10 < 1) {
+            hoursString = "0" + hourCounter;
+        } else {
+            hoursString = hourCounter + "";
+        }
+
+        String minutesString;
+
+        if (minuteCounter / 10 < 1) {
+            minutesString = "0" + minuteCounter;
+        } else {
+            minutesString = minuteCounter + "";
+        }
+
+        return (hoursString + ":" + minutesString);
     }
 
     public void saveTimeUnitListInDb(List<TimeUnit> timeUnitList) {
