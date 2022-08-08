@@ -33,27 +33,6 @@ export const getTimeUnitList = () => {
         .then((response: AxiosResponse<TimeUnit[]>) => response.data)
 }
 
-
-/*export const postQuestionList = () => {
-    return axios.post("api/questions",[
-        {
-            "id": "1",
-            "questionId": "1",
-            "question": "sabusa?"
-        },
-        {
-            "id": "2",
-            "questionId": "2",
-            "question": "sabusava?"
-        }
-    ], {
-        headers: {
-            Authorization: `Bearer ${localStorage.getItem('jwt')}`
-        }
-    })
-        .then((response: AxiosResponse<Question[]>) => response.data)
-}*/
-
 export const getQuestionList = () => {
     return axios.get("api/questions", {
         headers: {

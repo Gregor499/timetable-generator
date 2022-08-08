@@ -1,6 +1,6 @@
 import {Question, TimeAnswer, TimeUnit} from "../service/models";
 import {useEffect, useState} from "react";
-import {getTimeAnswer, getTimeUnitList, postTimeAnswer} from "../service/apiService";
+import {getTimeUnitList, postTimeAnswer} from "../service/apiService";
 import AnswerProperties from "./AnswerProperties";
 import "./QuestionListComponent.css"
 

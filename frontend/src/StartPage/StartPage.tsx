@@ -1,5 +1,5 @@
 import {NavLink} from "react-router-dom";
-import {FormEvent, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import axios, {AxiosResponse} from "axios";
 import {postTimeUnitCreationData} from "../service/apiService";
 import "./StartPage.css"

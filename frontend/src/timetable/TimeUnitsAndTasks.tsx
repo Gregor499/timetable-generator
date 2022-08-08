@@ -1,6 +1,5 @@
 import "./TimeUnitsAndTasks.css"
 import {TimeUnit} from "../service/models";
-import {useState} from "react";
 
 interface TimeTableProps {
     timeUnit: TimeUnit
