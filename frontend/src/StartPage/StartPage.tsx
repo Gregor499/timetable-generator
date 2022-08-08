@@ -28,7 +28,7 @@ export default function StartPage() {
             setLoginStatus(false)
             setUsername("you are not logged in !")
         }
-    })
+    }, [token])
 
     const loginOut = () => {
         setLoginStatus(false)

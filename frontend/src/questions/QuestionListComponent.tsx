@@ -36,7 +36,7 @@ export default function QuestionListComponent(props: QuestionProps) {
         if (currentAnswer) {
             setCurrentTimeAnswer(currentAnswer.time!)
         }
-    })
+    }, [props.answers, props.question.id])
 
     const timeUnitsToChoose = timeUnitList.map(timeUnit => {
 
