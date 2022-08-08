@@ -36,7 +36,7 @@ export default function QuestionListComponent(props: QuestionProps) {
         if (currentAnswer) {
             setCurrentTimeAnswer(currentAnswer.time!)
         }
-    }, [])
+    })
 
     const timeUnitsToChoose = timeUnitList.map(timeUnit => {
 
@@ -59,7 +59,7 @@ export default function QuestionListComponent(props: QuestionProps) {
     return (
         <div className="question">
             <p>{props.question.question}</p>
-
+            {errorMessage && <div>{errorMessage}</div>}
             <label htmlFor="time">Time: </label>
 
             <select className="questionAnswer" name={props.question.type} id={props.question.id}

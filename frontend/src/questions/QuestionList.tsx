@@ -11,7 +11,6 @@ export default function QuestionList() {
     const [questionList, setQuestionList] = useState<Array<Question>>([])
     const [errorMessage, setErrorMessage] = useState("")
     const [allAnswers, setAllAnswers] = useState<Array<TimeAnswer>>([])
-    const [currentTimeAnswer, setCurrentTimeAnswer] = useState("XX:XX")
 
     useEffect(() => {
         getQuestionList()
@@ -35,6 +34,7 @@ return (
     <body className="body">
     <div className="questions">
         <h1 className="questionHeadline"> Questions:</h1>
+        {errorMessage && <div>{errorMessage}</div>}
         {questions}
 
         {/*
