@@ -36,11 +36,12 @@ public class TimeTableGeneratorIntegrationTest {
                 TimeUnit[].class
         );
 
-        TimeUnit[] timeUnitList = createResponse.getBody();
-        assertThat(createResponse.getBody()[0].getTime()).isEqualTo("01:00");
-        assertThat(createResponse.getBody()[0].getLength()).isEqualTo(1);
-        assertThat(createResponse.getBody()[0].getEnd()).isEqualTo("02:00");
-        assertThat(createResponse.getBody()[0].getTimeInMinutes()).isEqualTo(60);
+        TimeUnit timeUnit = createResponse.getBody()[0];
+
+        assertThat(timeUnit.getTime()).isEqualTo("01:00");
+        assertThat(timeUnit.getLength()).isEqualTo(1);
+        assertThat(timeUnit.getEnd()).isEqualTo("02:00");
+        assertThat(timeUnit.getTimeInMinutes()).isEqualTo(60);
     }
 
     private HttpHeaders createHeaders(String jwt) {
