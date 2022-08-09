@@ -19,4 +19,11 @@ public class Question {
     int order;
     String type;
     String previousQuestionId;
+
+    public Question(String id, String question, int order, String type) {
+        this.id = id;
+        this.question = question;
+        this.order = order;
+        this.type = type;
+    }
 }

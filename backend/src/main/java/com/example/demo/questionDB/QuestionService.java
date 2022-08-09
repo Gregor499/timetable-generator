@@ -11,7 +11,7 @@ import java.util.List;
     public class QuestionService {
         private final QuestionRepository questionRepository;
 
-        public void addNewQuestion(Question question) {
+        public Question addNewQuestion(Question question) {
             if(question.order > 1) {
                 question.setPreviousQuestionId(questionRepository.findQuestionByOrder(question.order-1).orElseThrow().id);
                 questionRepository.save(question);
@@ -19,6 +19,7 @@ import java.util.List;
             else {
                 questionRepository.save(question);
             }
+            return question;
         }
 
         public List<Question> findAll(){

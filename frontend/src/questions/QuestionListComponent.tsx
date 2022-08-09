@@ -47,10 +47,11 @@ export default function QuestionListComponent(props: QuestionProps) {
             if (previousQuestionAnswer) {
                 if (timeUnit.timeInMinutes! >= previousQuestionAnswer.timeInMinutes) {
                     return <AnswerProperties key={timeUnit.id} timeUnit={timeUnit}/>;
+                } else {
+                    throw new Error("test")
                 }
             } else {
                 return <AnswerProperties key={timeUnit.id} timeUnit={timeUnit}/>;
-
             }
         }
 

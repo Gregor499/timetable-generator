@@ -23,7 +23,7 @@ export default function Timetable() {
     let maxStart = 0
     let maxEnd = 24 * 60
 
-    processedTimeAnswerList.map(processedTimeAnswer => {
+    processedTimeAnswerList.forEach(processedTimeAnswer => {
         if (processedTimeAnswer.task.includes("morningSleep")) {
             maxStart = (Number(processedTimeAnswer.timeList[0].charAt(0)) * 600 + Number(processedTimeAnswer.timeList[0].charAt(1)) * 60 + Number(processedTimeAnswer.timeList[0].charAt(3)) * 10
                 + Number(processedTimeAnswer.timeList[0].charAt(5)))
@@ -40,15 +40,16 @@ export default function Timetable() {
         if (timeUnit.timeInMinutes! >= maxStart && timeUnit.timeInMinutes! <= maxEnd) {
             let task = ""
 
-            processedTimeAnswerList.map(processedTimeAnswer => {
-                processedTimeAnswer.timeList.map(time => {
+            processedTimeAnswerList.forEach(processedTimeAnswer => {
+                processedTimeAnswer.timeList.forEach(time => {
                     if (time.includes(timeUnit.time)) {
                         task = (processedTimeAnswer.task)
                     }
                 })
             })
-
             return <TimeUnitsAndTasks key={timeUnit.id} timeUnit={timeUnit} task={task}/>
+        } else{
+            throw new Error("test")
         }
     })
 
