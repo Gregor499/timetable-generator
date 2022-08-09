@@ -26,20 +26,21 @@ public class TimeTableGeneratorIntegrationTest {
         ResponseEntity<Void> userCreationResponse = restTemplate.postForEntity("/api/users", new UserCreationData("user", "pw", "pw"), Void.class);
         assertThat(userCreationResponse.getStatusCode()).isEqualTo(HttpStatus.CREATED);
 
-        ResponseEntity<LoginResponse> loginResponse = restTemplate.postForEntity("api/auth/login", new LoginData("user", "pw"), LoginResponse.class);
+        ResponseEntity<LoginResponse> loginResponse = restTemplate.postForEntity("/api/auth/login", new LoginData("user", "pw"), LoginResponse.class);
         String jwt = loginResponse.getBody().getJwt();
 
-        ResponseEntity<TimeUnit> createResponse = restTemplate.exchange(
+        ResponseEntity <TimeUnit[]> createResponse = restTemplate.exchange(
                 "/api/time",
                 HttpMethod.POST,
-                new HttpEntity<>(new TimeUnit("a", "01:00", 1, "02:00", 1), createHeaders(jwt)),
-                TimeUnit.class
+                new HttpEntity<>(new TimeUnit(null, "01:00", 1, "02:00", 0), createHeaders(jwt)),
+                TimeUnit[].class
         );
 
-        TimeUnit timeUnit = createResponse.getBody();
-        assertThat(createResponse.getBody()).isEqualTo(timeUnit);
-
-
+        TimeUnit[] timeUnitList = createResponse.getBody();
+        assertThat(createResponse.getBody()[0].getTime()).isEqualTo("01:00");
+        assertThat(createResponse.getBody()[0].getLength()).isEqualTo(1);
+        assertThat(createResponse.getBody()[0].getEnd()).isEqualTo("02:00");
+        assertThat(createResponse.getBody()[0].getTimeInMinutes()).isEqualTo(60);
     }
 
     private HttpHeaders createHeaders(String jwt) {
