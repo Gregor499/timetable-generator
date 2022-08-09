@@ -38,24 +38,24 @@ export default function QuestionListComponent(props: QuestionProps) {
         }
     }, [props.answers, props.question.id])
 
-    const timeUnitsToChoose = timeUnitList.map(timeUnit => {
-
-        if (!props.question.previousQuestionId) {
-            return <AnswerProperties key={timeUnit.id} timeUnit={timeUnit}/>;
-        } else {
-            const previousQuestionAnswer = props.answers.find(answer => answer.questionId === props.question.previousQuestionId)
-            if (previousQuestionAnswer) {
-                if (timeUnit.timeInMinutes! >= previousQuestionAnswer.timeInMinutes) {
-                    return <AnswerProperties key={timeUnit.id} timeUnit={timeUnit}/>;
-                } else {
-                    throw new Error("test")
-                }
+    const timeUnitsToChoose = timeUnitList
+        .filter(timeUnit => {
+            if (!props.question.previousQuestionId) {
+                return true;
             } else {
-                return <AnswerProperties key={timeUnit.id} timeUnit={timeUnit}/>;
+                const previousQuestionAnswer = props.answers.find(answer => answer.questionId === props.question.previousQuestionId)
+                if (previousQuestionAnswer) {
+                    if (timeUnit.timeInMinutes! >= previousQuestionAnswer.timeInMinutes) {
+                        return true;
+                    } else {
+                        return false
+                    }
+                } else {
+                    return true;
+                }
             }
-        }
-
-    })
+        })
+        .map(timeUnit => <AnswerProperties key={timeUnit.id} timeUnit={timeUnit}/>)
 
     return (
         <div className="question">
