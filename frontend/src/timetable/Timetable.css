@@ -3,8 +3,7 @@
     flex-flow: row wrap;
     justify-content: stretch;
 
-    padding: 10px;
-    width: 80%;
+    width: 100%;
 
     list-style: none;
 
@@ -41,4 +40,13 @@ table, th, td {
     border: thin solid;
     border-collapse: collapse;
     table-layout: auto;
+}
+
+.table {
+    width: calc(100vw - 20px);
+    margin: auto;
+}
+
+body {
+    margin: 30px;
 }
