@@ -31,7 +31,7 @@ export default function QuestionList() {
             key={question.id} question={question} answers={allAnswers} answerCallback={onAnswer}/>)
 
 return (
-    <body className="body">
+    <div className="body">
     <div className="questions">
         <h1 className="questionHeadline"> Questions:</h1>
         {errorMessage && <div>{errorMessage}</div>}
@@ -59,6 +59,6 @@ return (
         </NavLink>
     </div>
 
-    </body>
+    </div>
 )
 }

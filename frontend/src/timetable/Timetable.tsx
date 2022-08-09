@@ -36,8 +36,9 @@ export default function Timetable() {
         }
     })
 
-    const timeUnitsAndTasks = timeUnitList.map(timeUnit => {
-        if (timeUnit.timeInMinutes! >= maxStart && timeUnit.timeInMinutes! <= maxEnd) {
+    const timeUnitsAndTasks = timeUnitList
+        .filter(timeUnit => timeUnit.timeInMinutes! >= maxStart && timeUnit.timeInMinutes! <= maxEnd)
+        .map(timeUnit => {
             let task = ""
 
             processedTimeAnswerList.forEach(processedTimeAnswer => {
@@ -48,44 +49,41 @@ export default function Timetable() {
                 })
             })
             return <TimeUnitsAndTasks key={timeUnit.id} timeUnit={timeUnit} task={task}/>
-        } else{
-            throw new Error("test")
-        }
-    })
+        })
 
     return (
         <div>
             <h1 className="headline">Timetable</h1>
             <div className="flex-container">
-            <table className="table">
-                <thead>
-                <tr className="flex-item">
-                    <th>Time</th>
-                    <th>Monday</th>
-                    <th>Tuesday</th>
-                    <th>Wednesday</th>
-                    <th>Thursday</th>
-                    <th>Friday</th>
-                    <th>Saturday</th>
-                    <th>Sunday</th>
-                </tr>
-                </thead>
+                <table className="table">
+                    <thead>
+                    <tr className="flex-item">
+                        <th>Time</th>
+                        <th>Monday</th>
+                        <th>Tuesday</th>
+                        <th>Wednesday</th>
+                        <th>Thursday</th>
+                        <th>Friday</th>
+                        <th>Saturday</th>
+                        <th>Sunday</th>
+                    </tr>
+                    </thead>
 
-                <tbody>
-                {timeUnitsAndTasks}
+                    <tbody>
+                    {timeUnitsAndTasks}
 
-                {errorMessage && <tr>
-                    <th>{errorMessage}</th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                </tr>}
-                </tbody>
-            </table>
+                    {errorMessage && <tr>
+                        <th>{errorMessage}</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>}
+                    </tbody>
+                </table>
             </div>
         </div>
 
