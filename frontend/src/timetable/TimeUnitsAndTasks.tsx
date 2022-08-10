@@ -15,8 +15,8 @@ export default function TimeUnitsAndTasks(props: TimeTableProps) {
             <th className={props.task}>{props.task}</th>
             <th className={props.task}>{props.task}</th>
             <th className={props.task}>{props.task}</th>
-            <th></th>
-            <th></th>
+            <th className="weekend"></th>
+            <th className="weekend"></th>
         </tr>
     )
 }

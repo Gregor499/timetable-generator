@@ -1,49 +1,60 @@
-.body{
+.body {
     margin: auto;
     background-color: rgba(255, 204, 0, 0.73);
     display: flex;
     justify-content: stretch;
 
-    padding-top: 5%;
     padding-bottom: 22%;
 
-    font-family: "Apple Braille", serif;
+    font-family: "Roboto Light", serif;
 
     width: 100%;
 }
 
-.content{
+
+.content {
     width: 70%;
+
     margin: auto;
-
-    flex-flow: row wrap;
-
-
-    padding: 0;
-    list-style: none;
-
-    display: flex;
+    margin-top: 0;
     flex-flow: column;
 
-    font-family: "Apple Braille", serif;
 
 }
 
-.greeting{
-    font-size: 4.5em;
+.timetableGenerator {
+    margin-bottom: 8%;
+    font-size: 5em;
     text-decoration-line: underline;
-    margin: auto;
-    padding-bottom: 7%;
+    text-align: center;
+    font-family: "Roboto Light", serif;
 }
 
-.navButton{
-    background-color: tomato;
-    width: 80%;
-    height: 100%;
-    margin: auto;
-    margin-bottom: 20px;
-    line-height: 100%;
-    font-weight: bold;
+.greeting {
+    margin-bottom: 6%;
     font-size: 3em;
     text-align: center;
+    font-family: "Roboto Light", serif;
+}
+
+.selectionBox {
+    text-decoration: none;
+}
+
+.navButton {
+    display: inline;
+    justify-content: center;
+
+    background-color: tomato;
+    width: 40%;
+    margin-bottom: 40px;
+    margin-left: 30%;
+
+    font-weight: normal;
+    font-size: 3em;
+    text-align: center;
+    font-family: "Roboto Light", serif;
+
+    border-style: solid;
+    border-color: #656565;
 }

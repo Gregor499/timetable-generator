@@ -47,7 +47,7 @@ public class ProcessedTimeAnswerService {
                 timeAnswerService.findByUserIdAndQuestion(userId, "When do you want to wake up ?").orElseThrow().getTime());
 
         safeProcessedAnswer("morningRoutine", "#DF7401", userId, timeAnswerService.findByUserIdAndQuestion(userId, "When do you want to wake up ?").orElseThrow().getTime(),
-                timeAnswerService.findByUserIdAndQuestion(userId, "Until then do you need to be ready for the day?").orElseThrow().getTime());
+                timeAnswerService.findByUserIdAndQuestion(userId, "When are you ready for the day?").orElseThrow().getTime());
 
         safeProcessedAnswer("workWayTime", "#DF7401", userId, timeAnswerService.findByUserIdAndQuestion(userId, "When do you want to begin going to work ?").orElseThrow().getTime(),
                 timeAnswerService.findByUserIdAndQuestion(userId, "When does your work start ?").orElseThrow().getTime());
