@@ -45,27 +45,28 @@ export default function StartPage() {
     }, [])
 
     return (
-        <div className="startPage">
-            <h3 className="greeting">Hello {username}</h3>
-            {errorMessage && <div>{errorMessage}</div>}
+        <div className="body">
+            <div className="content">
+                <h3 className="greeting">Hello {username}</h3>
+                {errorMessage && <div>{errorMessage}</div>}
 
-            <NavLink to={"/questions"}>
-                <button className="navButton">Lets´s go !</button>
-            </NavLink>
+                <NavLink to={"/questions"}>
+                    <button className="navButton">Lets´s go !</button>
+                </NavLink>
 
-            <NavLink to={"/register"}>
-                <button className="navButton">register</button>
-            </NavLink>
+                <NavLink to={"/register"}>
+                    <button className="navButton">register</button>
+                </NavLink>
 
-            {!loginStatus && <NavLink to={"/login"}>
-                <button className="navButton">login</button>
-            </NavLink>}
+                {!loginStatus && <NavLink to={"/login"}>
+                    <button className="navButton">login</button>
+                </NavLink>}
 
-            {loginStatus && <form onSubmit={loginOut}>
-                <input className="navButton" type="submit" value="logout"/>
-            </form>
-            }
-
+                {loginStatus && <form onSubmit={loginOut}>
+                    <input className="navButton" type="submit" value="logout"/>
+                </form>
+                }
+            </div>
         </div>
     );
 }

@@ -1,6 +1,8 @@
 import {FormEvent, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {loginUser} from "../service/apiService";
+import "./LoginAndRegister.css"
+
 
 export default function Login() {
 
@@ -19,12 +21,12 @@ export default function Login() {
     }
 
     return (
-        <div>
-            <h3>Login</h3>
-            <form  onSubmit={login}>
-                <input type="text" value={username} onChange={event => setUsername(event.target.value)} placeholder="username"/>
-                <input type="password" value={password} onChange={event => setPassword(event.target.value)} placeholder="password"/>
-                <input type="submit" value="Login"/>
+        <div className="page">
+            <h3 className="heading">Login</h3>
+            <form onSubmit={login}>
+                <input className="inputField" type="text" value={username} onChange={event => setUsername(event.target.value)} placeholder="username"/>
+                <input className="inputField" type="password" value={password} onChange={event => setPassword(event.target.value)} placeholder="password"/>
+                <input className="submitButton" type="submit" value="Login"/>
                 {errorMessage && <div>{errorMessage}</div>}
             </form>
         </div>

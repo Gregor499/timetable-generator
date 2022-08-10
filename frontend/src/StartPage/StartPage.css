@@ -1,18 +1,38 @@
-.startPage{
+.body{
+    margin: auto;
+    background-color: rgba(255, 204, 0, 0.73);
+    display: flex;
+    justify-content: stretch;
+
+    padding-top: 5%;
+    padding-bottom: 22%;
+
+    font-family: "Apple Braille", serif;
+
+    width: 100%;
+}
+
+.content{
+    width: 70%;
+    margin: auto;
+
     flex-flow: row wrap;
 
-    justify-content: space-around;
 
     padding: 0;
-    margin: 0;
     list-style: none;
+
+    display: flex;
+    flex-flow: column;
+
+    font-family: "Apple Braille", serif;
+
 }
 
 .greeting{
-    font-size: 5em;
+    font-size: 4.5em;
     text-decoration-line: underline;
-    margin-left: auto;
-    width: 61%;
+    margin: auto;
 }
 
 .navButton{
