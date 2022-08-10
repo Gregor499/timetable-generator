@@ -48,7 +48,7 @@ export default function StartPage() {
         <div className="body">
             <div className="content">
                 <h3 className="timetableGenerator">Timetable Generator</h3>
-                <h3 className="greeting">Hello{", " + username + "!"}</h3>
+                <h3 className="greeting">Hello{", " + username + " !"}</h3>
 
                 {errorMessage && <div>{errorMessage}</div>}
                 <div className="row">
