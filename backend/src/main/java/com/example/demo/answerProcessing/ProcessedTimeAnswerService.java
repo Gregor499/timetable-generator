@@ -71,29 +71,7 @@ public class ProcessedTimeAnswerService {
             shortenedTime = 0;
         }
 
-        int hours = 0;
-        int minutes;
-        for (int j = shortenedTime; j >= 60; j = j - 60) {
-            hours++;
-        }
-        minutes = shortenedTime - (60 * hours);
-
-        String hoursString;
-
-        if (hours / 10 < 1) {
-            hoursString = "0" + hours;
-        } else {
-            hoursString = hours + "";
-        }
-
-        String minutesString;
-
-        if (minutes / 10 < 1) {
-            minutesString = "0" + minutes;
-        } else {
-            minutesString = minutes + "";
-        }
-        return hoursString + ":" + minutesString;
+        return timeUnitService.timeInMinutesToTimeConverter(shortenedTime);
     }
 
     public String eveningTimeShorter(int begin) {
