@@ -26,7 +26,7 @@ export default function Register() {
                        placeholder="username"/>
                 <input type="password" value={password} onChange={event => setPassword(event.target.value)}
                         placeholder="password"/>
-                <input type="passwordRepeat" value={passwordRepeat}
+                <input type="password" value={passwordRepeat}
                        onChange={event => setPasswordRepeat(event.target.value)}
                         placeholder={"repeat password"}/>
                 <input type="submit" value="Register"/>

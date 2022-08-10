@@ -1,24 +1,22 @@
-package com.example.demo.user;
+package com.example.demo.timetable;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.List;
+@Document(collection = "timeUnits")
 
-@Document(collection = "user")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class TimeUnit {
     @Id
     private String id;
-    @Indexed(unique = true)
-    private String username;
-    private String password;
-    private List<String> roles;
+    private String time;
+    private int length;
+    private String end;
+    private int timeInMinutes;
 }

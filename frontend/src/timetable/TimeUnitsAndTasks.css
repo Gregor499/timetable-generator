@@ -1,0 +1,62 @@
+tr.timeUnitsAndTasks{
+    background: tomato;
+
+    padding: 5px;
+    width: 80%;
+    height: 15px;
+    margin-top: 10px;
+    line-height: 15px;
+
+    color: black;
+    font-weight: bold;
+    font-family: "Apple Braille", serif;
+    font-size: 1em;
+    text-align: center;
+
+}
+
+th{
+    background-color: rgba(255, 158, 0, 0.68);
+}
+
+th.morningSleep{
+    border-bottom: none;
+    border-top: none;
+    background-color: rgba(134, 134, 134, 0.3);
+}
+
+th.morningRoutine{
+    border-bottom: none;
+    border-top: none;
+    background-color: rgba(142, 255, 148, 0.71);
+}
+
+th.workWayTime{
+    border-bottom: none;
+    border-top: none;
+    background-color: rgba(48, 163, 255, 0.51);
+}
+
+th.work{
+    border-bottom: none;
+    border-top: none;
+    background-color: rgba(17, 128, 255, 0.65);
+}
+
+th.leisureTime{
+    border-bottom: none;
+    border-top: none;
+    background-color: rgba(255, 228, 11, 0.64);
+}
+
+th.eveningRoutine{
+    border-bottom: none;
+    border-top: none;
+    background-color: rgba(148, 85, 255, 0.5);
+}
+
+th.nightSleep{
+    border-bottom: none;
+    border-top: none;
+    background-color: rgba(134, 134, 134, 0.3);
+}

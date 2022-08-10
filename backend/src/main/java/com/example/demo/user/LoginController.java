@@ -30,7 +30,7 @@ public class LoginController {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginData.getUsername(), loginData.getPassword()));
             User user = userService.findByUsername(loginData.getUsername()).orElseThrow();
             HashMap<String, Object> roles = new HashMap<>();
-            roles.put("userRole", "user");
+            roles.put("userRole", user.getRoles());
             //roles.put("adminRole", "admin");
             String jwt = jwtService.createJwt(roles, user.getId());
             return ResponseEntity.ok(new LoginResponse(jwt));
