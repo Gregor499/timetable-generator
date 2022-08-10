@@ -33,11 +33,12 @@
     font-size: 4.5em;
     text-decoration-line: underline;
     margin: auto;
+    padding-bottom: 7%;
 }
 
 .navButton{
-    background: tomato;
-    width: 100%;
+    background-color: tomato;
+    width: 80%;
     height: 100%;
     margin: auto;
     margin-bottom: 20px;
