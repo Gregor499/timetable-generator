@@ -1,6 +1,8 @@
 import {FormEvent, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {registerUser} from "../service/apiService";
+import "./LoginAndRegister.css"
+
 
 export default function Register() {
 
@@ -19,17 +21,17 @@ export default function Register() {
     }
 
     return (
-        <div>
-            <h3>Registration</h3>
+        <div className="page">
+            <h3 className="heading">Registration</h3>
             <form onSubmit={register}>
-                <input type="text" value={username} onChange={event => setUsername(event.target.value)}
+                <input className="inputField" type="text" value={username} onChange={event => setUsername(event.target.value)}
                        placeholder="username"/>
-                <input type="password" value={password} onChange={event => setPassword(event.target.value)}
+                <input className="inputField" type="password" value={password} onChange={event => setPassword(event.target.value)}
                         placeholder="password"/>
-                <input type="password" value={passwordRepeat}
+                <input className="inputField" type="password" value={passwordRepeat}
                        onChange={event => setPasswordRepeat(event.target.value)}
                         placeholder={"repeat password"}/>
-                <input type="submit" value="Register"/>
+                <input className="submitButton" type="submit" value="Register"/>
                 {errorMessage && <div> {errorMessage}
                 </div>
                 }

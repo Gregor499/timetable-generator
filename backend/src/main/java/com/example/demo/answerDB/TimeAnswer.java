@@ -12,10 +12,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 public class TimeAnswer {
     @Id
-    String id;
-    String userId;
-    String questionId;
-    String question;
-    String time;
-    int timeInMinutes;
+    private String id;
+    private String userId;
+    private String questionId;
+    private String question;
+    private String time;
+    private int timeInMinutes;
 }

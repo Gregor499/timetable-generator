@@ -9,15 +9,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.List;
 
 @Data
-@Document("processedAnswers")
+@Document("processedTimeAnswers")
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProcessedTimeAnswer {
     @Id
-    String id;
-    String task;
-    String color;
-    String userId;
-    List<String> timeList;
-    //String weekday;
+    private String id;
+    private String task;
+    private String color;
+    private String userId;
+    private List<String> timeList;
 }

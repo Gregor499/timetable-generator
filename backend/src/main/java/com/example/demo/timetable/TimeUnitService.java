@@ -34,7 +34,7 @@ public class TimeUnitService {
 
         int nextTimeInMinutes = timeInMinutes;
 
-        int b = 1;
+        int mapKeyCounter = 1;
 
         //adding the desired length
         for (int i = endInMinutes; i > timeInMinutes; i = i - timeUnit.getLength()) {
@@ -47,8 +47,8 @@ public class TimeUnitService {
 
             //setting the timeUnit id to time
             timeUnit1.setId(timeUnit1.getTime());
-            timeUnitMap.put(b, timeUnit1);
-            b++;
+            timeUnitMap.put(mapKeyCounter, timeUnit1);
+            mapKeyCounter++;
         }
         return timeUnitMap.values().stream().toList();
     }

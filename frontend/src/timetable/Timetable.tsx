@@ -52,7 +52,7 @@ export default function Timetable() {
         })
 
     return (
-        <div>
+        <>
             <h1 className="headline">Timetable</h1>
             <div className="flex-container">
                 <table className="table">
@@ -85,7 +85,7 @@ export default function Timetable() {
                     </tbody>
                 </table>
             </div>
-        </div>
+        </>
 
     );
 }

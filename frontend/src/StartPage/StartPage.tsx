@@ -45,27 +45,33 @@ export default function StartPage() {
     }, [])
 
     return (
-        <div className="startPage">
-            <h3 className="greeting">Hello {username}</h3>
-            {errorMessage && <div>{errorMessage}</div>}
+        <div className="body">
+            <div className="content">
+                <h3 className="timetableGenerator">Timetable Generator</h3>
+                <h3 className="greeting">Hello{", " + username + "!"}</h3>
 
-            <NavLink to={"/questions"}>
-                <button className="navButton">Lets´s go !</button>
-            </NavLink>
+                {errorMessage && <div>{errorMessage}</div>}
+                <div className="row">
+                    <NavLink className="selectionBox" to={"/questions"}>
+                        <button className="navButton">Lets´s create !</button>
+                    </NavLink>
 
-            <NavLink to={"/register"}>
-                <button className="navButton">register</button>
-            </NavLink>
+                    <NavLink className="selectionBox" to={"/register"}>
+                        <button className="navButton">register</button>
+                    </NavLink>
 
-            {!loginStatus && <NavLink to={"/login"}>
-                <button className="navButton">login</button>
-            </NavLink>}
+                    {!loginStatus && <NavLink className="selectionBox" to={"/login"}>
+                        <button className="navButton">login</button>
+                    </NavLink>}
 
-            {loginStatus && <form onSubmit={loginOut}>
-                <input className="navButton" type="submit" value="logout"/>
-            </form>
-            }
-
+                    {loginStatus && <div className="selectionBox">
+                        <form onSubmit={loginOut}>
+                            <input className="navButton" type="submit" value="logout"/>
+                        </form>
+                    </div>
+                    }
+                </div>
+            </div>
         </div>
     );
 }

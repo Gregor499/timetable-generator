@@ -47,7 +47,7 @@ public class ProcessedTimeAnswerService {
                 timeAnswerService.findByUserIdAndQuestion(userId, "When do you want to wake up ?").orElseThrow().getTime());
 
         safeProcessedAnswer("morningRoutine", "#DF7401", userId, timeAnswerService.findByUserIdAndQuestion(userId, "When do you want to wake up ?").orElseThrow().getTime(),
-                timeAnswerService.findByUserIdAndQuestion(userId, "Until then do you need to be ready for the day?").orElseThrow().getTime());
+                timeAnswerService.findByUserIdAndQuestion(userId, "When are you ready for the day?").orElseThrow().getTime());
 
         safeProcessedAnswer("workWayTime", "#DF7401", userId, timeAnswerService.findByUserIdAndQuestion(userId, "When do you want to begin going to work ?").orElseThrow().getTime(),
                 timeAnswerService.findByUserIdAndQuestion(userId, "When does your work start ?").orElseThrow().getTime());
@@ -71,29 +71,7 @@ public class ProcessedTimeAnswerService {
             shortenedTime = 0;
         }
 
-        int hours = 0;
-        int minutes;
-        for (int j = shortenedTime; j >= 60; j = j - 60) {
-            hours++;
-        }
-        minutes = shortenedTime - (60 * hours);
-
-        String hoursString;
-
-        if (hours / 10 < 1) {
-            hoursString = "0" + hours;
-        } else {
-            hoursString = hours + "";
-        }
-
-        String minutesString;
-
-        if (minutes / 10 < 1) {
-            minutesString = "0" + minutes;
-        } else {
-            minutesString = minutes + "";
-        }
-        return hoursString + ":" + minutesString;
+        return timeUnitService.timeInMinutesToTimeConverter(shortenedTime);
     }
 
     public String eveningTimeShorter(int begin) {

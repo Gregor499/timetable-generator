@@ -3,8 +3,7 @@
     flex-flow: row wrap;
     justify-content: stretch;
 
-    padding: 10px;
-    width: 80%;
+    width: 100%;
 
     list-style: none;
 
@@ -21,14 +20,14 @@
 
     color: black;
     font-weight: bold;
-    font-family: "Apple Braille", serif;
+    font-family: "Roboto Light", serif;
     font-size: 2em;
     text-align: center;
 }
 
 .headline{
     font-weight: bold;
-    font-family: "Apple Braille", serif;
+    font-family: "Roboto Light", serif;
     font-size: 4em;
     text-align: center;
     text-decoration-line: underline;
@@ -41,4 +40,15 @@ table, th, td {
     border: thin solid;
     border-collapse: collapse;
     table-layout: auto;
+    font-family: "Roboto Light", serif;
+
+}
+
+.table {
+    width: calc(100vw - 20px);
+    margin: auto;
+}
+
+body {
+    margin: 30px;
 }

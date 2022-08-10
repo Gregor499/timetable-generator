@@ -1,0 +1,32 @@
+html{
+    height: 100%
+}
+
+.page{
+    margin: auto;
+    background-color: rgba(255, 204, 0, 0.45);
+    display: flex;
+    flex-flow: column;
+    justify-content: stretch;
+    font-family: "Roboto Light", serif;
+    padding-top: 5%;
+    padding-bottom: 22%;
+    width: 100%;
+}
+
+.heading{
+    font-size: 5em;
+    text-decoration-line: underline;
+    margin-left: auto;
+    width: 61%;
+}
+
+.inputField{
+    font-size: 2em;
+
+}
+
+.submitButton{
+    font-size: 2em;
+    margin: auto;
+}
