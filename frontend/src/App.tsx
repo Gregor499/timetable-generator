@@ -1,5 +1,5 @@
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import StartPage from "./StartPage/StartPage";
+import StartPage from "./startpage/StartPage";
 import Timetable from "./timetable/Timetable";
 import Register from "./security/Register";
 import Login from "./security/Login";

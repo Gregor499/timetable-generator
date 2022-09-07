@@ -26,7 +26,7 @@ export default function StartPage() {
 
         if (token == null) {
             setLoginStatus(false)
-            setUsername("you are not logged in !")
+            setUsername("you are not logged in ")
         }
     }, [token])
 
