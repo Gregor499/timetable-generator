@@ -12,7 +12,7 @@ interface QuestionProps {
 
 export default function QuestionListComponent(props: QuestionProps) {
     const [timeUnitList, setTimeUnitList] = useState<Array<TimeUnit>>([])
-    const [currentTimeAnswer, setCurrentTimeAnswer] = useState("XX:XX")
+    const [currentTimeAnswer, setCurrentTimeAnswer] = useState<string>()
 
     const [errorMessage, setErrorMessage] = useState("")
 
@@ -35,6 +35,8 @@ export default function QuestionListComponent(props: QuestionProps) {
         const currentAnswer = props.answers.find(answer => answer.questionId === props.question.id)
         if (currentAnswer) {
             setCurrentTimeAnswer(currentAnswer.time!)
+        } else {
+            setCurrentTimeAnswer("XX:XX")
         }
     }, [props.answers, props.question.id])
 
@@ -45,11 +47,9 @@ export default function QuestionListComponent(props: QuestionProps) {
             } else {
                 const previousQuestionAnswer = props.answers.find(answer => answer.questionId === props.question.previousQuestionId)
                 if (previousQuestionAnswer) {
-                    if (timeUnit.timeInMinutes! >= previousQuestionAnswer.timeInMinutes) {
-                        return true;
-                    } else {
-                        return false
-                    }
+                    const currentTimeAnswerInMinutes = (Number(currentTimeAnswer![0].charAt(0)) * 600 + Number(currentTimeAnswer![0].charAt(1)) * 60 + Number(currentTimeAnswer![0].charAt(3)) * 10
+                        + Number(currentTimeAnswer![0].charAt(5)));
+                    return (timeUnit.timeInMinutes! >= previousQuestionAnswer.timeInMinutes) && timeUnit.timeInMinutes !== currentTimeAnswerInMinutes;
                 } else {
                     return true;
                 }
@@ -67,7 +67,7 @@ export default function QuestionListComponent(props: QuestionProps) {
                     onChange={event => setTimeAnswer(props.question.id, props.question.question, Number(event.target.value))}>
 
                 value=<AnswerProperties key={currentTimeAnswer} timeUnit={{
-                time: currentTimeAnswer,
+                time: currentTimeAnswer + "",
                 length: 15,
                 end: "24:00"
             }}/>

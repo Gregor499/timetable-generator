@@ -36,4 +36,8 @@ public class TimeAnswerService {
     public Optional<TimeAnswer> findByUserIdAndQuestion(String userId, String question) {
         return timeAnswerRepository.findByUserIdAndQuestion(userId, question);
     }
+
+    public void deleteAllAnswers() {
+        timeAnswerRepository.deleteAll();
+    }
 }

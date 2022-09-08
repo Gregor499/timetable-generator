@@ -29,6 +29,8 @@ public class ProcessedTimeAnswerService {
 
         timeAnswerProcessing(userId);
 
+        timeAnswerService.deleteAllAnswers();
+
         return processedAnswerRepository.getProcessedAnswerListByUserId(userId);
     }
 
