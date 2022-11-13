@@ -1,7 +1,7 @@
-import {Question, TimeAnswer, TimeUnit} from "../service/models";
+import {Question, TimeAnswer, TimeUnit, WorkdayAnswer} from "../service/models";
 import {useEffect, useState} from "react";
-import {getTimeUnitList, postTimeAnswer} from "../service/apiService";
-import AnswerProperties from "./AnswerProperties";
+import {getTimeUnitList, postTimeAnswer, postWorkdayAnswer} from "../service/apiService";
+import TimeAnswerProperties from "./TimeAnswerProperties";
 import "./QuestionListComponent.css"
 
 interface QuestionProps {
@@ -13,6 +13,7 @@ interface QuestionProps {
 export default function QuestionListComponent(props: QuestionProps) {
     const [timeUnitList, setTimeUnitList] = useState<Array<TimeUnit>>([])
     const [currentTimeAnswer, setCurrentTimeAnswer] = useState<string>()
+    const [currentWorkdayAnswer, setCurrentWorkdayAnswer] = useState<string>()
 
     const [errorMessage, setErrorMessage] = useState("")
 
@@ -26,6 +27,24 @@ export default function QuestionListComponent(props: QuestionProps) {
             .then(() => props.answerCallback())
             .catch(() => setErrorMessage("error posting answer"))
     }
+
+        const setWorkdayAnswer = (questionId: string, question: string, workdays: Array<boolean>) => {
+            const workdayAnswer: WorkdayAnswer = {
+                questionId: questionId,
+                question: question,
+                monday: workdays[0],
+                tuesday: workdays[1],
+                wednesday: workdays[2],
+                thursday: workdays[3],
+                friday: workdays[4],
+                saturday: workdays[5],
+                sunday: workdays[6]
+
+            }
+            postWorkdayAnswer(workdayAnswer)
+                .then(() => props.answerCallback())
+                .catch(() => setErrorMessage("error posting answer"))
+        }
 
     useEffect(() => {
         getTimeUnitList()
@@ -55,18 +74,19 @@ export default function QuestionListComponent(props: QuestionProps) {
                 }
             }
         })
-        .map(timeUnit => <AnswerProperties key={timeUnit.id} timeUnit={timeUnit}/>)
+        .map(timeUnit => <TimeAnswerProperties key={timeUnit.id} timeUnit={timeUnit}/>)
 
     return (
+    <div>
         <div className="question">
             <p>{props.question.question}</p>
             {errorMessage && <div>{errorMessage}</div>}
-            <label htmlFor="time">Time: </label>
+            <label htmlFor="answer">{props.question.type}: </label>
 
             <select className="questionAnswer" name={props.question.type} id={props.question.id}
                     onChange={event => setTimeAnswer(props.question.id, props.question.question, Number(event.target.value))}>
 
-                value=<AnswerProperties key={currentTimeAnswer} timeUnit={{
+                value=<TimeAnswerProperties key={currentTimeAnswer} timeUnit={{
                 time: currentTimeAnswer + "",
                 length: 15,
                 end: "24:00"
@@ -75,5 +95,18 @@ export default function QuestionListComponent(props: QuestionProps) {
                 {timeUnitsToChoose}
             </select>
         </div>
+{/*         <div> */}
+{/*             <label htmlFor="answer">{props.question.type}: </label> */}
+{/*         	<input type="checkbox" name="workday" value="monday" id="check1"/> */}
+{/*         	<label htmlFor="check1">monday,</label> */}
+{/*         	<input type="checkbox" name="workday" value="tuesday" id="check2"/> */}
+{/*         	<label htmlFor="check2">tuesday,</label> */}
+{/*         	<input type="checkbox" name="workday" value="wednesday" id="check3"/> */}
+{/*         	<label htmlFor="check3">wednesday,</label> */}
+{/*         </div> */}
+    </div>
+
+
+
     )
 }

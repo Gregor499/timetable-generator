@@ -37,10 +37,10 @@ export interface TimeAnswer {
     timeInMinutes: number
 }
 
-export interface WeekdayAnswer {
+export interface WorkdayAnswer {
     id?: string
-    questionsId: string
-    answer: string
+    questionId: string
+    question: string
 
     monday: boolean
     tuesday: boolean

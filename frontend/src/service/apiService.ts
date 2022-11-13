@@ -1,6 +1,6 @@
 import {
     LoginData,
-    LoginResponse, ProcessedTimeAnswer, Question, TimeAnswer,
+    LoginResponse, ProcessedTimeAnswer, Question, TimeAnswer, WorkdayAnswer,
     TimeUnit,
     UserCreationData,
 } from "./models";
@@ -44,6 +44,15 @@ export const getQuestionList = () => {
 
 export const postTimeAnswer = (timeAnswer: TimeAnswer) => {
     return axios.post("api/answers", timeAnswer, {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('jwt')}`
+        }
+    })
+        .then((response: AxiosResponse<TimeAnswer[]>) => response.data)
+}
+
+export const postWorkdayAnswer = (workdays: WorkdayAnswer) => {
+    return axios.post("api/answers", workdays, {
         headers: {
             Authorization: `Bearer ${localStorage.getItem('jwt')}`
         }

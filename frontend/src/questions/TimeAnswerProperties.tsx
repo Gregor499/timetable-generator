@@ -4,7 +4,7 @@ interface AnswerProps {
     timeUnit: TimeUnit
 }
 
-export default function AnswerProperties(props: AnswerProps) {
+export default function TimeAnswerProperties(props: AnswerProps) {
 
     return (
     <option value={props.timeUnit.timeInMinutes}>{props.timeUnit.time}h</option>
