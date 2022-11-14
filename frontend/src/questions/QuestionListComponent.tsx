@@ -10,6 +10,9 @@ interface QuestionProps {
     answerCallback: () => void
 }
 
+type DisplayQuestionsProps = {
+children: React.ReactNode;}
+
 export default function QuestionListComponent(props: QuestionProps) {
     const [timeUnitList, setTimeUnitList] = useState<Array<TimeUnit>>([])
     const [currentTimeAnswer, setCurrentTimeAnswer] = useState<string>()
@@ -76,37 +79,64 @@ export default function QuestionListComponent(props: QuestionProps) {
         })
         .map(timeUnit => <TimeAnswerProperties key={timeUnit.id} timeUnit={timeUnit}/>)
 
+    const QuestionType = () => {
+        if (props.question.question === "On which days do you work ?"){
+                    return (
+                    <div>
+                    	<span>
+                            <input type="checkbox" name="workday" value="monday" id="check1"/>
+                            <label htmlFor="check1">monday</label>
+                        </span>
+                    	<span>
+                    	    <input type="checkbox" name="workday" value="tuesday" id="check2"/>
+                    	    <label htmlFor="check2">tuesday</label>
+                    	</span>
+                    	<span>
+                            <input type="checkbox" name="workday" value="wednesday" id="check3"/>
+                            <label htmlFor="check3">wednesday</label>
+                    	</span>
+                    	<span>
+                            <input type="checkbox" name="workday" value="thursday" id="check4"/>
+                            <label htmlFor="check4">thursday</label>
+                        </span>
+                        <span>
+                            <input type="checkbox" name="workday" value="wednesday" id="check5"/>
+                            <label htmlFor="check5">friday</label>
+                        </span>
+                        <span>
+                            <input type="checkbox" name="workday" value="wednesday" id="check5"/>
+                            <label htmlFor="check5">saturday</label>
+                        </span>
+                        <span>
+                            <input type="checkbox" name="workday" value="wednesday" id="check6"/>
+                            <label htmlFor="check6">sunday</label>
+                        </span>
+                    </div>)
+        }
+
+       else{
+       return(
+       <div>
+           <select className="questionAnswer" name={props.question.type} id={props.question.id}
+                               onChange={event => setTimeAnswer(props.question.id, props.question.question, Number(event.target.value))}>
+
+                                  value=<TimeAnswerProperties key={currentTimeAnswer} timeUnit={{
+                                  time: currentTimeAnswer + "",
+                                  length: 15,
+                                  end: "24:00"
+                              }}/>
+
+                              {timeUnitsToChoose}
+           </select>
+       </div>)
+       }
+    }
+
     return (
-    <div>
         <div className="question">
             <p>{props.question.question}</p>
             {errorMessage && <div>{errorMessage}</div>}
-            <label htmlFor="answer">{props.question.type}: </label>
-
-            <select className="questionAnswer" name={props.question.type} id={props.question.id}
-                    onChange={event => setTimeAnswer(props.question.id, props.question.question, Number(event.target.value))}>
-
-                value=<TimeAnswerProperties key={currentTimeAnswer} timeUnit={{
-                time: currentTimeAnswer + "",
-                length: 15,
-                end: "24:00"
-            }}/>
-
-                {timeUnitsToChoose}
-            </select>
+            {QuestionType()}
         </div>
-{/*         <div> */}
-{/*             <label htmlFor="answer">{props.question.type}: </label> */}
-{/*         	<input type="checkbox" name="workday" value="monday" id="check1"/> */}
-{/*         	<label htmlFor="check1">monday,</label> */}
-{/*         	<input type="checkbox" name="workday" value="tuesday" id="check2"/> */}
-{/*         	<label htmlFor="check2">tuesday,</label> */}
-{/*         	<input type="checkbox" name="workday" value="wednesday" id="check3"/> */}
-{/*         	<label htmlFor="check3">wednesday,</label> */}
-{/*         </div> */}
-    </div>
-
-
-
     )
 }
