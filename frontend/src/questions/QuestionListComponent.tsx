@@ -10,20 +10,25 @@ interface QuestionProps {
     answerCallback: () => void
 }
 
-type DisplayQuestionsProps = {
-children: React.ReactNode;}
-
 export default function QuestionListComponent(props: QuestionProps) {
     const [timeUnitList, setTimeUnitList] = useState<Array<TimeUnit>>([])
     const [currentTimeAnswer, setCurrentTimeAnswer] = useState<string>()
-    const [currentWorkdayAnswer, setCurrentWorkdayAnswer] = useState<string>()
+
+    const [monday, setMonday] = useState<boolean>(false)
+    const [tuesday, setTuesday] = useState<boolean>(false)
+    const [wednesday, setWednesday] = useState<boolean>(false)
+    const [thursday, setThursday] = useState<boolean>(false)
+    const [friday, setFriday] = useState<boolean>(false)
+    const [saturday, setSaturday] = useState<boolean>(false)
+    const [sunday, setSunday] = useState<boolean>(false)
+
 
     const [errorMessage, setErrorMessage] = useState("")
 
-    const setTimeAnswer = (questionId: string, question: string, timeInMinutes: number) => {
+    const setTimeAnswer = (timeInMinutes: number) => {
         const timeAnswer: TimeAnswer = {
-            questionId: questionId,
-            question: question,
+            questionId: props.question.id,
+            question: props.question.question,
             timeInMinutes: timeInMinutes
         }
         postTimeAnswer(timeAnswer)
@@ -31,17 +36,17 @@ export default function QuestionListComponent(props: QuestionProps) {
             .catch(() => setErrorMessage("error posting answer"))
     }
 
-        const setWorkdayAnswer = (questionId: string, question: string, workdays: Array<boolean>) => {
+        const setWorkdayAnswer = () => {
             const workdayAnswer: WorkdayAnswer = {
-                questionId: questionId,
-                question: question,
-                monday: workdays[0],
-                tuesday: workdays[1],
-                wednesday: workdays[2],
-                thursday: workdays[3],
-                friday: workdays[4],
-                saturday: workdays[5],
-                sunday: workdays[6]
+                questionId: props.question.id,
+                question: props.question.question,
+                monday: monday,
+                tuesday: tuesday,
+                wednesday: wednesday,
+                thursday: thursday,
+                friday: friday,
+                saturday: saturday,
+                sunday: sunday
 
             }
             postWorkdayAnswer(workdayAnswer)
@@ -84,41 +89,42 @@ export default function QuestionListComponent(props: QuestionProps) {
                     return (
                     <div>
                     	<span>
-                            <input type="checkbox" name="workday" value="monday" id="check1"/>
+                            <input type="checkbox" name="workday" value="monday" id="check1" onChange={event => {setMonday(event.target.checked); setWorkdayAnswer()}}/>
                             <label htmlFor="check1">monday</label>
                         </span>
                     	<span>
-                    	    <input type="checkbox" name="workday" value="tuesday" id="check2"/>
+                    	    <input type="checkbox" name="workday" value="tuesday" id="check2" onChange={event => {setTuesday(event.target.checked); setWorkdayAnswer()}}/>
                     	    <label htmlFor="check2">tuesday</label>
                     	</span>
                     	<span>
-                            <input type="checkbox" name="workday" value="wednesday" id="check3"/>
+                            <input type="checkbox" name="workday" value="wednesday" id="check3" onChange={event => {setWednesday(event.target.checked); setWorkdayAnswer()}}/>
                             <label htmlFor="check3">wednesday</label>
                     	</span>
                     	<span>
-                            <input type="checkbox" name="workday" value="thursday" id="check4"/>
+                            <input type="checkbox" name="workday" value="thursday" id="check4" onChange={event => {setThursday(event.target.checked); setWorkdayAnswer()}}/>
                             <label htmlFor="check4">thursday</label>
                         </span>
                         <span>
-                            <input type="checkbox" name="workday" value="wednesday" id="check5"/>
+                            <input type="checkbox" name="workday" value="wednesday" id="check5" onChange={event => {setFriday(event.target.checked); setWorkdayAnswer()}}/>
                             <label htmlFor="check5">friday</label>
                         </span>
                         <span>
-                            <input type="checkbox" name="workday" value="wednesday" id="check5"/>
+                            <input type="checkbox" name="workday" value="wednesday" id="check5" onChange={event => {setSaturday(event.target.checked); setWorkdayAnswer()}}/>
                             <label htmlFor="check5">saturday</label>
                         </span>
                         <span>
-                            <input type="checkbox" name="workday" value="wednesday" id="check6"/>
+                            <input type="checkbox" name="workday" value="wednesday" id="check6" onChange={event => {setSunday(event.target.checked); setWorkdayAnswer()}}/>
                             <label htmlFor="check6">sunday</label>
                         </span>
                     </div>)
+
         }
 
        else{
        return(
        <div>
            <select className="questionAnswer" name={props.question.type} id={props.question.id}
-                               onChange={event => setTimeAnswer(props.question.id, props.question.question, Number(event.target.value))}>
+                               onChange={event => setTimeAnswer(Number(event.target.value))}>
 
                                   value=<TimeAnswerProperties key={currentTimeAnswer} timeUnit={{
                                   time: currentTimeAnswer + "",
