@@ -2,7 +2,7 @@ import "./Timetable.css"
 import {useEffect, useState} from "react";
 import {getProcessedTimeAnswers, getTimeUnitList} from "../service/apiService";
 import {ProcessedTimeAnswer, TimeUnit} from "../service/models";
-import TimeUnitsAndTasks from "./TimeUnitsAndTasks";
+import TimeTableContent from "./TimeTableContent";
 
 export default function Timetable() {
     const [timeUnitList, setTimeUnitList] = useState<Array<TimeUnit>>([])
@@ -36,19 +36,21 @@ export default function Timetable() {
         }
     })
 
-    const timeUnitsAndTasks = timeUnitList
+    const timeTableContent = timeUnitList
         .filter(timeUnit => timeUnit.timeInMinutes! >= maxStart && timeUnit.timeInMinutes! <= maxEnd)
         .map(timeUnit => {
             let task = ""
+            let workday: boolean = false
 
             processedTimeAnswerList.forEach(processedTimeAnswer => {
                 processedTimeAnswer.timeList.forEach(time => {
                     if (time.includes(timeUnit.time)) {
                         task = (processedTimeAnswer.task)
+                        workday = (processedTimeAnswer.workday)
                     }
                 })
             })
-            return <TimeUnitsAndTasks key={timeUnit.id} timeUnit={timeUnit} task={task}/>
+            return <TimeTableContent key={timeUnit.id} timeUnit={timeUnit} task={task} workday={workday}/>
         })
 
     return (
@@ -70,7 +72,7 @@ export default function Timetable() {
                     </thead>
 
                     <tbody>
-                    {timeUnitsAndTasks}
+                    {timeTableContent}
 
                     {errorMessage && <tr>
                         <th>{errorMessage}</th>

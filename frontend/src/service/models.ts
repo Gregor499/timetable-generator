@@ -55,6 +55,7 @@ export interface WorkdayAnswer {
 export interface ProcessedTimeAnswer {
     id: string
     task: string
+    workday: boolean
     color: string
     timeList: string[]
 }
