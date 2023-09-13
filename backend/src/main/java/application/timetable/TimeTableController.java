@@ -79,7 +79,7 @@ public class TimeTableController {
     }
 
     @GetMapping("/processedTimeAnswers")
-    List<ProcessedTimeAnswer> getProcessedAnswers(Principal principal) {
+    List<ProcessedTimeAnswer> getProcessedAnswers(Principal principal) throws Exception {
         return processedTimeAnswerService.processTimeAnswers(principal);
     }
 }

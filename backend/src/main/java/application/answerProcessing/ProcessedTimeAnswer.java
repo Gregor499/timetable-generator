@@ -16,6 +16,14 @@ public class ProcessedTimeAnswer {
     @Id
     private String id;
     private String task;
+    private Boolean monday;
+    private Boolean tuesday;
+    private Boolean wednesday;
+    private Boolean thursday;
+    private Boolean friday;
+    private Boolean saturday;
+    private Boolean sunday;
+
     private String color;
     private String userId;
     private List<String> timeList;

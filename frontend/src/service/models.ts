@@ -55,7 +55,14 @@ export interface WorkdayAnswer {
 export interface ProcessedTimeAnswer {
     id: string
     task: string
-    workday: boolean
+    monday: boolean
+    tuesday: boolean
+    wednesday: boolean
+    thursday: boolean
+    friday: boolean
+    saturday: boolean
+    sunday: boolean
+
     color: string
     timeList: string[]
 }

@@ -40,17 +40,30 @@ export default function Timetable() {
         .filter(timeUnit => timeUnit.timeInMinutes! >= maxStart && timeUnit.timeInMinutes! <= maxEnd)
         .map(timeUnit => {
             let task = ""
-            let workday: boolean = false
+            let monday: boolean = false
+            let tuesday: boolean = false
+            let wednesday: boolean = false
+            let thursday: boolean = false
+            let friday: boolean = false
+            let saturday: boolean = false
+            let sunday: boolean = false
 
             processedTimeAnswerList.forEach(processedTimeAnswer => {
                 processedTimeAnswer.timeList.forEach(time => {
                     if (time.includes(timeUnit.time)) {
                         task = (processedTimeAnswer.task)
-                        workday = (processedTimeAnswer.workday)
+                        monday = (processedTimeAnswer.monday)
+                        tuesday = (processedTimeAnswer.tuesday)
+                        wednesday = (processedTimeAnswer.wednesday)
+                        thursday = (processedTimeAnswer.thursday)
+                        friday = (processedTimeAnswer.friday)
+                        saturday = (processedTimeAnswer.saturday)
+                        sunday = (processedTimeAnswer.sunday)
                     }
                 })
             })
-            return <TimeTableContent key={timeUnit.id} timeUnit={timeUnit} task={task} workday={workday}/>
+            return <TimeTableContent key={timeUnit.id} timeUnit={timeUnit} task={task} monday={monday}
+            tuesday={tuesday} wednesday={wednesday} thursday={thursday} friday={friday} saturday = {saturday} sunday = {sunday}/>
         })
 
     return (

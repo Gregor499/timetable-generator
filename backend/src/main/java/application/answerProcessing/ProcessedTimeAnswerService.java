@@ -1,6 +1,7 @@
 package application.answerProcessing;
 
 import application.answerDB.TimeAnswerService;
+import application.answerDB.WeekdayAnswer;
 import application.answerDB.WeekdayAnswerService;
 import application.timetable.TimeUnit;
 import application.timetable.TimeUnitService;
@@ -10,7 +11,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -24,7 +27,7 @@ public class ProcessedTimeAnswerService {
     private final ProcessedTimeAnswerRepository processedAnswerRepository;
 
 
-    public List<ProcessedTimeAnswer> processTimeAnswers(Principal principal) {
+    public List<ProcessedTimeAnswer> processTimeAnswers(Principal principal) throws Exception {
 
         String userId = getUserId(principal);
 
@@ -48,27 +51,27 @@ public class ProcessedTimeAnswerService {
         processedAnswerRepository.deleteProcessedTimeAnswersByUserId(userId);
     }
 
-    public void timeAnswerProcessing(String userId) {
-        safeProcessedAnswer("morningSleep", "#000000", userId,
+    public void timeAnswerProcessing(String userId) throws Exception {
+        safeProcessedAnswer("morningSleep", getWorkdayBooleans(userId, "On which days do you work ?"), "#000000", userId,
                 morningTimeShorter(timeAnswerService.findByUserIdAndQuestion(userId, "When do you want to wake up ?").orElseThrow().getTimeInMinutes()),
                 timeAnswerService.findByUserIdAndQuestion(userId, "When do you want to wake up ?").orElseThrow().getTime());
 
-        safeProcessedAnswer("morningRoutine", "#DF7401", userId, timeAnswerService.findByUserIdAndQuestion(userId, "When do you want to wake up ?").orElseThrow().getTime(),
+        safeProcessedAnswer("morningRoutine", getWorkdayBooleans(userId, "On which days do you work ?"), "#DF7401", userId, timeAnswerService.findByUserIdAndQuestion(userId, "When do you want to wake up ?").orElseThrow().getTime(),
                 timeAnswerService.findByUserIdAndQuestion(userId, "When are you ready for the day?").orElseThrow().getTime());
 
-        safeProcessedAnswer("workWayTime", "#DF7401", userId, timeAnswerService.findByUserIdAndQuestion(userId, "When do you want to begin going to work ?").orElseThrow().getTime(),
+        safeProcessedAnswer("workWayTime", getWorkdayBooleans(userId, "On which days do you work ?"), "#DF7401", userId, timeAnswerService.findByUserIdAndQuestion(userId, "When do you want to begin going to work ?").orElseThrow().getTime(),
                 timeAnswerService.findByUserIdAndQuestion(userId, "When does your work start ?").orElseThrow().getTime());
 
-        safeProcessedAnswer("work", "#DF7401", userId, timeAnswerService.findByUserIdAndQuestion(userId, "When does your work start ?").orElseThrow().getTime(),
+        safeProcessedAnswer("work", getWorkdayBooleans(userId, "On which days do you work ?"), "#DF7401", userId, timeAnswerService.findByUserIdAndQuestion(userId, "When does your work start ?").orElseThrow().getTime(),
                 timeAnswerService.findByUserIdAndQuestion(userId, "When does your work end ?").orElseThrow().getTime());
 
-        safeProcessedAnswer("leisureTime", "#DF7401", userId, timeAnswerService.findByUserIdAndQuestion(userId, "When does your leisure time start ?").orElseThrow().getTime(),
+        safeProcessedAnswer("leisureTime", getWorkdayBooleans(userId, "On which days do you work ?"), "#DF7401", userId, timeAnswerService.findByUserIdAndQuestion(userId, "When does your leisure time start ?").orElseThrow().getTime(),
                 timeAnswerService.findByUserIdAndQuestion(userId, "When does your leisure time end ?").orElseThrow().getTime());
 
-        safeProcessedAnswer("eveningRoutine", "#DF7401", userId, timeAnswerService.findByUserIdAndQuestion(userId, "When do you want to start to get ready for bed ?").orElseThrow().getTime(),
+        safeProcessedAnswer("eveningRoutine", getWorkdayBooleans(userId, "On which days do you work ?"), "#DF7401", userId, timeAnswerService.findByUserIdAndQuestion(userId, "When do you want to start to get ready for bed ?").orElseThrow().getTime(),
                 timeAnswerService.findByUserIdAndQuestion(userId, "When do you want to sleep ?").orElseThrow().getTime());
 
-        safeProcessedAnswer("nightSleep", "#000000", userId, timeAnswerService.findByUserIdAndQuestion(userId, "When do you want to sleep ?").orElseThrow().getTime(),
+        safeProcessedAnswer("nightSleep", getWorkdayBooleans(userId, "On which days do you work ?"), "#000000", userId, timeAnswerService.findByUserIdAndQuestion(userId, "When do you want to sleep ?").orElseThrow().getTime(),
                 eveningTimeShorter(timeAnswerService.findByUserIdAndQuestion(userId, "When do you want to sleep ?").orElseThrow().getTimeInMinutes()));
     }
 
@@ -89,16 +92,24 @@ public class ProcessedTimeAnswerService {
         return timeUnitService.timeInMinutesToTimeConverter(shortenedTime);
     }
 
-    public void safeProcessedAnswer(String task, String color, String userId, String begin, String end) {
+    public void safeProcessedAnswer(String task, Map<String, Boolean> workdays, String color, String userId, String begin, String end) {
         List<String> timeList = timeListCreation(begin, end);
 
         ProcessedTimeAnswer processedTimeAnswer = new ProcessedTimeAnswer();
         processedTimeAnswer.setTimeList(timeList);
         processedTimeAnswer.setTask(task);
+        processedTimeAnswer.setMonday(workdays.get("monday"));
+        processedTimeAnswer.setTuesday(workdays.get("tuesday"));
+        processedTimeAnswer.setWednesday(workdays.get("wednesday"));
+        processedTimeAnswer.setThursday(workdays.get("thursday"));
+        processedTimeAnswer.setFriday(workdays.get("friday"));
+        processedTimeAnswer.setSaturday(workdays.get("saturday"));
+        processedTimeAnswer.setSunday(workdays.get("sunday"));
         processedTimeAnswer.setColor(color);
         processedTimeAnswer.setUserId(userId);
         processedAnswerRepository.save(processedTimeAnswer);
     }
+
 
     public List<String> timeListCreation(String begin, String end) {
         TimeUnit timeUnit = new TimeUnit();
@@ -112,6 +123,22 @@ public class ProcessedTimeAnswerService {
         return timeList;
     }
 
+    private Map<String, Boolean> getWorkdayBooleans(String userId, String question) throws Exception {
+        Map<String, Boolean> workdayBooleans = new HashMap<>();
+        if (weekdayAnswerService.findByUserIdAndQuestion(userId, question).isPresent()){
+            WeekdayAnswer weekdayAnswer = weekdayAnswerService.findByUserIdAndQuestion(userId, question).get();
+            workdayBooleans.put("monday", weekdayAnswer.isMonday());
+            workdayBooleans.put("tuesday", weekdayAnswer.isTuesday());
+            workdayBooleans.put("wednesday", weekdayAnswer.isWednesday());
+            workdayBooleans.put("thursday", weekdayAnswer.isThursday());
+            workdayBooleans.put("friday", weekdayAnswer.isFriday());
+            workdayBooleans.put("saturday", weekdayAnswer.isSaturday());
+            workdayBooleans.put("sunday", weekdayAnswer.isSunday());
+
+        }
+        else throw new Exception("Error: workdayAnswer not available !");
+        return workdayBooleans;
+    }
     public List<ProcessedTimeAnswer> getProcessedAnswersByUserId(String userId) {
         return processedAnswerRepository.getProcessedAnswerListByUserId(userId);
     }
