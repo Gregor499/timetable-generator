@@ -16,6 +16,7 @@ public class TimeAnswer {
     private String userId;
     private String questionId;
     private String question;
+
     private String time;
     private int timeInMinutes;
 }

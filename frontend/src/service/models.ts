@@ -33,6 +33,7 @@ export interface TimeAnswer {
     id?: string
     questionId: string
     question: string
+
     time?: string
     timeInMinutes: number
 }

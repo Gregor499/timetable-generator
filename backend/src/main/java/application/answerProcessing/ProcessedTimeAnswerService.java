@@ -1,6 +1,7 @@
 package application.answerProcessing;
 
 import application.answerDB.TimeAnswerService;
+import application.answerDB.WeekdayAnswerService;
 import application.timetable.TimeUnit;
 import application.timetable.TimeUnitService;
 import application.user.User;
@@ -16,6 +17,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ProcessedTimeAnswerService {
     private final TimeAnswerService timeAnswerService;
+
+    private final WeekdayAnswerService weekdayAnswerService;
     private final UserService userService;
     private final TimeUnitService timeUnitService;
     private final ProcessedTimeAnswerRepository processedAnswerRepository;
@@ -30,6 +33,8 @@ public class ProcessedTimeAnswerService {
         timeAnswerProcessing(userId);
 
         timeAnswerService.deleteAllAnswers();
+
+        weekdayAnswerService.deleteAllAnswers();
 
         return processedAnswerRepository.getProcessedAnswerListByUserId(userId);
     }

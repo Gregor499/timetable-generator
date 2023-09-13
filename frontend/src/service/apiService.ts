@@ -43,7 +43,7 @@ export const getQuestionList = () => {
 }
 
 export const postTimeAnswer = (timeAnswer: TimeAnswer) => {
-    return axios.post("api/answers", timeAnswer, {
+    return axios.post("api/timeAnswers", timeAnswer, {
         headers: {
             Authorization: `Bearer ${localStorage.getItem('jwt')}`
         }
@@ -52,7 +52,7 @@ export const postTimeAnswer = (timeAnswer: TimeAnswer) => {
 }
 
 export const postWorkdayAnswer = (workdays: WorkdayAnswer) => {
-    return axios.post("api/answers", workdays, {
+    return axios.post("api/weekdayAnswers", workdays, {
         headers: {
             Authorization: `Bearer ${localStorage.getItem('jwt')}`
         }

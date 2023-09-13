@@ -2,6 +2,8 @@ package application.timetable;
 
 import application.answerDB.TimeAnswerService;
 import application.answerDB.TimeAnswer;
+import application.answerDB.WeekdayAnswer;
+import application.answerDB.WeekdayAnswerService;
 import application.answerProcessing.ProcessedTimeAnswer;
 import application.answerProcessing.ProcessedTimeAnswerService;
 import application.questionDB.Question;
@@ -22,6 +24,7 @@ public class TimeTableController {
     private final TimeUnitService timeUnitService;
     private final QuestionService questionService;
     private final TimeAnswerService timeAnswerService;
+    private final WeekdayAnswerService weekdayAnswerService;
     private final UserService userService;
     private final ProcessedTimeAnswerService processedTimeAnswerService;
 
@@ -50,7 +53,7 @@ public class TimeTableController {
         return questionService.findAll();
     }
 
-    @PostMapping("/answers")
+    @PostMapping("/timeAnswers")
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
     TimeAnswer addAnswer(@RequestBody TimeAnswer timeAnswer, Principal principal) {
@@ -58,6 +61,16 @@ public class TimeTableController {
         timeAnswer.setUserId(user.getId());
         timeAnswerService.addNewAnswer(timeAnswer);
         return timeAnswerService.findByUserIdAndQuestionId(timeAnswer.getUserId(), timeAnswer.getQuestionId()).orElseThrow();
+    }
+
+    @PostMapping("/weekdayAnswers")
+    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseBody
+    WeekdayAnswer addAnswer(@RequestBody WeekdayAnswer weekdayAnswer, Principal principal) {
+        User user = userService.findByUsername(principal.getName()).orElseThrow();
+        weekdayAnswer.setUserId(user.getId());
+        weekdayAnswerService.addNewAnswer(weekdayAnswer);
+        return weekdayAnswerService.findByUserIdAndQuestionId(weekdayAnswer.getUserId(), weekdayAnswer.getQuestionId()).orElseThrow();
     }
 
     @GetMapping("/answers")
