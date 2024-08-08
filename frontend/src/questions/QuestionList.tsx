@@ -31,6 +31,7 @@ export default function QuestionList() {
     const questions = questionList.sort((s1, s2) => s1.order - s2.order).map(question => <QuestionListComponent
             key={question.id} question={question} answers={allAnswers} answerCallback={onAnswer}/>)
 
+//todo: setWorkdayAnswer() under createButton ?
 return (
     <div className="body">
     <div className="questions">
@@ -43,7 +44,6 @@ return (
 
         <NavLink to={"/timetable"}>
             <button className="createButton">create</button>
-//todo: setWorkdayAnswer ?
         </NavLink>
     </div>
 
