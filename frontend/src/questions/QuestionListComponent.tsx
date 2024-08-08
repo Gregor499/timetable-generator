@@ -36,23 +36,23 @@ export default function QuestionListComponent(props: QuestionProps) {
             .catch(() => setErrorMessage("error posting answer"))
     }
 
-        const setWorkdayAnswer = () => {
-            const workdayAnswer: WorkdayAnswer = {
-                questionId: props.question.id,
-                question: props.question.question,
-                monday: monday,
-                tuesday: tuesday,
-                wednesday: wednesday,
-                thursday: thursday,
-                friday: friday,
-                saturday: saturday,
-                sunday: sunday
+    const setWorkdayAnswer = () => {
+        const workdayAnswer: WorkdayAnswer = {
+            questionId: props.question.id,
+            question: props.question.question,
+            monday: monday,
+            tuesday: tuesday,
+            wednesday: wednesday,
+            thursday: thursday,
+            friday: friday,
+            saturday: saturday,
+            sunday: sunday
 
-            }
-            postWorkdayAnswer(workdayAnswer)
-                .then(() => props.answerCallback())
-                .catch(() => setErrorMessage("error posting answer"))
         }
+        postWorkdayAnswer(workdayAnswer)
+            .then(() => props.answerCallback())
+            .catch(() => setErrorMessage("error posting answer"))
+    }
 
     useEffect(() => {
         getTimeUnitList()
@@ -65,6 +65,7 @@ export default function QuestionListComponent(props: QuestionProps) {
         } else {
             setCurrentTimeAnswer("XX:XX")
         }
+
     }, [props.answers, props.question.id])
 
     const timeUnitsToChoose = timeUnitList
@@ -105,18 +106,19 @@ export default function QuestionListComponent(props: QuestionProps) {
                             <label htmlFor="check4">thursday</label>
                         </span>
                         <span>
-                            <input type="checkbox" name="workday" value="wednesday" id="check5" onChange={event => {setFriday(event.target.checked); setWorkdayAnswer()}}/>
+                            <input type="checkbox" name="workday" value="friday" id="check5" onChange={event => {setFriday(event.target.checked); setWorkdayAnswer()}}/>
                             <label htmlFor="check5">friday</label>
                         </span>
                         <span>
-                            <input type="checkbox" name="workday" value="wednesday" id="check5" onChange={event => {setSaturday(event.target.checked); setWorkdayAnswer()}}/>
-                            <label htmlFor="check5">saturday</label>
+                            <input type="checkbox" name="workday" value="saturday" id="check6" onChange={event => {setSaturday(event.target.checked); setWorkdayAnswer()}}/>
+                            <label htmlFor="check6">saturday</label>
                         </span>
                         <span>
-                            <input type="checkbox" name="workday" value="wednesday" id="check6" onChange={event => {setSunday(event.target.checked); setWorkdayAnswer()}}/>
-                            <label htmlFor="check6">sunday</label>
+                            <input type="checkbox" name="workday" value="sunday" id="check7" onChange={event => {setSunday(event.target.checked); setWorkdayAnswer()}}/>
+                            <label htmlFor="check7">sunday</label>
                         </span>
                     </div>)
+//bug: last checked checkbox isnt being recognized
 
         }
 
