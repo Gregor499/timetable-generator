@@ -32,7 +32,7 @@ export default function QuestionList() {
 return (
     <div className="body w-full mx-auto bg-yellow-300/45 flex flex-col justify-stretch">
     <div className="questions w-[70%] mx-auto">
-        <h1 className="questionHeadline mx-auto mt-8 w-[50%] p-2 text-4xl underline text-center font-roboto-light"> Questions:</h1>
+        <h1 className="questionHeadline mx-auto mt-8 w-[50%] p-2 text-4xl underline text-center font-['Roboto_Light',serif]"> Questions:</h1>
         {errorMessage && <div>{errorMessage}</div>}
         {questions}
 

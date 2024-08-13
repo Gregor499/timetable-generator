@@ -145,7 +145,7 @@ export default function QuestionListComponent(props: QuestionProps) {
         };
 
     return (
-        <div className="question border border-black bg-blue-300/60 font-roboto text-xl p-2 h-[5%] w-[60%] mx-auto text-center mt-12 mb-1.5">
+        <div className="question border border-black bg-blue-300/60 font-['Roboto_Light',serif] text-xl p-2 h-[5%] w-[60%] mx-auto text-center mt-12 mb-1.5">
             <p>{props.question.question}</p>
             {errorMessage && <div>{errorMessage}</div>}
             {QuestionType()}
