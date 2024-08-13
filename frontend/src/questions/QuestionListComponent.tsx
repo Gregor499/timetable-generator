@@ -2,7 +2,6 @@ import {Question, TimeAnswer, TimeUnit, WorkdayAnswer} from "../service/models";
 import {useEffect, useState} from "react";
 import {getTimeUnitList, postTimeAnswer, postWorkdayAnswer} from "../service/apiService";
 import TimeAnswerProperties from "./TimeAnswerProperties";
-import "./QuestionListComponent.css"
 
 interface QuestionProps {
     question: Question
@@ -125,7 +124,7 @@ export default function QuestionListComponent(props: QuestionProps) {
                return(
                <div>
                    <select
-                       className="questionAnswer"
+                       className="questionAnswer text-black/80 text-base border border-black rounded-lg"
                        name={props.question.type}
                        id={props.question.id}
                        onChange={event => setTimeAnswer(Number(event.target.value))}
@@ -146,7 +145,7 @@ export default function QuestionListComponent(props: QuestionProps) {
         };
 
     return (
-        <div className="question">
+        <div className="question border border-black bg-blue-300/60 font-roboto text-xl p-2 h-[5%] w-[60%] mx-auto text-center mt-12 mb-1.5">
             <p>{props.question.question}</p>
             {errorMessage && <div>{errorMessage}</div>}
             {QuestionType()}

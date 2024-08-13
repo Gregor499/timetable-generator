@@ -4,8 +4,6 @@ import {getQuestionList, getTimeAnswer} from "../service/apiService";
 import QuestionListComponent from "./QuestionListComponent";
 // import {setWorkdayAnswer} from "./QuestionListComponent";
 import {Question, TimeAnswer} from "../service/models";
-import "./QuestionList.css"
-
 
 export default function QuestionList() {
 
@@ -32,9 +30,9 @@ export default function QuestionList() {
             key={question.id} question={question} answers={allAnswers} answerCallback={onAnswer}/>)
 
 return (
-    <div className="body">
-    <div className="questions">
-        <h1 className="questionHeadline"> Questions:</h1>
+    <div className="body w-full mx-auto bg-yellow-300/45 flex flex-col justify-stretch">
+    <div className="questions w-[70%] mx-auto">
+        <h1 className="questionHeadline mx-auto mt-8 w-[50%] p-2 text-4xl underline text-center font-roboto-light"> Questions:</h1>
         {errorMessage && <div>{errorMessage}</div>}
         {questions}
 
@@ -42,7 +40,7 @@ return (
         <br/>
 
         <NavLink to={"/timetable"}>
-            <button className="createButton">create</button>
+            <button className="createButton text-black/80 text-base w-full h-16 mx-auto mb-12 mt-5 bg-red-400 text-3xl font-roboto-light border border-gray-500">create</button>
         </NavLink>
     </div>
 
