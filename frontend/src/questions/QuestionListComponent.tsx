@@ -2,18 +2,23 @@ import {Question, TimeAnswer, TimeUnit, WorkdayAnswer} from "../service/models";
 import {useEffect, useState} from "react";
 import {getTimeUnitList, postTimeAnswer, postWorkdayAnswer} from "../service/apiService";
 import TimeAnswerProperties from "./TimeAnswerProperties";
+import "./QuestionListComponent.css"
 
 interface QuestionProps {
     question: Question
     answers: Array<TimeAnswer>
-    answerCallback: () => void
+    answerCallback: () => void //refreshing site
 }
 
 export default function QuestionListComponent(props: QuestionProps) {
     const [timeUnitList, setTimeUnitList] = useState<Array<TimeUnit>>([])
     const [currentTimeAnswer, setCurrentTimeAnswer] = useState<string>()
-    const [workdays, setWorkdays] = useState<boolean[]>(Array(7).fill(false));
+    const [workdays, setWorkdays] = useState<boolean[]>([true, true, true, true, true, false, false]);
     const [errorMessage, setErrorMessage] = useState("")
+
+    useEffect(() => {
+            setWorkdayAnswer();
+    }, [workdays]);
 
     useEffect(() => {
         const loadTimeUnitList = async () => {
@@ -28,7 +33,7 @@ export default function QuestionListComponent(props: QuestionProps) {
             loadTimeUnitList();
 
         const currentAnswer = props.answers.find(answer => answer.questionId === props.question.id)
-        setCurrentTimeAnswer(currentAnswer ? currentAnswer.time : "XX:XX");
+        setCurrentTimeAnswer(currentAnswer ? currentAnswer.time : "00:00");
     }, [props.answers, props.question.id])
 
     const setTimeAnswer = (timeInMinutes: number) => {
@@ -38,7 +43,7 @@ export default function QuestionListComponent(props: QuestionProps) {
             timeInMinutes: timeInMinutes
         }
         postTimeAnswer(timeAnswer)
-            .then(() => props.answerCallback())
+            .then(() => props.answerCallback()) // refreshing site
             .catch(() => {
                 console.error("Error posting time answer:", Error);
                 setErrorMessage("error posting answer");
@@ -46,7 +51,7 @@ export default function QuestionListComponent(props: QuestionProps) {
     };
 
 
-    const handleSubmit = () => {
+    const setWorkdayAnswer = () => {
                 const workdayAnswer: WorkdayAnswer = {
                     questionId: props.question.id,
                     question: props.question.question,
@@ -60,7 +65,7 @@ export default function QuestionListComponent(props: QuestionProps) {
                 };
 
         postWorkdayAnswer(workdayAnswer)
-            .then(() => props.answerCallback())
+            .then(() => props.answerCallback()) //refreshing site
             .catch(() => {
                 console.error("Error posting workday answer:", Error);
                 setErrorMessage("error posting answer");
@@ -115,7 +120,6 @@ export default function QuestionListComponent(props: QuestionProps) {
                return (
                    <div>
                        {renderWorkdayCheckboxes()}
-                       <button className="submit" onClick={handleSubmit}>Submit</button>
                    </div>
                );
            }
@@ -124,7 +128,7 @@ export default function QuestionListComponent(props: QuestionProps) {
                return(
                <div>
                    <select
-                       className="questionAnswer text-black/80 text-base border border-black rounded-lg"
+                       className="questionAnswer"
                        name={props.question.type}
                        id={props.question.id}
                        onChange={event => setTimeAnswer(Number(event.target.value))}
@@ -145,7 +149,7 @@ export default function QuestionListComponent(props: QuestionProps) {
         };
 
     return (
-        <div className="question border border-black bg-blue-300/60 font-['Roboto_Light',serif] text-xl p-2 h-[5%] w-[60%] mx-auto text-center mt-12 mb-1.5">
+        <div className="question">
             <p>{props.question.question}</p>
             {errorMessage && <div>{errorMessage}</div>}
             {QuestionType()}

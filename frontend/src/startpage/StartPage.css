@@ -1,24 +1,14 @@
 .body {
-    margin: auto;
-    background-color: rgba(255, 204, 0, 0.73);
-    display: flex;
-    justify-content: stretch;
-
     padding-bottom: 22%;
-
     font-family: "Roboto Light", serif;
-
     width: 100%;
+    background-color: #DAA520;
 }
 
 
 .content {
     width: 70%;
-
     margin: auto;
-    margin-top: 0;
-    flex-flow: column;
-
 
 }
 
@@ -27,7 +17,6 @@
     font-size: 5em;
     text-decoration-line: underline;
     text-align: center;
-    font-family: "Roboto Light", serif;
 }
 
 .greeting {
@@ -55,6 +44,11 @@
     text-align: center;
     font-family: "Roboto Light", serif;
 
-    border-style: solid;
-    border-color: #656565;
+    border: 2px solid #656565;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.navButton:hover {
+    filter: brightness(0.8); /* Slightly darker shade on hover */
 }

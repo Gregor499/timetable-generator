@@ -53,20 +53,20 @@ export default function StartPage() {
                 {errorMessage && <div>{errorMessage}</div>}
                 <div className="row">
                     <NavLink className="selectionBox" to={"/questions"}>
-                        <button className="navButton">Lets´s create !</button>
+                        <button className="navButton">Let's create !</button>
                     </NavLink>
 
                     <NavLink className="selectionBox" to={"/register"}>
-                        <button className="navButton">register</button>
+                        <button className="navButton">Register</button>
                     </NavLink>
 
                     {!loginStatus && <NavLink className="selectionBox" to={"/login"}>
-                        <button className="navButton">login</button>
+                        <button className="navButton">Log in</button>
                     </NavLink>}
 
                     {loginStatus && <div className="selectionBox">
                         <form onSubmit={loginOut}>
-                            <input className="navButton" type="submit" value="logout"/>
+                            <input className="navButton" type="submit" value="Log out"/>
                         </form>
                     </div>
                     }
