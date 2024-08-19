@@ -12,8 +12,9 @@
 
 }
 
-.timetableGenerator {
+.timetableHeadline {
     margin-bottom: 8%;
+
     font-size: 5em;
     text-decoration-line: underline;
     text-align: center;
@@ -21,8 +22,9 @@
 
 .greeting {
     margin-bottom: 6%;
-    font-size: 3em;
     text-align: center;
+
+    font-size: 3em;
     font-family: "Roboto Light", serif;
 }
 

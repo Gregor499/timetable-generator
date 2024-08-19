@@ -7,6 +7,7 @@
 
     list-style: none;
 
+    background-color: #DAA520;
 }
 
 .flex-item {
@@ -26,13 +27,12 @@
 }
 
 .headline{
-    font-weight: bold;
-    font-family: "Roboto Light", serif;
-    font-size: 4em;
     text-align: center;
     text-decoration-line: underline;
-
     margin-bottom: 2%;
+
+    font-family: "Roboto Light", serif;
+    font-size: 4em;
 }
 
 table, th, td {
@@ -40,13 +40,15 @@ table, th, td {
     border-collapse: collapse;
     table-layout: auto;
     font-family: "Roboto Light", serif;
+
 }
 
 .table {
-    width: calc(100vw - 20px);
+    width: 90%;
+
     margin: auto;
 
-
+    table-layout: fixed
 }
 
 th:hover, td:hover {

@@ -20,6 +20,27 @@ export default function QuestionListComponent(props: QuestionProps) {
             setWorkdayAnswer();
     }, [workdays]);
 
+    const setWorkdayAnswer = () => {
+                const workdayAnswer: WorkdayAnswer = {
+                    questionId: props.question.id,
+                    question: props.question.question,
+                    monday: workdays[0],
+                    tuesday: workdays[1],
+                    wednesday: workdays[2],
+                    thursday: workdays[3],
+                    friday: workdays[4],
+                    saturday: workdays[5],
+                    sunday: workdays[6],
+                };
+
+        postWorkdayAnswer(workdayAnswer)
+            .then(() => props.answerCallback()) //refreshing site
+            .catch(() => {
+                console.error("Error posting workday answer:", Error);
+                setErrorMessage("error posting answer");
+                })
+    };
+
     useEffect(() => {
         const loadTimeUnitList = async () => {
             try {
@@ -46,28 +67,6 @@ export default function QuestionListComponent(props: QuestionProps) {
             .then(() => props.answerCallback()) // refreshing site
             .catch(() => {
                 console.error("Error posting time answer:", Error);
-                setErrorMessage("error posting answer");
-                })
-    };
-
-
-    const setWorkdayAnswer = () => {
-                const workdayAnswer: WorkdayAnswer = {
-                    questionId: props.question.id,
-                    question: props.question.question,
-                    monday: workdays[0],
-                    tuesday: workdays[1],
-                    wednesday: workdays[2],
-                    thursday: workdays[3],
-                    friday: workdays[4],
-                    saturday: workdays[5],
-                    sunday: workdays[6],
-                };
-
-        postWorkdayAnswer(workdayAnswer)
-            .then(() => props.answerCallback()) //refreshing site
-            .catch(() => {
-                console.error("Error posting workday answer:", Error);
                 setErrorMessage("error posting answer");
                 })
     };
