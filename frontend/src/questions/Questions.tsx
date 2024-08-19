@@ -1,9 +1,9 @@
 import {NavLink} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {getQuestionList, getTimeAnswer} from "../service/apiService";
-import QuestionListComponent from "./QuestionListComponent";
+import QuestionListComponent from "./QuestionComponent";
 import {Question, TimeAnswer} from "../service/models";
-import "./QuestionList.css"
+import "./Questions.css"
 
 
 export default function QuestionList() {

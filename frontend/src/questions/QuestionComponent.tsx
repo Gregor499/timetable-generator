@@ -2,7 +2,7 @@ import {Question, TimeAnswer, TimeUnit, WorkdayAnswer} from "../service/models";
 import {useEffect, useState} from "react";
 import {getTimeUnitList, postTimeAnswer, postWorkdayAnswer} from "../service/apiService";
 import TimeAnswerProperties from "./TimeAnswerProperties";
-import "./QuestionListComponent.css"
+import "./QuestionComponent.css"
 
 interface QuestionProps {
     question: Question
