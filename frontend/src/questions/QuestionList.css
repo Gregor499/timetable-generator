@@ -17,7 +17,7 @@
     color: rgba(0, 0, 0, 0.83);
     font-size: 1em;
     height: 70px;
-    margin-top: 20px;
+    margin-bottom: 2%;
 
     background-color: tomato;
 
@@ -34,8 +34,6 @@
 
     width: 40%;
     margin-left: 30%;
-
-
 }
 
 .createButton:hover {
