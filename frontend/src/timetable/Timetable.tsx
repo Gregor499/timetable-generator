@@ -17,22 +17,23 @@ export default function Timetable() {
         getProcessedTimeAnswers()
             .then(data => setProcessedTimeAnswerList(data))
             .catch(() => setErrorMessage("processedAnswerList does not load"));
+    }, []);
 
+    const convertTimeUnitToMinutes = (timeUnit: string | undefined) => {
+        if(!timeUnit) return 0;
+        const [hours, minutes] = timeUnit.split(":").map(Number);
+        return hours * 60 + minutes;
+    };
 
-    }, [])
     let maxStart = 0
     let maxEnd = 24 * 60
 
     processedTimeAnswerList.forEach(processedTimeAnswer => {
         if (processedTimeAnswer.task.includes("morningSleep")) {
-            maxStart = (Number(processedTimeAnswer.timeList[0].charAt(0)) * 600 + Number(processedTimeAnswer.timeList[0].charAt(1)) * 60 + Number(processedTimeAnswer.timeList[0].charAt(3)) * 10
-                + Number(processedTimeAnswer.timeList[0].charAt(5)))
+            maxStart = convertTimeUnitToMinutes(processedTimeAnswer.timeList[0])
         }
         if (processedTimeAnswer.task.includes("nightSleep")) {
-            maxEnd = (Number(processedTimeAnswer.timeList[processedTimeAnswer.timeList.length - 1].charAt(0)) * 600
-                + Number(processedTimeAnswer.timeList[processedTimeAnswer.timeList.length - 1].charAt(1)) * 60
-                + Number(processedTimeAnswer.timeList[processedTimeAnswer.timeList.length - 1].charAt(3)) * 10
-                + Number(processedTimeAnswer.timeList[processedTimeAnswer.timeList.length - 1].charAt(5)))
+            maxEnd = convertTimeUnitToMinutes(processedTimeAnswer.timeList[processedTimeAnswer.timeList.length - 1])
         }
     })
 
@@ -62,8 +63,18 @@ export default function Timetable() {
                     }
                 })
             })
-            return <TimeTableContent key={timeUnit.id} timeUnit={timeUnit} task={task} monday={monday}
-            tuesday={tuesday} wednesday={wednesday} thursday={thursday} friday={friday} saturday = {saturday} sunday = {sunday}/>
+            return <TimeTableContent
+                        key={timeUnit.id}
+                        timeUnit={timeUnit}
+                        task={task}
+                        monday={monday}
+                        tuesday={tuesday}
+                        wednesday={wednesday}
+                        thursday={thursday}
+                        friday={friday}
+                        saturday = {saturday}
+                        sunday = {sunday}
+                   />
         })
 
     return (
