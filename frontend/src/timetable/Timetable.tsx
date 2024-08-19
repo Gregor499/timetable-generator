@@ -73,7 +73,7 @@ export default function Timetable() {
                 <table className="table">
                     <thead>
                     <tr className="flex-item">
-                        <th>Time</th>
+                        <th className="timeUnits">Time</th>
                         <th>Monday</th>
                         <th>Tuesday</th>
                         <th>Wednesday</th>
