@@ -71,11 +71,11 @@ export default function QuestionListComponent(props: QuestionProps) {
                 })
     };
 
-    const convertTimeToMinutes = (time: string | undefined): number => {
-        if(!time) return 0;
-        const parts = time.split(":");
-        return (Number(parts[0]) * 60) + Number(parts[1]);
-        };
+    const convertTimeUnitToMinutes = (timeUnit: string | undefined) => {
+        if(!timeUnit) return 0;
+        const [hours, minutes] = timeUnit.split(":").map(Number);
+        return hours * 60 + minutes;
+    };
 
     const timeUnitsToChoose = timeUnitList
         .filter(timeUnit => {
@@ -84,7 +84,7 @@ export default function QuestionListComponent(props: QuestionProps) {
             } else {
                 const previousQuestionAnswer = props.answers.find(answer => answer.questionId === props.question.previousQuestionId)
                 if (previousQuestionAnswer) {
-                    const currentTimeAnswerInMinutes = convertTimeToMinutes(currentTimeAnswer);
+                    const currentTimeAnswerInMinutes = convertTimeUnitToMinutes(currentTimeAnswer);
                     return (
                         timeUnit.timeInMinutes! >= previousQuestionAnswer.timeInMinutes) &&
                         timeUnit.timeInMinutes !== currentTimeAnswerInMinutes;
