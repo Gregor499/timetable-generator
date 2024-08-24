@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import {getTimeUnitList, postTimeAnswer, postWorkdayAnswer} from "../service/apiService";
 import TimeAnswerProperties from "./TimeAnswerProperties";
 import "./QuestionComponent.css"
+import {convertTimeUnitToMinutes} from "../utilities/Util"
 
 interface QuestionProps {
     question: Question
@@ -69,12 +70,6 @@ export default function QuestionListComponent(props: QuestionProps) {
                 console.error("Error posting time answer:", Error);
                 setErrorMessage("error posting answer");
                 })
-    };
-
-    const convertTimeUnitToMinutes = (timeUnit: string | undefined) => {
-        if(!timeUnit) return 0;
-        const [hours, minutes] = timeUnit.split(":").map(Number);
-        return hours * 60 + minutes;
     };
 
     const timeUnitsToChoose = timeUnitList

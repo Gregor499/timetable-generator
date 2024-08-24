@@ -20,12 +20,6 @@ export default function Timetable() {
             .catch(() => setErrorMessage("processedAnswerList does not load"));
     }, []);
 
-    const convertTimeUnitToMinutes = (timeUnit: string | undefined) => {
-        if(!timeUnit) return 0;
-        const [hours, minutes] = timeUnit.split(":").map(Number);
-        return hours * 60 + minutes;
-    };
-
     let maxStart = 0
     let maxEnd = 24 * 60
 
