@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import {getProcessedTimeAnswers, getTimeUnitList} from "../service/apiService";
 import {ProcessedTimeAnswer, TimeUnit} from "../service/models";
 import TimeTableContent from "./TimeTableContent";
+import {convertTimeUnitToMinutes} from "../utilities/Util"
 
 export default function Timetable() {
     const [timeUnitList, setTimeUnitList] = useState<Array<TimeUnit>>([])
