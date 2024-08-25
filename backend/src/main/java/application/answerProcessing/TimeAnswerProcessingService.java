@@ -83,7 +83,7 @@ public class TimeAnswerProcessingService {
 
     public String setRenderCap(int timeInMinutes, int shift) {
         int renderCap = Math.max(0, Math.min(timeInMinutes + shift, 1440));
-        return timeUnitService.timeInMinutesToTimeConverter(renderCap);
+        return timeUnitService.convertMinutesToTimeUnit(renderCap);
     }
 
     public void safeProcessedAnswer(String task, Map<String, Boolean> workdays, String userId, String startTime, String endTime) {

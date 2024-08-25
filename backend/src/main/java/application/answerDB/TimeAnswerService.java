@@ -20,7 +20,7 @@ public class TimeAnswerService {
             timeAnswerRepository.delete(findByUserIdAndQuestionId(timeAnswer.getUserId(), timeAnswer.getQuestionId()).orElseThrow());
         }
 
-        timeAnswer.setTime(timeUnitService.timeInMinutesToTimeConverter(timeAnswer.getTimeInMinutes()));
+        timeAnswer.setTime(timeUnitService.convertMinutesToTimeUnit(timeAnswer.getTimeInMinutes()));
 
         timeAnswerRepository.save(timeAnswer);
     }

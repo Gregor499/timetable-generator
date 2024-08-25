@@ -5,8 +5,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
-import static java.lang.Character.getNumericValue;
-
 @Service
 @RequiredArgsConstructor
 
@@ -15,69 +13,50 @@ public class TimeUnitService {
 
     public List<TimeUnit> createTimeUnitList(TimeUnit timeUnit) {
         timeUnit.setId(timeUnit.getTime());
-
-        String timeUnitTime = timeUnit.getTime();
-        String timeUnitEnd = timeUnit.getEnd();
-
-        //converting "xx:xx" time to minutes
-        int timeInMinutes = (getNumericValue(timeUnitTime.charAt(0)) * 600 + (getNumericValue(timeUnitTime.charAt(1)) * 60 +
-                getNumericValue(timeUnitTime.charAt(3)) * 10 + getNumericValue(timeUnitTime.charAt(4))));
-
-        timeUnit.setTimeInMinutes(timeInMinutes);
+        timeUnit.setTimeInMinutes(convertTimeToMinutes(timeUnit.getTime()));
 
         //save initial entry
-        Map<Integer, TimeUnit> timeUnitMap = new HashMap<>();
-        timeUnitMap.put(0, timeUnit);
+        Map<Integer, TimeUnit> timeUnits = new HashMap<>();
+        timeUnits.put(0, timeUnit);
 
-        int endInMinutes = (getNumericValue(timeUnitEnd.charAt(0)) * 600 + (getNumericValue(timeUnitEnd.charAt(1)) * 60 +
-                getNumericValue(timeUnitEnd.charAt(3)) * 10 + getNumericValue(timeUnitEnd.charAt(4))));
+        int endInMinutes = convertTimeToMinutes(timeUnit.getEnd());
+        int currentTimeInMinutes = timeUnit.getTimeInMinutes();
+        int interval = timeUnit.getLength();
+        int index = 1;
 
-        int nextTimeInMinutes = timeInMinutes;
-
-        int mapKeyCounter = 1;
-
-        //adding the desired length
-        for (int i = endInMinutes; i > timeInMinutes; i = i - timeUnit.getLength()) {
-            nextTimeInMinutes = nextTimeInMinutes + timeUnit.getLength();
-            TimeUnit timeUnit1 = new TimeUnit();
-            timeUnit1.setTimeInMinutes(nextTimeInMinutes);
-
-            //converting back to "xx:xx" time
-            timeUnit1.setTime(timeInMinutesToTimeConverter(nextTimeInMinutes));
-
-            //setting the timeUnit id to time
-            timeUnit1.setId(timeUnit1.getTime());
-            timeUnitMap.put(mapKeyCounter, timeUnit1);
-            mapKeyCounter++;
+        //adding all time units after the initial one till the end
+        while (currentTimeInMinutes + interval <= endInMinutes) {
+            currentTimeInMinutes += interval;
+            TimeUnit currentTimeUnit = createTimeUnit(currentTimeInMinutes);
+            timeUnits.put(index++, currentTimeUnit);
         }
-        return timeUnitMap.values().stream().toList();
+        return new ArrayList<>(timeUnits.values());
     }
 
-    public String timeInMinutesToTimeConverter(int minutes){
-        int hourCounter = 0;
-        int minuteCounter;
-        for (int j = minutes; j >= 60; j = j - 60) {
-            hourCounter++;
-        }
-        minuteCounter = minutes - (60 * hourCounter);
+    private TimeUnit createTimeUnit(int timeInMinutes) {
+        TimeUnit timeUnit = new TimeUnit();
+        timeUnit.setTimeInMinutes(timeInMinutes);
+        timeUnit.setTime(convertMinutesToTimeUnit(timeInMinutes));
+        timeUnit.setId(timeUnit.getTime());
+        return timeUnit;
+    }
 
-        String hoursString;
 
-        if (hourCounter / 10 < 1) {
-            hoursString = "0" + hourCounter;
-        } else {
-            hoursString = hourCounter + "";
+    public int convertTimeToMinutes(String timeUnit){
+        if (timeUnit == null || timeUnit.isEmpty()) {
+            return 0;
         }
 
-        String minutesString;
+        String[] parts = timeUnit.split(":");
+        int hours = Integer.parseInt(parts[0]);
+        int minutes = Integer.parseInt(parts[1]);
+        return hours * 60 + minutes;
+    }
 
-        if (minuteCounter / 10 < 1) {
-            minutesString = "0" + minuteCounter;
-        } else {
-            minutesString = minuteCounter + "";
-        }
-
-        return (hoursString + ":" + minutesString);
+    public String convertMinutesToTimeUnit(int minutes){
+        int hours = minutes / 60;
+        int minutesMinusHours = minutes % 60;
+        return String.format("%02d:%02d", hours, minutesMinusHours);
     }
 
     public void saveTimeUnitListInDb(List<TimeUnit> timeUnitList) {
