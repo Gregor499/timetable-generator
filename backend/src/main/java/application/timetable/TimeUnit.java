@@ -18,4 +18,10 @@ public class TimeUnit {
     private int length;
     private String end;
     private int timeInMinutes;
+
+    public TimeUnit(String startTime, String endTime, int length) {
+        this.time = startTime;
+        this.end = endTime;
+        this.length = length;
+    }
 }

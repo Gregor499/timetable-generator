@@ -7,6 +7,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
+import java.util.Map;
 
 @Data
 @Document("processedTimeAnswers")
@@ -27,4 +28,14 @@ public class ProcessedTimeAnswer {
     private String color;
     private String userId;
     private List<String> timeList;
+
+    public void setWorkdays(Map<String, Boolean> weekdays){
+        setMonday(weekdays.get("monday"));
+        setTuesday(weekdays.get("tuesday"));
+        setWednesday(weekdays.get("wednesday"));
+        setThursday(weekdays.get("thursday"));
+        setFriday(weekdays.get("friday"));
+        setSaturday(weekdays.get("saturday"));
+        setSunday(weekdays.get("sunday"));
+    }
 }

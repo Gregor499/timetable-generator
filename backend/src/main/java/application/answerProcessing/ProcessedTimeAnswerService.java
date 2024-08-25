@@ -19,8 +19,11 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class ProcessedTimeAnswerService {
-    private final TimeAnswerService timeAnswerService;
+    private static final String WORKDAY_QUESTION = "On which days do you work ?";
+    private static final String COLOR_SLEEP = "#000000";
+    private static final String COLOR_ROUTINE = "#DF7401";
 
+    private final TimeAnswerService timeAnswerService;
     private final WeekdayAnswerService weekdayAnswerService;
     private final UserService userService;
     private final TimeUnitService timeUnitService;
@@ -28,15 +31,14 @@ public class ProcessedTimeAnswerService {
 
 
     public List<ProcessedTimeAnswer> processTimeAnswers(Principal principal) throws Exception {
-
         String userId = getUserId(principal);
 
         cleanUpExistingProcessedAnswers(userId);
 
+
         timeAnswerProcessing(userId);
 
         timeAnswerService.deleteAllAnswers();
-
         weekdayAnswerService.deleteAllAnswers();
 
         return processedAnswerRepository.getProcessedAnswerListByUserId(userId);
@@ -52,93 +54,80 @@ public class ProcessedTimeAnswerService {
     }
 
     public void timeAnswerProcessing(String userId) throws Exception {
-        safeProcessedAnswer("morningSleep", getWorkdayBooleans(userId, "On which days do you work ?"), "#000000", userId,
-                morningTimeShorter(timeAnswerService.findByUserIdAndQuestion(userId, "When do you want to wake up ?").orElseThrow().getTimeInMinutes()),
+        safeProcessedAnswer("morningSleep", getWeekdays(userId, WORKDAY_QUESTION), COLOR_SLEEP, userId,
+                setRenderCap(timeAnswerService.findByUserIdAndQuestion(userId, "When do you want to wake up ?").orElseThrow().getTimeInMinutes(), - 60),
                 timeAnswerService.findByUserIdAndQuestion(userId, "When do you want to wake up ?").orElseThrow().getTime());
 
-        safeProcessedAnswer("morningRoutine", getWorkdayBooleans(userId, "On which days do you work ?"), "#DF7401", userId, timeAnswerService.findByUserIdAndQuestion(userId, "When do you want to wake up ?").orElseThrow().getTime(),
+        safeProcessedAnswer("morningRoutine", getWeekdays(userId, WORKDAY_QUESTION), COLOR_ROUTINE, userId,
+                timeAnswerService.findByUserIdAndQuestion(userId, "When do you want to wake up ?").orElseThrow().getTime(),
                 timeAnswerService.findByUserIdAndQuestion(userId, "When are you ready for the day?").orElseThrow().getTime());
 
-        safeProcessedAnswer("workWayTime", getWorkdayBooleans(userId, "On which days do you work ?"), "#DF7401", userId, timeAnswerService.findByUserIdAndQuestion(userId, "When do you want to begin going to work ?").orElseThrow().getTime(),
+        safeProcessedAnswer("workWayTime", getWeekdays(userId, WORKDAY_QUESTION), COLOR_ROUTINE, userId,
+                timeAnswerService.findByUserIdAndQuestion(userId, "When do you want to begin going to work ?").orElseThrow().getTime(),
                 timeAnswerService.findByUserIdAndQuestion(userId, "When does your work start ?").orElseThrow().getTime());
 
-        safeProcessedAnswer("work", getWorkdayBooleans(userId, "On which days do you work ?"), "#DF7401", userId, timeAnswerService.findByUserIdAndQuestion(userId, "When does your work start ?").orElseThrow().getTime(),
+        safeProcessedAnswer("work", getWeekdays(userId, WORKDAY_QUESTION), COLOR_ROUTINE, userId,
+                timeAnswerService.findByUserIdAndQuestion(userId, "When does your work start ?").orElseThrow().getTime(),
                 timeAnswerService.findByUserIdAndQuestion(userId, "When does your work end ?").orElseThrow().getTime());
 
-        safeProcessedAnswer("leisureTime", getWorkdayBooleans(userId, "On which days do you work ?"), "#DF7401", userId, timeAnswerService.findByUserIdAndQuestion(userId, "When does your leisure time start ?").orElseThrow().getTime(),
+        safeProcessedAnswer("leisureTime", getWeekdays(userId, WORKDAY_QUESTION), COLOR_ROUTINE, userId,
+                timeAnswerService.findByUserIdAndQuestion(userId, "When does your leisure time start ?").orElseThrow().getTime(),
                 timeAnswerService.findByUserIdAndQuestion(userId, "When does your leisure time end ?").orElseThrow().getTime());
 
-        safeProcessedAnswer("eveningRoutine", getWorkdayBooleans(userId, "On which days do you work ?"), "#DF7401", userId, timeAnswerService.findByUserIdAndQuestion(userId, "When do you want to start to get ready for bed ?").orElseThrow().getTime(),
+        safeProcessedAnswer("eveningRoutine", getWeekdays(userId, WORKDAY_QUESTION), COLOR_ROUTINE, userId,
+                timeAnswerService.findByUserIdAndQuestion(userId, "When do you want to start to get ready for bed ?").orElseThrow().getTime(),
                 timeAnswerService.findByUserIdAndQuestion(userId, "When do you want to sleep ?").orElseThrow().getTime());
 
-        safeProcessedAnswer("nightSleep", getWorkdayBooleans(userId, "On which days do you work ?"), "#000000", userId, timeAnswerService.findByUserIdAndQuestion(userId, "When do you want to sleep ?").orElseThrow().getTime(),
-                eveningTimeShorter(timeAnswerService.findByUserIdAndQuestion(userId, "When do you want to sleep ?").orElseThrow().getTimeInMinutes()));
+        safeProcessedAnswer("nightSleep", getWeekdays(userId, WORKDAY_QUESTION), COLOR_SLEEP, userId,
+                timeAnswerService.findByUserIdAndQuestion(userId, "When do you want to sleep ?").orElseThrow().getTime(),
+                setRenderCap(timeAnswerService.findByUserIdAndQuestion(userId, "When do you want to sleep ?").orElseThrow().getTimeInMinutes(), + 60));
     }
 
-    public String morningTimeShorter(int begin) {
-        int shortenedTime = begin - 60;
-        if (shortenedTime < 0) {
-            shortenedTime = 0;
-        }
-
-        return timeUnitService.timeInMinutesToTimeConverter(shortenedTime);
+    public String setRenderCap(int timeInMinutes, int shift) {
+        int renderCap = Math.max(0, Math.min(timeInMinutes + shift, 1440));
+        return timeUnitService.timeInMinutesToTimeConverter(renderCap);
     }
 
-    public String eveningTimeShorter(int begin) {
-        int shortenedTime = begin + 60;
-        if (shortenedTime > 1440) {
-            shortenedTime = 1440;
-        }
-        return timeUnitService.timeInMinutesToTimeConverter(shortenedTime);
-    }
-
-    public void safeProcessedAnswer(String task, Map<String, Boolean> workdays, String color, String userId, String begin, String end) {
-        List<String> timeList = timeListCreation(begin, end);
+    public void safeProcessedAnswer(String task, Map<String, Boolean> workdays, String color, String userId, String startTime, String endTime) {
+        List<String> timeList = createTimeList(startTime, endTime);
 
         ProcessedTimeAnswer processedTimeAnswer = new ProcessedTimeAnswer();
         processedTimeAnswer.setTimeList(timeList);
         processedTimeAnswer.setTask(task);
-        processedTimeAnswer.setMonday(workdays.get("monday"));
-        processedTimeAnswer.setTuesday(workdays.get("tuesday"));
-        processedTimeAnswer.setWednesday(workdays.get("wednesday"));
-        processedTimeAnswer.setThursday(workdays.get("thursday"));
-        processedTimeAnswer.setFriday(workdays.get("friday"));
-        processedTimeAnswer.setSaturday(workdays.get("saturday"));
-        processedTimeAnswer.setSunday(workdays.get("sunday"));
+        processedTimeAnswer.setWorkdays(workdays);
         processedTimeAnswer.setColor(color);
         processedTimeAnswer.setUserId(userId);
+
         processedAnswerRepository.save(processedTimeAnswer);
     }
 
-
-    public List<String> timeListCreation(String begin, String end) {
-        TimeUnit timeUnit = new TimeUnit();
-        timeUnit.setTime(begin);
-        timeUnit.setEnd(end);
-        timeUnit.setLength(5);
+    public List<String> createTimeList(String startTime, String endTime) {
+        TimeUnit timeUnit = new TimeUnit(startTime, endTime, 5);
 
         List<TimeUnit> timeUnitList = timeUnitService.createTimeUnitList(timeUnit);
-        List<String> timeList = new java.util.ArrayList<>(timeUnitList.stream().map(TimeUnit::getTime).toList());
+        List<String> timeList = new java.util.ArrayList<>(timeUnitList.stream()
+                .map(TimeUnit::getTime)
+                .toList());
         timeList.remove(timeList.size() - 1);
         return timeList;
     }
 
-    private Map<String, Boolean> getWorkdayBooleans(String userId, String question) throws Exception {
-        Map<String, Boolean> workdayBooleans = new HashMap<>();
-        if (weekdayAnswerService.findByUserIdAndQuestion(userId, question).isPresent()){
-            WeekdayAnswer weekdayAnswer = weekdayAnswerService.findByUserIdAndQuestion(userId, question).get();
-            workdayBooleans.put("monday", weekdayAnswer.isMonday());
-            workdayBooleans.put("tuesday", weekdayAnswer.isTuesday());
-            workdayBooleans.put("wednesday", weekdayAnswer.isWednesday());
-            workdayBooleans.put("thursday", weekdayAnswer.isThursday());
-            workdayBooleans.put("friday", weekdayAnswer.isFriday());
-            workdayBooleans.put("saturday", weekdayAnswer.isSaturday());
-            workdayBooleans.put("sunday", weekdayAnswer.isSunday());
+    private Map<String, Boolean> getWeekdays(String userId, String question) throws Exception {
+        WeekdayAnswer weekdayAnswer = weekdayAnswerService.findByUserIdAndQuestion(userId, question)
+                .orElseThrow(() -> new Exception("Error: weekdayAnswer not available!"));
 
-        }
-        else throw new Exception("Error: workdayAnswer not available !");
-        return workdayBooleans;
+        Map<String, Boolean> weekdays = new HashMap<>();
+            weekdays.put("monday", weekdayAnswer.isMonday());
+            weekdays.put("tuesday", weekdayAnswer.isTuesday());
+            weekdays.put("wednesday", weekdayAnswer.isWednesday());
+            weekdays.put("thursday", weekdayAnswer.isThursday());
+            weekdays.put("friday", weekdayAnswer.isFriday());
+            weekdays.put("saturday", weekdayAnswer.isSaturday());
+            weekdays.put("sunday", weekdayAnswer.isSunday());
+
+        return weekdays;
     }
+
     public List<ProcessedTimeAnswer> getProcessedAnswersByUserId(String userId) {
         return processedAnswerRepository.getProcessedAnswerListByUserId(userId);
     }
