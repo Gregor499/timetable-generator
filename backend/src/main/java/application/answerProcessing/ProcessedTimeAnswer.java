@@ -25,7 +25,6 @@ public class ProcessedTimeAnswer {
     private Boolean saturday;
     private Boolean sunday;
 
-    private String color;
     private String userId;
     private List<String> timeList;
 

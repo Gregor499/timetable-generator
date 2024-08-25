@@ -20,8 +20,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ProcessedTimeAnswerService {
     private static final String WORKDAY_QUESTION = "On which days do you work ?";
-    private static final String COLOR_SLEEP = "#000000";
-    private static final String COLOR_ROUTINE = "#DF7401";
 
     private final TimeAnswerService timeAnswerService;
     private final WeekdayAnswerService weekdayAnswerService;
@@ -54,31 +52,31 @@ public class ProcessedTimeAnswerService {
     }
 
     public void timeAnswerProcessing(String userId) throws Exception {
-        safeProcessedAnswer("morningSleep", getWeekdays(userId, WORKDAY_QUESTION), COLOR_SLEEP, userId,
+        safeProcessedAnswer("morningSleep", getWeekdays(userId, WORKDAY_QUESTION), userId,
                 setRenderCap(timeAnswerService.findByUserIdAndQuestion(userId, "When do you want to wake up ?").orElseThrow().getTimeInMinutes(), - 60),
                 timeAnswerService.findByUserIdAndQuestion(userId, "When do you want to wake up ?").orElseThrow().getTime());
 
-        safeProcessedAnswer("morningRoutine", getWeekdays(userId, WORKDAY_QUESTION), COLOR_ROUTINE, userId,
+        safeProcessedAnswer("morningRoutine", getWeekdays(userId, WORKDAY_QUESTION), userId,
                 timeAnswerService.findByUserIdAndQuestion(userId, "When do you want to wake up ?").orElseThrow().getTime(),
                 timeAnswerService.findByUserIdAndQuestion(userId, "When are you ready for the day?").orElseThrow().getTime());
 
-        safeProcessedAnswer("workWayTime", getWeekdays(userId, WORKDAY_QUESTION), COLOR_ROUTINE, userId,
+        safeProcessedAnswer("workWayTime", getWeekdays(userId, WORKDAY_QUESTION), userId,
                 timeAnswerService.findByUserIdAndQuestion(userId, "When do you want to begin going to work ?").orElseThrow().getTime(),
                 timeAnswerService.findByUserIdAndQuestion(userId, "When does your work start ?").orElseThrow().getTime());
 
-        safeProcessedAnswer("work", getWeekdays(userId, WORKDAY_QUESTION), COLOR_ROUTINE, userId,
+        safeProcessedAnswer("work", getWeekdays(userId, WORKDAY_QUESTION), userId,
                 timeAnswerService.findByUserIdAndQuestion(userId, "When does your work start ?").orElseThrow().getTime(),
                 timeAnswerService.findByUserIdAndQuestion(userId, "When does your work end ?").orElseThrow().getTime());
 
-        safeProcessedAnswer("leisureTime", getWeekdays(userId, WORKDAY_QUESTION), COLOR_ROUTINE, userId,
+        safeProcessedAnswer("leisureTime", getWeekdays(userId, WORKDAY_QUESTION), userId,
                 timeAnswerService.findByUserIdAndQuestion(userId, "When does your leisure time start ?").orElseThrow().getTime(),
                 timeAnswerService.findByUserIdAndQuestion(userId, "When does your leisure time end ?").orElseThrow().getTime());
 
-        safeProcessedAnswer("eveningRoutine", getWeekdays(userId, WORKDAY_QUESTION), COLOR_ROUTINE, userId,
+        safeProcessedAnswer("eveningRoutine", getWeekdays(userId, WORKDAY_QUESTION), userId,
                 timeAnswerService.findByUserIdAndQuestion(userId, "When do you want to start to get ready for bed ?").orElseThrow().getTime(),
                 timeAnswerService.findByUserIdAndQuestion(userId, "When do you want to sleep ?").orElseThrow().getTime());
 
-        safeProcessedAnswer("nightSleep", getWeekdays(userId, WORKDAY_QUESTION), COLOR_SLEEP, userId,
+        safeProcessedAnswer("nightSleep", getWeekdays(userId, WORKDAY_QUESTION), userId,
                 timeAnswerService.findByUserIdAndQuestion(userId, "When do you want to sleep ?").orElseThrow().getTime(),
                 setRenderCap(timeAnswerService.findByUserIdAndQuestion(userId, "When do you want to sleep ?").orElseThrow().getTimeInMinutes(), + 60));
     }
@@ -88,14 +86,13 @@ public class ProcessedTimeAnswerService {
         return timeUnitService.timeInMinutesToTimeConverter(renderCap);
     }
 
-    public void safeProcessedAnswer(String task, Map<String, Boolean> workdays, String color, String userId, String startTime, String endTime) {
+    public void safeProcessedAnswer(String task, Map<String, Boolean> workdays, String userId, String startTime, String endTime) {
         List<String> timeList = createTimeList(startTime, endTime);
 
         ProcessedTimeAnswer processedTimeAnswer = new ProcessedTimeAnswer();
         processedTimeAnswer.setTimeList(timeList);
         processedTimeAnswer.setTask(task);
         processedTimeAnswer.setWorkdays(workdays);
-        processedTimeAnswer.setColor(color);
         processedTimeAnswer.setUserId(userId);
 
         processedAnswerRepository.save(processedTimeAnswer);

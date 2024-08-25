@@ -63,7 +63,6 @@ export interface ProcessedTimeAnswer {
     saturday: boolean
     sunday: boolean
 
-    color: string
     timeList: string[]
 }
 
