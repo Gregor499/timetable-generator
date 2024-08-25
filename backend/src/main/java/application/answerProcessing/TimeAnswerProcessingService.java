@@ -18,7 +18,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class ProcessedTimeAnswerService {
+public class TimeAnswerProcessingService {
     private static final String WORKDAY_QUESTION = "On which days do you work ?";
 
     private final TimeAnswerService timeAnswerService;
@@ -34,7 +34,7 @@ public class ProcessedTimeAnswerService {
         cleanUpExistingProcessedAnswers(userId);
 
 
-        timeAnswerProcessing(userId);
+        process(userId);
 
         timeAnswerService.deleteAllAnswers();
         weekdayAnswerService.deleteAllAnswers();
@@ -51,7 +51,7 @@ public class ProcessedTimeAnswerService {
         processedAnswerRepository.deleteProcessedTimeAnswersByUserId(userId);
     }
 
-    public void timeAnswerProcessing(String userId) throws Exception {
+    public void process(String userId) throws Exception {
         safeProcessedAnswer("morningSleep", getWeekdays(userId, WORKDAY_QUESTION), userId,
                 setRenderCap(timeAnswerService.findByUserIdAndQuestion(userId, "When do you want to wake up ?").orElseThrow().getTimeInMinutes(), - 60),
                 timeAnswerService.findByUserIdAndQuestion(userId, "When do you want to wake up ?").orElseThrow().getTime());

@@ -5,7 +5,7 @@ import application.answerDB.TimeAnswer;
 import application.answerDB.WeekdayAnswer;
 import application.answerDB.WeekdayAnswerService;
 import application.answerProcessing.ProcessedTimeAnswer;
-import application.answerProcessing.ProcessedTimeAnswerService;
+import application.answerProcessing.TimeAnswerProcessingService;
 import application.questionDB.Question;
 import application.questionDB.QuestionService;
 import application.user.User;
@@ -26,7 +26,7 @@ public class TimeTableController {
     private final TimeAnswerService timeAnswerService;
     private final WeekdayAnswerService weekdayAnswerService;
     private final UserService userService;
-    private final ProcessedTimeAnswerService processedTimeAnswerService;
+    private final TimeAnswerProcessingService timeAnswerProcessingService;
 
     @PostMapping("/time")
     @ResponseStatus(HttpStatus.CREATED)
@@ -80,6 +80,6 @@ public class TimeTableController {
 
     @GetMapping("/processedTimeAnswers")
     List<ProcessedTimeAnswer> getProcessedAnswers(Principal principal) throws Exception {
-        return processedTimeAnswerService.processTimeAnswers(principal);
+        return timeAnswerProcessingService.processTimeAnswers(principal);
     }
 }
