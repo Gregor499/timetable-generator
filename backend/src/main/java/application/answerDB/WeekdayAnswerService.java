@@ -1,6 +1,5 @@
 package application.answerDB;
 
-import application.timetable.TimeUnitService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,12 +11,13 @@ import java.util.Optional;
 public class WeekdayAnswerService {
     private final WeekdayAnswerRepository weekdayAnswerRepository;
 
-    public void addNewAnswer(WeekdayAnswer weekdayAnswer) {
-        if (findByUserIdAndQuestionId(weekdayAnswer.getUserId(), weekdayAnswer.getQuestionId()).isPresent()) {
-            weekdayAnswerRepository.delete(findByUserIdAndQuestionId(weekdayAnswer.getUserId(), weekdayAnswer.getQuestionId()).orElseThrow());
-        }
-
+    public void saveOrUpdateAnswer(WeekdayAnswer weekdayAnswer) {
+        deleteExistingAnswerIfPresent(weekdayAnswer.getUserId(), weekdayAnswer.getQuestionId());
         weekdayAnswerRepository.save(weekdayAnswer);
+    }
+
+    private void deleteExistingAnswerIfPresent(String userId, String questionId) {
+        findByUserIdAndQuestionId(userId, questionId).ifPresent(weekdayAnswerRepository::delete);
     }
 
     public List<WeekdayAnswer> findAll() {

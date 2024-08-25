@@ -69,7 +69,7 @@ public class TimeTableController {
     WeekdayAnswer addAnswer(@RequestBody WeekdayAnswer weekdayAnswer, Principal principal) {
         User user = userService.findByUsername(principal.getName()).orElseThrow();
         weekdayAnswer.setUserId(user.getId());
-        weekdayAnswerService.addNewAnswer(weekdayAnswer);
+        weekdayAnswerService.saveOrUpdateAnswer(weekdayAnswer);
         return weekdayAnswerService.findByUserIdAndQuestionId(weekdayAnswer.getUserId(), weekdayAnswer.getQuestionId()).orElseThrow();
     }
 
