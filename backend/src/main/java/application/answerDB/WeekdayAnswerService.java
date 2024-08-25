@@ -16,10 +16,6 @@ public class WeekdayAnswerService {
         weekdayAnswerRepository.save(weekdayAnswer);
     }
 
-    private void deleteExistingAnswerIfPresent(String userId, String questionId) {
-        findByUserIdAndQuestionId(userId, questionId).ifPresent(weekdayAnswerRepository::delete);
-    }
-
     public List<WeekdayAnswer> findAll() {
         return weekdayAnswerRepository.findAll();
     }
@@ -34,5 +30,10 @@ public class WeekdayAnswerService {
 
     public void deleteAllAnswers() {
         weekdayAnswerRepository.deleteAll();
+    }
+
+
+    private void deleteExistingAnswerIfPresent(String userId, String questionId) {
+        findByUserIdAndQuestionId(userId, questionId).ifPresent(weekdayAnswerRepository::delete);
     }
 }

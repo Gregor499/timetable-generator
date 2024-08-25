@@ -13,12 +13,18 @@ public class QuestionService {
 
     public Question addNewQuestion(Question question) {
         if (question.order > 1) {
-            question.setPreviousQuestionId(questionRepository.findQuestionByOrder(question.order - 1).orElseThrow().id);
+            setPreviousQuestionId(question);
         }
         return questionRepository.save(question);
     }
 
     public List<Question> findAll() {
         return questionRepository.findAll();
+    }
+
+
+    private void setPreviousQuestionId(Question question) {
+        questionRepository.findQuestionByOrder(question.getOrder() - 1)
+                .ifPresent(previousQuestion -> question.setPreviousQuestionId(previousQuestion.getId()));
     }
 }

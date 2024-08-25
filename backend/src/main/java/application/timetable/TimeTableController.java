@@ -59,7 +59,7 @@ public class TimeTableController {
     TimeAnswer addAnswer(@RequestBody TimeAnswer timeAnswer, Principal principal) {
         User user = userService.findByUsername(principal.getName()).orElseThrow();
         timeAnswer.setUserId(user.getId());
-        timeAnswerService.addNewAnswer(timeAnswer);
+        timeAnswerService.safeOrUpdateAnswer(timeAnswer);
         return timeAnswerService.findByUserIdAndQuestionId(timeAnswer.getUserId(), timeAnswer.getQuestionId()).orElseThrow();
     }
 

@@ -15,13 +15,8 @@ public class TimeAnswerService {
     private final TimeAnswerRepository timeAnswerRepository;
     private final TimeUnitService timeUnitService;
 
-    public void addNewAnswer(TimeAnswer timeAnswer) {
-        if (findByUserIdAndQuestionId(timeAnswer.getUserId(), timeAnswer.getQuestionId()).isPresent()) {
-            timeAnswerRepository.delete(findByUserIdAndQuestionId(timeAnswer.getUserId(), timeAnswer.getQuestionId()).orElseThrow());
-        }
-
-        timeAnswer.setTime(timeUnitService.convertMinutesToTimeUnit(timeAnswer.getTimeInMinutes()));
-
+    public void safeOrUpdateAnswer(TimeAnswer timeAnswer) {
+        deleteExistingAnswerIfPresent(timeAnswer.getUserId(), timeAnswer.getQuestionId());
         timeAnswerRepository.save(timeAnswer);
     }
 
@@ -39,5 +34,10 @@ public class TimeAnswerService {
 
     public void deleteAllAnswers() {
         timeAnswerRepository.deleteAll();
+    }
+
+
+    private void deleteExistingAnswerIfPresent(String userId, String questionId) {
+        findByUserIdAndQuestionId(userId, questionId).ifPresent(timeAnswerRepository::delete);
     }
 }
