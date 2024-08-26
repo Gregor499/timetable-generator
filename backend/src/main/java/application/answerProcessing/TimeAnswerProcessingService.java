@@ -53,30 +53,30 @@ public class TimeAnswerProcessingService {
     }
 
     public void process(String userId) throws Exception {
-        genericProcessing(userId, "morningSleep", WORKDAY_QUESTION,
+        connectAnswers(userId, "morningSleep", WORKDAY_QUESTION,
                 "When do you want to wake up ?", "When do you want to wake up ?", -OFFSET);
 
         //morningRoutine is connected to morningSleep
-        genericProcessing(userId, "morningRoutine", WORKDAY_QUESTION,
+        connectAnswers(userId, "morningRoutine", WORKDAY_QUESTION,
                 "When do you want to wake up ?", "When are you ready for the day?", 0);
 
-        genericProcessing(userId, "workWayTime", WORKDAY_QUESTION,
+        connectAnswers(userId, "workWayTime", WORKDAY_QUESTION,
                 "When do you want to begin going to work ?", "When does your work start ?", 0);
 
-        genericProcessing(userId, "work", WORKDAY_QUESTION,
+        connectAnswers(userId, "work", WORKDAY_QUESTION,
                 "When does your work start ?", "When does your work end ?", 0);
 
-        genericProcessing(userId, "leisureTime", WORKDAY_QUESTION,
+        connectAnswers(userId, "leisureTime", WORKDAY_QUESTION,
                 "When does your leisure time start ?", "When does your leisure time end ?", 0);
 
         //eveningRoutine is connected to nightSleep
-        genericProcessing(userId, "eveningRoutine", WORKDAY_QUESTION,
+        connectAnswers(userId, "eveningRoutine", WORKDAY_QUESTION,
                 "When do you want to start to get ready for bed ?", "When do you want to sleep ?", 0);
 
-        genericProcessing(userId, "nightSleep", WORKDAY_QUESTION, "When do you want to sleep ?", "When do you want to sleep ?", OFFSET);
+        connectAnswers(userId, "nightSleep", WORKDAY_QUESTION, "When do you want to sleep ?", "When do you want to sleep ?", OFFSET);
     }
 
-    public void genericProcessing(String userId, String questionType, String weekdayType, String startTimeQuestion, String endTimeQuestion, int shift) throws Exception {
+    public void connectAnswers(String userId, String questionType, String weekdayType, String startTimeQuestion, String endTimeQuestion, int shift) throws Exception {
         if (shift < 0) {
             safeProcessedAnswer(questionType, getWeekdays(userId, weekdayType), userId,
                     setRenderCap(timeAnswerService.findByUserIdAndQuestion(userId, startTimeQuestion).orElseThrow().getTimeInMinutes(), shift),
