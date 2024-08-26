@@ -8,6 +8,7 @@ import application.timetable.TimeUnitService;
 import application.user.User;
 import application.user.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class TimeAnswerProcessingService {
@@ -86,10 +88,14 @@ public class TimeAnswerProcessingService {
             safeProcessedAnswer(questionType, getWeekdays(userId, weekdayType), userId,
                     timeAnswerService.findByUserIdAndQuestion(userId, startTimeQuestion).orElseThrow().getTime(),
                     setRenderCap(timeAnswerService.findByUserIdAndQuestion(userId, endTimeQuestion).orElseThrow().getTimeInMinutes(), shift));
-        } else {
+        }
+        if(shift == 0){
             safeProcessedAnswer(questionType, getWeekdays(userId, weekdayType), userId,
                     timeAnswerService.findByUserIdAndQuestion(userId, startTimeQuestion).orElseThrow().getTime(),
                     timeAnswerService.findByUserIdAndQuestion(userId, endTimeQuestion).orElseThrow().getTime());
+        }
+        else {
+            log.info("Unplanned 'else' case because of shift value :{}", shift);
         }
     }
 
