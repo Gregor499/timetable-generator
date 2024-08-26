@@ -7,8 +7,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-import static java.lang.Character.getNumericValue;
-
 @Service
 @RequiredArgsConstructor
 public class TimeAnswerService {
