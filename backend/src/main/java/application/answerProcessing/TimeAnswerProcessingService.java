@@ -78,21 +78,33 @@ public class TimeAnswerProcessingService {
         connectAnswers(userId, "nightSleep", WORKDAY_QUESTION, "When do you want to sleep ?", "When do you want to sleep ?", OFFSET);
     }
 
-    public void connectAnswers(String userId, String questionType, String weekdayType, String startTimeQuestion, String endTimeQuestion, int shift) throws Exception {
+    public void connectAnswers(String userId, String questionType, String weekdayType, String beginQuestion, String endQuestion, int shift) throws Exception {
         if (shift < 0) {
             safeProcessedAnswer(questionType, getWeekdays(userId, weekdayType), userId,
-                    setRenderCap(timeAnswerService.findByUserIdAndQuestion(userId, startTimeQuestion).orElseThrow().getTimeInMinutes(), shift),
-                    timeAnswerService.findByUserIdAndQuestion(userId, endTimeQuestion).orElseThrow().getTime());
+                    setRenderCap(timeAnswerService.findByUserIdAndQuestion(userId, beginQuestion)
+                            .orElseThrow(() -> new Exception("Answer not found for question: " + beginQuestion))
+                            .getTimeInMinutes(), shift),
+                    timeAnswerService.findByUserIdAndQuestion(userId, endQuestion)
+                            .orElseThrow(() -> new Exception("Answer not found for question: " + endQuestion))
+                            .getTime());
         }
         if (shift > 0) {
             safeProcessedAnswer(questionType, getWeekdays(userId, weekdayType), userId,
-                    timeAnswerService.findByUserIdAndQuestion(userId, startTimeQuestion).orElseThrow().getTime(),
-                    setRenderCap(timeAnswerService.findByUserIdAndQuestion(userId, endTimeQuestion).orElseThrow().getTimeInMinutes(), shift));
+                    timeAnswerService.findByUserIdAndQuestion(userId, beginQuestion)
+                            .orElseThrow(() -> new Exception("Answer not found for question: " + beginQuestion))
+                            .getTime(),
+                    setRenderCap(timeAnswerService.findByUserIdAndQuestion(userId, endQuestion)
+                            .orElseThrow(() -> new Exception("Answer not found for question: " + endQuestion))
+                            .getTimeInMinutes(), shift));
         }
         if(shift == 0){
             safeProcessedAnswer(questionType, getWeekdays(userId, weekdayType), userId,
-                    timeAnswerService.findByUserIdAndQuestion(userId, startTimeQuestion).orElseThrow().getTime(),
-                    timeAnswerService.findByUserIdAndQuestion(userId, endTimeQuestion).orElseThrow().getTime());
+                    timeAnswerService.findByUserIdAndQuestion(userId, beginQuestion)
+                            .orElseThrow(() -> new Exception("Answer not found for question: " + beginQuestion))
+                            .getTime(),
+                    timeAnswerService.findByUserIdAndQuestion(userId, endQuestion)
+                            .orElseThrow(() -> new Exception("Answer not found for question: " + endQuestion))
+                            .getTime());
         }
         else {
             log.info("Unplanned 'else' case because of shift value :{}", shift);
