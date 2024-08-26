@@ -55,59 +55,45 @@ public class TimeAnswerProcessingService {
     }
 
     public void process(String userId) throws Exception {
-        connectAnswers(userId, "morningSleep", WORKDAY_QUESTION,
-                "When do you want to wake up ?", "When do you want to wake up ?", -OFFSET);
-
-        //morningRoutine is connected to morningSleep
-        connectAnswers(userId, "morningRoutine", WORKDAY_QUESTION,
-                "When do you want to wake up ?", "When are you ready for the day?", 0);
-
-        connectAnswers(userId, "workWayTime", WORKDAY_QUESTION,
-                "When do you want to begin going to work ?", "When does your work start ?", 0);
-
-        connectAnswers(userId, "work", WORKDAY_QUESTION,
-                "When does your work start ?", "When does your work end ?", 0);
-
-        connectAnswers(userId, "leisureTime", WORKDAY_QUESTION,
-                "When does your leisure time start ?", "When does your leisure time end ?", 0);
-
-        //eveningRoutine is connected to nightSleep
-        connectAnswers(userId, "eveningRoutine", WORKDAY_QUESTION,
-                "When do you want to start to get ready for bed ?", "When do you want to sleep ?", 0);
-
-        connectAnswers(userId, "nightSleep", WORKDAY_QUESTION, "When do you want to sleep ?", "When do you want to sleep ?", OFFSET);
+        for (AnswerConnection answerConnection : AnswerConnection.values()) {
+            connectAnswers(answerConnection, userId);
+        }
     }
 
-    public void connectAnswers(String userId, String questionType, String weekdayType, String beginQuestion, String endQuestion, int shift) throws Exception {
-        if (shift < 0) {
-            safeProcessedAnswer(questionType, getWeekdays(userId, weekdayType), userId,
-                    setRenderCap(timeAnswerService.findByUserIdAndQuestion(userId, beginQuestion)
-                            .orElseThrow(() -> new Exception("Answer not found for question: " + beginQuestion))
-                            .getTimeInMinutes(), shift),
-                    timeAnswerService.findByUserIdAndQuestion(userId, endQuestion)
-                            .orElseThrow(() -> new Exception("Answer not found for question: " + endQuestion))
+    //todo: rename task to questionType
+    //todo: flexible offset
+    //todo: untangle "connectAnswers()"
+
+    public void connectAnswers(AnswerConnection answerConnection, String userId) throws Exception {
+        if (answerConnection.getTimeOffset() < 0) {
+            safeProcessedAnswer(answerConnection.getTaskName(), getWeekdays(userId, WORKDAY_QUESTION), userId,
+                    setRenderCap(timeAnswerService.findByUserIdAndQuestion(userId, answerConnection.getBeginQuestion())
+                            .orElseThrow(() -> new Exception("Answer not found for question: " + answerConnection.getBeginQuestion()))
+                            .getTimeInMinutes(), answerConnection.getTimeOffset()),
+                    timeAnswerService.findByUserIdAndQuestion(userId, answerConnection.getEndQuestion())
+                            .orElseThrow(() -> new Exception("Answer not found for question: " + answerConnection.getEndQuestion()))
                             .getTime());
         }
-        if (shift > 0) {
-            safeProcessedAnswer(questionType, getWeekdays(userId, weekdayType), userId,
-                    timeAnswerService.findByUserIdAndQuestion(userId, beginQuestion)
-                            .orElseThrow(() -> new Exception("Answer not found for question: " + beginQuestion))
+        if (answerConnection.getTimeOffset() > 0) {
+            safeProcessedAnswer(answerConnection.getTaskName(), getWeekdays(userId, WORKDAY_QUESTION), userId,
+                    timeAnswerService.findByUserIdAndQuestion(userId, answerConnection.getBeginQuestion())
+                            .orElseThrow(() -> new Exception("Answer not found for question: " + answerConnection.getBeginQuestion()))
                             .getTime(),
-                    setRenderCap(timeAnswerService.findByUserIdAndQuestion(userId, endQuestion)
-                            .orElseThrow(() -> new Exception("Answer not found for question: " + endQuestion))
-                            .getTimeInMinutes(), shift));
+                    setRenderCap(timeAnswerService.findByUserIdAndQuestion(userId, answerConnection.getEndQuestion())
+                            .orElseThrow(() -> new Exception("Answer not found for question: " + answerConnection.getEndQuestion()))
+                            .getTimeInMinutes(), answerConnection.getTimeOffset()));
         }
-        if(shift == 0){
-            safeProcessedAnswer(questionType, getWeekdays(userId, weekdayType), userId,
-                    timeAnswerService.findByUserIdAndQuestion(userId, beginQuestion)
-                            .orElseThrow(() -> new Exception("Answer not found for question: " + beginQuestion))
+        if(answerConnection.getTimeOffset() == 0){
+            safeProcessedAnswer(answerConnection.getTaskName(), getWeekdays(userId, WORKDAY_QUESTION), userId,
+                    timeAnswerService.findByUserIdAndQuestion(userId, answerConnection.getBeginQuestion())
+                            .orElseThrow(() -> new Exception("Answer not found for question: " + answerConnection.getBeginQuestion()))
                             .getTime(),
-                    timeAnswerService.findByUserIdAndQuestion(userId, endQuestion)
-                            .orElseThrow(() -> new Exception("Answer not found for question: " + endQuestion))
+                    timeAnswerService.findByUserIdAndQuestion(userId, answerConnection.getEndQuestion())
+                            .orElseThrow(() -> new Exception("Answer not found for question: " + answerConnection.getEndQuestion()))
                             .getTime());
         }
         else {
-            log.info("Unplanned 'else' case because of shift value :{}", shift);
+            log.info("Unplanned 'else' case because of shift value :{}", answerConnection.getTimeOffset());
         }
     }
 
