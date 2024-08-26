@@ -17,6 +17,7 @@ public class TimeAnswerService {
 
     public void safeOrUpdateAnswer(TimeAnswer timeAnswer) {
         deleteExistingAnswerIfPresent(timeAnswer.getUserId(), timeAnswer.getQuestionId());
+        timeAnswer.setTime(timeUnitService.convertMinutesToTimeUnit(timeAnswer.getTimeInMinutes()));
         timeAnswerRepository.save(timeAnswer);
     }
 
