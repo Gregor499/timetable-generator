@@ -1,5 +1,6 @@
 package application.answerProcessing;
 
+import application.answerDB.TimeAnswer;
 import application.answerDB.TimeAnswerService;
 import application.answerDB.WeekdayAnswer;
 import application.answerDB.WeekdayAnswerService;
@@ -59,10 +60,7 @@ public class TimeAnswerProcessingService {
         }
     }
 
-    //todo: rename task to questionType
-    //todo: untangle "connectAnswers()"
-    //todo: separate to AnswerConnector class ?
-
+    //todo: separate to an AnswerConnector class ?
     public void connectAnswers(AnswerConnection answerConnection, String userId) throws Exception {
         int timeOffset = answerConnection.getTimeOffset();
         String taskName = answerConnection.getTaskName();
@@ -70,46 +68,43 @@ public class TimeAnswerProcessingService {
         String beginQuestion = answerConnection.getBeginQuestion();
         String endQuestion = answerConnection.getEndQuestion();
 
+        TimeAnswer beginAnswer = getTimeAnswer(userId, beginQuestion);
+        TimeAnswer endAnswer = getTimeAnswer(userId, endQuestion);
+
+        String beginTime = beginAnswer.getTime();
+        String endTime = endAnswer.getTime();
+
+        String adjustedBeginTime = setRenderCap(beginAnswer.getTimeInMinutes(), timeOffset);
+        String adjustedEndTime = setRenderCap(endAnswer.getTimeInMinutes(), timeOffset);
+
         if (timeOffset < 0) {
             safeProcessedAnswer(
                     taskName,
                     getWeekdays(userId, weekdayQuestion),
                     userId,
-                    createTimeUnitList(setRenderCap(timeAnswerService.findByUserIdAndQuestion(userId, beginQuestion)
-                                    .orElseThrow(() -> new Exception("Answer not found for question: " + beginQuestion))
-                                    .getTimeInMinutes(), timeOffset),
-                            timeAnswerService.findByUserIdAndQuestion(userId, answerConnection.getEndQuestion())
-                                    .orElseThrow(() -> new Exception("Answer not found for question: " + endQuestion))
-                                    .getTime()));
+                    createTimeUnitList(adjustedBeginTime, endTime));
         }
         if (timeOffset > 0) {
             safeProcessedAnswer(
                     taskName,
                     getWeekdays(userId, weekdayQuestion),
                     userId,
-                    createTimeUnitList(
-                            timeAnswerService.findByUserIdAndQuestion(userId, answerConnection.getBeginQuestion())
-                                    .orElseThrow(() -> new Exception("Answer not found for question: " + beginQuestion))
-                                    .getTime(),
-                            setRenderCap(timeAnswerService.findByUserIdAndQuestion(userId, answerConnection.getEndQuestion())
-                                    .orElseThrow(() -> new Exception("Answer not found for question: " + endQuestion))
-                                    .getTimeInMinutes(), timeOffset)));
+                    createTimeUnitList(beginTime, adjustedEndTime));
         }
         if (timeOffset == 0) {
             safeProcessedAnswer(
                     taskName,
                     getWeekdays(userId, weekdayQuestion),
                     userId,
-                    createTimeUnitList(
-                            timeAnswerService.findByUserIdAndQuestion(userId, answerConnection.getBeginQuestion())
-                                    .orElseThrow(() -> new Exception("Answer not found for question: " + beginQuestion))
-                                    .getTime(),
-                            timeAnswerService.findByUserIdAndQuestion(userId, answerConnection.getEndQuestion())
-                                    .orElseThrow(() -> new Exception("Answer not found for question: " + endQuestion))
-                                    .getTime()));
+                    createTimeUnitList(beginTime, endTime));
         } else {
             log.info("Unplanned 'else' case because of shift value :{}", timeOffset);
         }
+    }
+
+    private TimeAnswer getTimeAnswer(String userId, String question) throws Exception {
+        return timeAnswerService.findByUserIdAndQuestion(userId, question)
+                .orElseThrow(() -> new Exception("Answer not found for question: " + question));
     }
 
     public String setRenderCap(int timeInMinutes, int shift) {
@@ -119,10 +114,10 @@ public class TimeAnswerProcessingService {
 
     public void safeProcessedAnswer(String task, Map<String, Boolean> workdays, String userId, List<String> timeList) {
         ProcessedTimeAnswer processedTimeAnswer = new ProcessedTimeAnswer();
-        processedTimeAnswer.setTimeList(timeList);
         processedTimeAnswer.setTask(task);
         processedTimeAnswer.setWorkdays(workdays);
         processedTimeAnswer.setUserId(userId);
+        processedTimeAnswer.setTimeList(timeList);
 
         processedAnswerRepository.save(processedTimeAnswer);
     }
