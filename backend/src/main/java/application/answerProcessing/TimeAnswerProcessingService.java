@@ -4,6 +4,7 @@ import application.answerDB.TimeAnswer;
 import application.answerDB.TimeAnswerService;
 import application.answerDB.WeekdayAnswer;
 import application.answerDB.WeekdayAnswerService;
+import application.questionDB.QuestionConnection;
 import application.timetable.TimeUnit;
 import application.timetable.TimeUnitService;
 import application.user.User;
@@ -55,18 +56,18 @@ public class TimeAnswerProcessingService {
     }
 
     public void process(String userId) throws Exception {
-        for (AnswerConnection answerConnection : AnswerConnection.values()) {
-            connectAnswers(answerConnection, userId);
+        for (QuestionConnection questionConnection : QuestionConnection.values()) {
+            connectAnswers(questionConnection, userId);
         }
     }
 
     //todo: separate to an AnswerConnector class ?
-    public void connectAnswers(AnswerConnection answerConnection, String userId) throws Exception {
-        int timeOffset = answerConnection.getTimeOffset();
-        String taskName = answerConnection.getTaskName();
+    public void connectAnswers(QuestionConnection questionConnection, String userId) throws Exception {
+        int timeOffset = questionConnection.getTimeOffset();
+        String taskName = questionConnection.getTaskName();
         String weekdayQuestion = WORKDAY_QUESTION;
-        String beginQuestion = answerConnection.getBeginQuestion();
-        String endQuestion = answerConnection.getEndQuestion();
+        String beginQuestion = questionConnection.getBeginQuestion();
+        String endQuestion = questionConnection.getEndQuestion();
 
         TimeAnswer beginAnswer = getTimeAnswer(userId, beginQuestion);
         TimeAnswer endAnswer = getTimeAnswer(userId, endQuestion);
@@ -98,7 +99,7 @@ public class TimeAnswerProcessingService {
                     userId,
                     createTimeUnitList(beginTime, endTime));
         } else {
-            log.info("Unplanned 'else' case because of shift value :{}", timeOffset);
+            log.info("Unplanned shift value :{}", timeOffset);
         }
     }
 

@@ -1,11 +1,12 @@
-package application.answerProcessing;
+package application.questionDB;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum AnswerConnection {
+public enum QuestionConnection {
+    //todo: integrate to QuestionDB
     MORNING_SLEEP("morningSleep",
             "When do you want to wake up ?",
             "When do you want to wake up ?",
@@ -41,7 +42,7 @@ public enum AnswerConnection {
     private final String endQuestion;
     private final int timeOffset;
 
-    AnswerConnection(String taskName, String beginQuestion, String endQuestion) {
+    QuestionConnection(String taskName, String beginQuestion, String endQuestion) {
         this(taskName, beginQuestion, endQuestion, 0);
     }
 }
