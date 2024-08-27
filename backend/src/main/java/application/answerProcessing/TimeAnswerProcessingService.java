@@ -36,8 +36,6 @@ public class TimeAnswerProcessingService {
         String userId = getUserId(principal);
 
         cleanUpExistingProcessedAnswers(userId);
-
-
         process(userId);
 
         timeAnswerService.deleteAllAnswers();
@@ -61,13 +59,14 @@ public class TimeAnswerProcessingService {
         }
     }
 
-    //todo: separate to an AnswerConnector class ?
     public void connectAnswers(QuestionConnection questionConnection, String userId) throws Exception {
         int timeOffset = questionConnection.getTimeOffset();
         String taskName = questionConnection.getTaskName();
         String weekdayQuestion = WORKDAY_QUESTION;
         String beginQuestion = questionConnection.getBeginQuestion();
         String endQuestion = questionConnection.getEndQuestion();
+
+        Map<String, Boolean> weekdays = getWeekdays(userId, weekdayQuestion);
 
         TimeAnswer beginAnswer = getTimeAnswer(userId, beginQuestion);
         TimeAnswer endAnswer = getTimeAnswer(userId, endQuestion);
@@ -79,59 +78,16 @@ public class TimeAnswerProcessingService {
         String adjustedEndTime = setRenderCap(endAnswer.getTimeInMinutes(), timeOffset);
 
         if (timeOffset < 0) {
-            safeProcessedAnswer(
-                    taskName,
-                    getWeekdays(userId, weekdayQuestion),
-                    userId,
-                    createTimeUnitList(adjustedBeginTime, endTime));
+            safeProcessedAnswer(taskName, weekdays, createTimeUnitList(adjustedBeginTime, endTime), userId);
         }
         if (timeOffset > 0) {
-            safeProcessedAnswer(
-                    taskName,
-                    getWeekdays(userId, weekdayQuestion),
-                    userId,
-                    createTimeUnitList(beginTime, adjustedEndTime));
+            safeProcessedAnswer(taskName, weekdays, createTimeUnitList(beginTime, adjustedEndTime), userId);
         }
         if (timeOffset == 0) {
-            safeProcessedAnswer(
-                    taskName,
-                    getWeekdays(userId, weekdayQuestion),
-                    userId,
-                    createTimeUnitList(beginTime, endTime));
+            safeProcessedAnswer(taskName, getWeekdays(userId, weekdayQuestion), createTimeUnitList(beginTime, endTime), userId);
         } else {
             log.info("Unplanned shift value :{}", timeOffset);
         }
-    }
-
-    private TimeAnswer getTimeAnswer(String userId, String question) throws Exception {
-        return timeAnswerService.findByUserIdAndQuestion(userId, question)
-                .orElseThrow(() -> new Exception("Answer not found for question: " + question));
-    }
-
-    public String setRenderCap(int timeInMinutes, int shift) {
-        int renderCap = Math.max(0, Math.min(timeInMinutes + shift, 1440));
-        return timeUnitService.convertMinutesToTimeUnit(renderCap);
-    }
-
-    public void safeProcessedAnswer(String task, Map<String, Boolean> workdays, String userId, List<String> timeList) {
-        ProcessedTimeAnswer processedTimeAnswer = new ProcessedTimeAnswer();
-        processedTimeAnswer.setTask(task);
-        processedTimeAnswer.setWorkdays(workdays);
-        processedTimeAnswer.setUserId(userId);
-        processedTimeAnswer.setTimeList(timeList);
-
-        processedAnswerRepository.save(processedTimeAnswer);
-    }
-
-    public List<String> createTimeUnitList(String startTime, String endTime) {
-        TimeUnit timeUnit = new TimeUnit(startTime, endTime, 5);
-
-        List<TimeUnit> timeUnitList = timeUnitService.createTimeUnitList(timeUnit);
-        List<String> timeList = new java.util.ArrayList<>(timeUnitList.stream()
-                .map(TimeUnit::getTime)
-                .toList());
-        timeList.remove(timeList.size() - 1);
-        return timeList;
     }
 
     private Map<String, Boolean> getWeekdays(String userId, String question) throws Exception {
@@ -149,6 +105,38 @@ public class TimeAnswerProcessingService {
 
         return weekdays;
     }
+
+    private TimeAnswer getTimeAnswer(String userId, String question) throws Exception {
+        return timeAnswerService.findByUserIdAndQuestion(userId, question)
+                .orElseThrow(() -> new Exception("Answer not found for question: " + question));
+    }
+
+    public String setRenderCap(int timeInMinutes, int shift) {
+        int renderCap = Math.max(0, Math.min(timeInMinutes + shift, 1440));
+        return timeUnitService.convertMinutesToTimeUnit(renderCap);
+    }
+
+    public void safeProcessedAnswer(String task, Map<String, Boolean> workdays, List<String> timeList, String userId) {
+        ProcessedTimeAnswer processedTimeAnswer = new ProcessedTimeAnswer();
+        processedTimeAnswer.setTask(task);
+        processedTimeAnswer.setWorkdays(workdays);
+        processedTimeAnswer.setTimeList(timeList);
+        processedTimeAnswer.setUserId(userId);
+
+        processedAnswerRepository.save(processedTimeAnswer);
+    }
+
+    public List<String> createTimeUnitList(String startTime, String endTime) {
+        TimeUnit timeUnit = new TimeUnit(startTime, endTime, 5);
+
+        List<TimeUnit> timeUnitList = timeUnitService.createTimeUnitList(timeUnit);
+        List<String> timeList = new java.util.ArrayList<>(timeUnitList.stream()
+                .map(TimeUnit::getTime)
+                .toList());
+        timeList.remove(timeList.size() - 1);
+        return timeList;
+    }
+
 
     public List<ProcessedTimeAnswer> getProcessedAnswersByUserId(String userId) {
         return processedAnswerRepository.getProcessedAnswerListByUserId(userId);
