@@ -117,7 +117,7 @@ public class TimeAnswerProcessingService {
         return timeUnitService.convertMinutesToTimeUnit(renderCap);
     }
 
-    public void safeProcessedAnswer(String task, Map<String, Boolean> workdays, String userId, List<String> timeListe) {
+    public void safeProcessedAnswer(String task, Map<String, Boolean> workdays, String userId, List<String> timeList) {
         ProcessedTimeAnswer processedTimeAnswer = new ProcessedTimeAnswer();
         processedTimeAnswer.setTimeList(timeList);
         processedTimeAnswer.setTask(task);
