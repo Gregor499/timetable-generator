@@ -1,14 +1,31 @@
 import "./Timetable.css"
-import {useEffect, useState} from "react";
-import {getProcessedTimeAnswers, getTimeUnitList} from "../service/apiService";
-import {ProcessedTimeAnswer, TimeUnit} from "../service/models";
+import { useEffect, useState, createRef } from "react";
+import { getProcessedTimeAnswers, getTimeUnitList } from "../service/apiService";
+import { ProcessedTimeAnswer, TimeUnit } from "../service/models";
 import TimeTableContent from "./TimeTableContent";
-import {convertTimeUnitToMinutes} from "../utilities/Util"
+import { convertTimeUnitToMinutes } from "../utilities/Util"
+//@ts-ignore
+import { useScreenshot, createFileName } from "use-react-screenshot";
 
 export default function Timetable() {
     const [timeUnitList, setTimeUnitList] = useState<Array<TimeUnit>>([])
     const [processedTimeAnswerList, setProcessedTimeAnswerList] = useState<Array<ProcessedTimeAnswer>>([])
     const [errorMessage, setErrorMessage] = useState("")
+
+    const ref = createRef();
+      const [image, takeScreenShot] = useScreenshot({
+        type: "image/jpeg",
+        quality: 1.0
+      });
+
+      const download = (image: string, { name = "img", extension = "jpg" } = {}) => {
+        const a = document.createElement("a");
+        a.href = image;
+        a.download = createFileName(extension, name);
+        a.click();
+      };
+
+      const downloadScreenshot = () => takeScreenShot(ref.current).then(download);
 
     useEffect(() => {
         getTimeUnitList()
@@ -75,37 +92,41 @@ export default function Timetable() {
     return (
         <>
             <h1 className="headline">Timetable</h1>
-            <div className="flex-container">
-                <table className="table">
-                    <thead>
-                    <tr className="flex-item">
-                        <th className="timeUnits">Time</th>
-                        <th>Monday</th>
-                        <th>Tuesday</th>
-                        <th>Wednesday</th>
-                        <th>Thursday</th>
-                        <th>Friday</th>
-                        <th>Saturday</th>
-                        <th>Sunday</th>
-                    </tr>
-                    </thead>
+            <div>
+              <button onClick={downloadScreenshot}>Download screenshot</button>
+              <div className="flex-container">
+                              <table className="table">
+                                  <thead>
+                                  <tr className="flex-item">
+                                      <th className="timeUnits">Time</th>
+                                      <th>Monday</th>
+                                      <th>Tuesday</th>
+                                      <th>Wednesday</th>
+                                      <th>Thursday</th>
+                                      <th>Friday</th>
+                                      <th>Saturday</th>
+                                      <th>Sunday</th>
+                                  </tr>
+                                  </thead>
 
-                    <tbody>
-                    {timeTableContent}
+                                  <tbody>
+                                  {timeTableContent}
 
-                    {errorMessage && <tr>
-                        <th>{errorMessage}</th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                    </tr>}
-                    </tbody>
-                </table>
+                                  {errorMessage && <tr>
+                                      <th>{errorMessage}</th>
+                                      <th></th>
+                                      <th></th>
+                                      <th></th>
+                                      <th></th>
+                                      <th></th>
+                                      <th></th>
+                                      <th></th>
+                                  </tr>}
+                                  </tbody>
+                              </table>
+                          </div>
             </div>
+
         </>
 
     );
