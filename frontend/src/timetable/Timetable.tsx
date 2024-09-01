@@ -36,47 +36,10 @@ export default function Timetable() {
             .catch(() => setErrorMessage("Error while processing Answers:\nCheck if one is missing or falsely set !"));
     }, []);
 
-    let maxStart = 0
-    let maxEnd = 24 * 60
 
-    processedTimeAnswerList.forEach(processedTimeAnswer => {
-        if (processedTimeAnswer.task.includes("morningSleep")) {
-            maxStart = convertTimeUnitToMinutes(processedTimeAnswer.timeList[0])
-        }
-        if (processedTimeAnswer.task.includes("nightSleep")) {
-            maxEnd = convertTimeUnitToMinutes(processedTimeAnswer.timeList[processedTimeAnswer.timeList.length - 1])
-        }
-    })
 
+const [maxStart, maxEnd] = calculateTimeRange(processedTimeAnswerList);
 const timeTableContent = generateTimeTableContent(timeUnitList, processedTimeAnswerList, maxStart, maxEnd);
-
-function generateTimeTableContent(
-    timeUnitList: TimeUnit[],
-    processedTimeAnswerList: ProcessedTimeAnswer[],
-    maxStart: number,
-    maxEnd: number
-    ) {
-    return timeUnitList
-            .filter(timeUnit => timeUnit.timeInMinutes! >= maxStart && timeUnit.timeInMinutes! <= maxEnd)
-            .map(timeUnit => {
-                const matchingAnswer = findMatchingAnswer(timeUnit.time, processedTimeAnswerList);
-
-                return <TimeTableContent
-                            key={timeUnit.id}
-                            timeUnit={timeUnit}
-                            task={matchingAnswer?.task || ""}
-                            monday={matchingAnswer?.monday || false}
-                            tuesday={matchingAnswer?.tuesday || false}
-                            wednesday={matchingAnswer?.wednesday || false}
-                            thursday={matchingAnswer?.thursday || false}
-                            friday={matchingAnswer?.friday || false}
-                            saturday = {matchingAnswer?.saturday || false}
-                            sunday = {matchingAnswer?.sunday || false}
-                       />
-            });
-    }
-
-
 
 //onClick={downloadScreenshot}
     return (
@@ -112,9 +75,50 @@ function generateTimeTableContent(
             </div>
 
         </>
-
     );
 }
+
+function calculateTimeRange(processedTimeAnswerList: ProcessedTimeAnswer[]) {
+        let maxStart = 0;
+        let maxEnd = 24 * 60;
+
+        processedTimeAnswerList.forEach(({ task, timeList }) => {
+            if (task.includes("morningSleep")) {
+                maxStart = convertTimeUnitToMinutes(timeList[0])
+            }
+            if (task.includes("nightSleep")) {
+                maxEnd = convertTimeUnitToMinutes(timeList[timeList.length - 1])
+            }
+        })
+        return [maxStart, maxEnd];
+    }
+
+function generateTimeTableContent(
+    timeUnitList: TimeUnit[],
+    processedTimeAnswerList: ProcessedTimeAnswer[],
+    maxStart: number,
+    maxEnd: number
+    ) {
+    return timeUnitList
+            .filter(timeUnit => timeUnit.timeInMinutes! >= maxStart && timeUnit.timeInMinutes! <= maxEnd)
+            .map(timeUnit => {
+                const matchingAnswer = findMatchingAnswer(timeUnit.time, processedTimeAnswerList);
+
+                return <TimeTableContent
+                            key={timeUnit.id}
+                            timeUnit={timeUnit}
+                            task={matchingAnswer?.task || ""}
+                            monday={matchingAnswer?.monday || false}
+                            tuesday={matchingAnswer?.tuesday || false}
+                            wednesday={matchingAnswer?.wednesday || false}
+                            thursday={matchingAnswer?.thursday || false}
+                            friday={matchingAnswer?.friday || false}
+                            saturday = {matchingAnswer?.saturday || false}
+                            sunday = {matchingAnswer?.sunday || false}
+                       />
+            });
+    }
+
 
 // Find the processed answer that matches the current time unit
 function findMatchingAnswer(time: string, processedTimeAnswerList: ProcessedTimeAnswer[]) {
