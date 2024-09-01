@@ -48,31 +48,33 @@ export default function Timetable() {
         }
     })
 
+const timeTableContent = generateTimeTableContent(timeUnitList, processedTimeAnswerList, maxStart, maxEnd);
 
-/*
-separate to new generateTimeTableContent function
- */
-    const timeTableContent = timeUnitList
-        .filter(timeUnit => timeUnit.timeInMinutes! >= maxStart && timeUnit.timeInMinutes! <= maxEnd)
-        .map(timeUnit => {
-            const matchingAnswer = findMatchingAnswer(timeUnit.time, processedTimeAnswerList);
+function generateTimeTableContent(
+    timeUnitList: TimeUnit[],
+    processedTimeAnswerList: ProcessedTimeAnswer[],
+    maxStart: number,
+    maxEnd: number
+    ) {
+    return timeUnitList
+            .filter(timeUnit => timeUnit.timeInMinutes! >= maxStart && timeUnit.timeInMinutes! <= maxEnd)
+            .map(timeUnit => {
+                const matchingAnswer = findMatchingAnswer(timeUnit.time, processedTimeAnswerList);
 
-            return <TimeTableContent
-                        key={timeUnit.id}
-                        timeUnit={timeUnit}
-                        task={matchingAnswer?.task || ""}
-                        monday={matchingAnswer?.monday || false}
-                        tuesday={matchingAnswer?.tuesday || false}
-                        wednesday={matchingAnswer?.wednesday || false}
-                        thursday={matchingAnswer?.thursday || false}
-                        friday={matchingAnswer?.friday || false}
-                        saturday = {matchingAnswer?.saturday || false}
-                        sunday = {matchingAnswer?.sunday || false}
-                   />
-        })
-/*
-separate to new generateTimeTableContent function
- */
+                return <TimeTableContent
+                            key={timeUnit.id}
+                            timeUnit={timeUnit}
+                            task={matchingAnswer?.task || ""}
+                            monday={matchingAnswer?.monday || false}
+                            tuesday={matchingAnswer?.tuesday || false}
+                            wednesday={matchingAnswer?.wednesday || false}
+                            thursday={matchingAnswer?.thursday || false}
+                            friday={matchingAnswer?.friday || false}
+                            saturday = {matchingAnswer?.saturday || false}
+                            sunday = {matchingAnswer?.sunday || false}
+                       />
+            });
+    }
 
 
 
