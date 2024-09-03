@@ -18,30 +18,31 @@ export default function QuestionListComponent(props: QuestionProps) {
     const [errorMessage, setErrorMessage] = useState("")
 
     //separate as function
-    const setWorkdayAnswer = useCallback(() => {
-                const workdayAnswer: WorkdayAnswer = {
-                    questionId: props.question.id,
-                    question: props.question.question,
-                    monday: workdays[0],
-                    tuesday: workdays[1],
-                    wednesday: workdays[2],
-                    thursday: workdays[3],
-                    friday: workdays[4],
-                    saturday: workdays[5],
-                    sunday: workdays[6],
-                };
 
-        postWorkdayAnswer(workdayAnswer)
-            .then(() => props.answerCallback()) //refreshing site
-            .catch(() => {
-                console.error("Error posting workday answer:", Error);
-                setErrorMessage("error posting answer");
-                })
-    }, [workdays]);
 
     useEffect(() => {
-            setWorkdayAnswer();
-    }, [setWorkdayAnswer]);
+        const setWorkdayAnswer = () => {
+                    const workdayAnswer: WorkdayAnswer = {
+                        questionId: props.question.id,
+                        question: props.question.question,
+                        monday: workdays[0],
+                        tuesday: workdays[1],
+                        wednesday: workdays[2],
+                        thursday: workdays[3],
+                        friday: workdays[4],
+                        saturday: workdays[5],
+                        sunday: workdays[6],
+                    };
+
+            postWorkdayAnswer(workdayAnswer)
+                .then(() => props.answerCallback()) //refreshing site
+                .catch(() => {
+                    console.error("Error posting workday answer:", Error);
+                    setErrorMessage("error posting answer");
+                    });
+                };
+    setWorkdayAnswer();
+    }, [workdays]);
 
     useEffect(() => {
         const loadTimeUnitList = async () => {
