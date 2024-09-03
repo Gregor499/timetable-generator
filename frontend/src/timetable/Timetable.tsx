@@ -1,5 +1,5 @@
 import "./Timetable.css"
-import { useEffect, useState, createRef } from "react";
+import { useEffect, useState, /* createRef */ } from "react";
 import { getProcessedTimeAnswers, getTimeUnitList } from "../service/apiService";
 import { ProcessedTimeAnswer, TimeUnit } from "../service/models";
 import TimeTableContent from "./TimeTableContent";
