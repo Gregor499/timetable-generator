@@ -1,5 +1,5 @@
 import {Question, TimeAnswer, TimeUnit, WorkdayAnswer} from "../service/models";
-import {useEffect, useState} from "react";
+import {useEffect, useState, useCallback} from "react";
 import {getTimeUnitList, postTimeAnswer, postWorkdayAnswer} from "../service/apiService";
 import TimeAnswerProperties from "./TimeAnswerProperties";
 import "./QuestionComponent.css"
@@ -17,11 +17,8 @@ export default function QuestionListComponent(props: QuestionProps) {
     const [workdays, setWorkdays] = useState<boolean[]>([true, true, true, true, true, false, false]);
     const [errorMessage, setErrorMessage] = useState("")
 
-    useEffect(() => {
-            setWorkdayAnswer();
-    }, [workdays]);
-
-    const setWorkdayAnswer = () => {
+    //separate as function
+    const setWorkdayAnswer = useCallback(() => {
                 const workdayAnswer: WorkdayAnswer = {
                     questionId: props.question.id,
                     question: props.question.question,
@@ -40,7 +37,11 @@ export default function QuestionListComponent(props: QuestionProps) {
                 console.error("Error posting workday answer:", Error);
                 setErrorMessage("error posting answer");
                 })
-    };
+    }, [workdays]);
+
+    useEffect(() => {
+            setWorkdayAnswer();
+    }, [setWorkdayAnswer]);
 
     useEffect(() => {
         const loadTimeUnitList = async () => {
