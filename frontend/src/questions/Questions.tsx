@@ -10,7 +10,7 @@ export default function QuestionList() {
 
     const [questionList, setQuestionList] = useState<Array<Question>>([])
     const [errorMessage, setErrorMessage] = useState("")
-    const [allAnswers, setAllAnswers] = useState<Array<TimeAnswer>>([])
+    const [answers, setAnswers] = useState<Array<TimeAnswer>>([])
 
     useEffect(() => {
         getQuestionList()
@@ -19,32 +19,32 @@ export default function QuestionList() {
     }, [])
 
     const onAnswer = () => {
-        getQuestionList()
+/*         getQuestionList()
             .then(data => setQuestionList(data))
-            .catch(() => setErrorMessage("questionList doesnt load"));
+            .catch(() => setErrorMessage("questionList doesnt load")); */
         getTimeAnswer()
-            .then(data => setAllAnswers(data))
+            .then(data => setAnswers(data))
             .catch(() => setErrorMessage("timeAnswer doesnt load"));
     }
 
     const questions = questionList.sort((s1, s2) => s1.order - s2.order).map(question => <QuestionListComponent
-            key={question.id} question={question} answers={allAnswers} answerCallback={onAnswer}/>)
+            key={question.id} question={question} answers={answers} answerCallback={onAnswer}/>)
 
-return (
-    <div className="body">
-    <div className="questions">
-        <h1 className="questionHeadline"> Questions:</h1>
-        {errorMessage && <div>{errorMessage}</div>}
-        {questions}
+    return (
+        <div className="body">
+        <div className="questions">
+            <h1 className="questionHeadline"> Questions:</h1>
+            {errorMessage && <div>{errorMessage}</div>}
+            {questions}
 
-        <br/>
-        <br/>
+            <br/>
+            <br/>
 
-        <NavLink to={"/timetable"}>
-            <button className="createButton">create</button>
-        </NavLink>
-    </div>
+            <NavLink to={"/timetable"}>
+                <button className="createButton">create</button>
+            </NavLink>
+        </div>
 
-    </div>
-)
+        </div>
+    )
 }
