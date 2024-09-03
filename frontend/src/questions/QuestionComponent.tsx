@@ -1,5 +1,5 @@
 import {Question, TimeAnswer, TimeUnit, WorkdayAnswer} from "../service/models";
-import {useEffect, useState, useCallback} from "react";
+import {useEffect, useState} from "react";
 import {getTimeUnitList, postTimeAnswer, postWorkdayAnswer} from "../service/apiService";
 import TimeAnswerProperties from "./TimeAnswerProperties";
 import "./QuestionComponent.css"
@@ -17,28 +17,29 @@ export default function QuestionListComponent(props: QuestionProps) {
     const [workdays, setWorkdays] = useState<boolean[]>([true, true, true, true, true, false, false]);
     const [errorMessage, setErrorMessage] = useState("")
 
-    //separate as function
-
-
     useEffect(() => {
-      const workdayAnswer: WorkdayAnswer = {
-        questionId: props.question.id,
-        question: props.question.question,
-        monday: workdays[0],
-        tuesday: workdays[1],
-        wednesday: workdays[2],
-        thursday: workdays[3],
-        friday: workdays[4],
-        saturday: workdays[5],
-        sunday: workdays[6],
+      const workdayAnswerDbUpdate = () => {
+        const workdayAnswer: WorkdayAnswer = {
+          questionId: props.question.id,
+          question: props.question.question,
+          monday: workdays[0],
+          tuesday: workdays[1],
+          wednesday: workdays[2],
+          thursday: workdays[3],
+          friday: workdays[4],
+          saturday: workdays[5],
+          sunday: workdays[6],
+        };
+
+        postWorkdayAnswer(workdayAnswer)
+          .then(() => props.answerCallback()) // refreshing site
+          .catch(() => {
+            console.error("Error posting workday answer:", Error);
+            setErrorMessage("error posting answer");
+          });
       };
 
-      postWorkdayAnswer(workdayAnswer)
-        .then(() => props.answerCallback()) // refreshing site
-        .catch(() => {
-          console.error("Error posting workday answer:", Error);
-          setErrorMessage("error posting answer");
-        });
+      workdayAnswerDbUpdate();
     }, [workdays]);
 
     useEffect(() => {
@@ -57,7 +58,7 @@ export default function QuestionListComponent(props: QuestionProps) {
         setCurrentTimeAnswer(currentAnswer ? currentAnswer.time : "00:00");
     }, [props.answers, props.question.id])
 
-    const setTimeAnswer = (timeInMinutes: number) => {
+    const timeAnswerDbUpdate = (timeInMinutes: number) => {
         const timeAnswer: TimeAnswer = {
             questionId: props.question.id,
             question: props.question.question,
@@ -124,7 +125,7 @@ export default function QuestionListComponent(props: QuestionProps) {
                        className="questionAnswer"
                        name={props.question.type}
                        id={props.question.id}
-                       onChange={event => setTimeAnswer(Number(event.target.value))}
+                       onChange={event => timeAnswerDbUpdate(Number(event.target.value))}
                    >
                               value=<TimeAnswerProperties
                               key={currentTimeAnswer}
