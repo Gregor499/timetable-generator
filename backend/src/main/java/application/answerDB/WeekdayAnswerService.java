@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -34,6 +35,10 @@ public class WeekdayAnswerService {
 
 
     private void deleteExistingAnswerIfPresent(String userId, String questionId) {
-        findByUserIdAndQuestionId(userId, questionId).ifPresent(weekdayAnswerRepository::delete);
+        findByUserIdAndQuestionId(userId, questionId)
+                .ifPresentOrElse(
+                        weekdayAnswerRepository::delete,
+                        () -> { throw new NoSuchElementException("Answer not found for userId: " + userId + " and questionId: " + questionId); }
+                );
     }
 }

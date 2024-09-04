@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -25,6 +26,9 @@ public class QuestionService {
 
     private void setPreviousQuestionId(Question question) {
         questionRepository.findQuestionByOrder(question.getOrder() - 1)
-                .ifPresent(previousQuestion -> question.setPreviousQuestionId(previousQuestion.getId()));
+                .ifPresentOrElse(
+                        previousQuestion -> question.setPreviousQuestionId(previousQuestion.getId()),
+                        () -> { throw new NoSuchElementException("Previous question not found for order: " + (question.getOrder() - 1)); }
+                );
     }
 }
