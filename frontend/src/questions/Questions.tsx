@@ -1,5 +1,5 @@
 import {NavLink} from "react-router-dom";
-import {useEffect, useState} from "react";
+import {useEffect, useState, useCallback} from "react";
 import {getQuestionList, getTimeAnswer} from "../service/apiService";
 import QuestionListComponent from "./QuestionComponent";
 import {Question, TimeAnswer} from "../service/models";
@@ -18,14 +18,14 @@ export default function QuestionList() {
             .catch(() => setErrorMessage("questionList doesnt load"));
     }, [])
 
-    const onAnswer = () => {
+    const onAnswer = useCallback(() => {
 /*         getQuestionList()
             .then(data => setQuestionList(data))
             .catch(() => setErrorMessage("questionList doesnt load")); */
         getTimeAnswer()
             .then(data => setAnswers(data))
             .catch(() => setErrorMessage("timeAnswer doesnt load"));
-    }
+    }, []);
 
     const questions = questionList.sort((s1, s2) => s1.order - s2.order).map(question => <QuestionListComponent
             key={question.id} question={question} answers={answers} answerCallback={onAnswer}/>)

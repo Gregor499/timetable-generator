@@ -17,11 +17,14 @@ export default function QuestionListComponent(props: QuestionProps) {
     const [workdays, setWorkdays] = useState<boolean[]>([true, true, true, true, true, false, false]);
     const [errorMessage, setErrorMessage] = useState("")
 
+    const question = props.question
+    const answerCallback = props.answerCallback
+
     useEffect(() => {
       const workdayAnswerDbUpdate = () => {
         const workdayAnswer: WorkdayAnswer = {
-          questionId: props.question.id,
-          question: props.question.question,
+          questionId: question.id,
+          question: question.question,
           monday: workdays[0],
           tuesday: workdays[1],
           wednesday: workdays[2],
@@ -32,7 +35,7 @@ export default function QuestionListComponent(props: QuestionProps) {
         };
 
         postWorkdayAnswer(workdayAnswer)
-          .then(() => props.answerCallback()) // refreshing site
+          .then(() => answerCallback()) // refreshing site
           .catch(() => {
             console.error("Error posting workday answer:", Error);
             setErrorMessage("error posting answer");
@@ -40,7 +43,7 @@ export default function QuestionListComponent(props: QuestionProps) {
       };
 
       workdayAnswerDbUpdate();
-    }, [workdays]);
+    }, [answerCallback, question, workdays]);
 
     useEffect(() => {
         const loadTimeUnitList = async () => {
