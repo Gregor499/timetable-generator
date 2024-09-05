@@ -5,6 +5,7 @@ import { ProcessedTimeAnswer, TimeUnit } from "../service/models";
 import TimeTableContent from "./TimeTableContent";
 import { convertTimeUnitToMinutes } from "../utilities/Util"
 //import { useScreenshot, createFileName } from "use-react-screenshot";
+import Button from '@mui/material/Button';
 
 export default function Timetable() {
     const [timeUnitList, setTimeUnitList] = useState<Array<TimeUnit>>([])
@@ -43,23 +44,28 @@ const timeTableContent = generateTimeTableContent(timeUnitList, processedTimeAns
 
 //onClick={downloadScreenshot}
     return (
-        <>
+        <html>
+        <head>
+            <meta charSet="UTF-8"/>
+            <meta name="viewport" content="initial-scale=1, width=device-width" />
+            <title>Timetable</title>
+        </head>
+        <body>
             <h1 className="headline">Timetable</h1>
-            <div>
-              <button >Download screenshot</button>
+              <Button variant="contained">Download screenshot</Button>
               <div className="flex-container">
                   <table className="table">
                       <thead>
-                      <tr className="flex-item">
-                          <th className="timeUnits">Time</th>
-                          <th>Monday</th>
-                          <th>Tuesday</th>
-                          <th>Wednesday</th>
-                          <th>Thursday</th>
-                          <th>Friday</th>
-                          <th>Saturday</th>
-                          <th>Sunday</th>
-                      </tr>
+                          <tr className="flex-item">
+                              <th className="timeUnits">Time</th>
+                              <th>Monday</th>
+                              <th>Tuesday</th>
+                              <th>Wednesday</th>
+                              <th>Thursday</th>
+                              <th>Friday</th>
+                              <th>Saturday</th>
+                              <th>Sunday</th>
+                          </tr>
                       </thead>
 
                       <tbody>
@@ -72,9 +78,8 @@ const timeTableContent = generateTimeTableContent(timeUnitList, processedTimeAns
                       </tbody>
                   </table>
               </div>
-            </div>
-
-        </>
+        </body>
+        </html>
     );
 }
 

@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import axios, {AxiosResponse} from "axios";
 import {postTimeUnitCreationData} from "../service/apiService";
 import "./StartPage.css"
+import Button from '@mui/material/Button';
 
 export default function StartPage() {
 
@@ -53,6 +54,7 @@ export default function StartPage() {
                 {errorMessage && <div>{errorMessage}</div>}
                 <div className="row">
                     <NavLink className="selectionBox" to={"/questions"}>
+                        <Button variant="contained">Let's create !</Button>
                         <button className="navButton">Let's create !</button>
                     </NavLink>
 
