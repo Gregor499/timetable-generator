@@ -58,7 +58,6 @@ public class TimeAnswerProcessingService {
             connectAnswers(questionConnection, userId);
         }
     }
-test
     public void connectAnswers(QuestionConnection questionConnection, String userId) throws Exception {
         int timeOffset = questionConnection.getTimeOffset();
         String taskName = questionConnection.getTaskName();
