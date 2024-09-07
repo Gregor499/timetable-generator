@@ -5,7 +5,8 @@ import { ProcessedTimeAnswer, TimeUnit } from "../service/models";
 import TimeTableContent from "./TimeTableContent";
 import { convertTimeUnitToMinutes } from "../utilities/Util"
 //import { useScreenshot, createFileName } from "use-react-screenshot";
-import Button from '@mui/material/Button';
+import { Container, Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography } from '@mui/material';
+
 
 export default function Timetable() {
     const [timeUnitList, setTimeUnitList] = useState<Array<TimeUnit>>([])
@@ -46,38 +47,42 @@ const timeTableContent = generateTimeTableContent(timeUnitList, processedTimeAns
   return (
         <html>
         <head>
-            <meta charSet="UTF-8"/>
-            <meta name="viewport" content="initial-scale=1, width=device-width" />
             <title>Timetable</title>
         </head>
         <body>
-            <h1 className="headline">Timetable</h1>
+            <Box textAlign='center'>
+                <Typography variant="h2" gutterBottom>Timetable</Typography>
+            </Box>
+            <Box textAlign='center'>
               <Button variant="contained">Download screenshot</Button>
-              <div className="flex-container">
-                  <table className="table">
-                      <thead>
-                          <tr className="flex-item">
-                              <th className="timeUnits">Time</th>
-                              <th>Monday</th>
-                              <th>Tuesday</th>
-                              <th>Wednesday</th>
-                              <th>Thursday</th>
-                              <th>Friday</th>
-                              <th>Saturday</th>
-                              <th>Sunday</th>
-                          </tr>
-                      </thead>
+            </Box>
+            <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 4 }}>
+              <TableContainer component={Paper}>
+                <Table>
+                  <TableHead>
+                      <TableRow className="flex-item">
+                          <TableCell className="timeUnits">Time</TableCell>
+                          <TableCell>Monday</TableCell>
+                          <TableCell>Tuesday</TableCell>
+                          <TableCell>Wednesday</TableCell>
+                          <TableCell>Thursday</TableCell>
+                          <TableCell>Friday</TableCell>
+                          <TableCell>Saturday</TableCell>
+                          <TableCell>Sunday</TableCell>
+                      </TableRow>
+                  </TableHead>
 
-                      <tbody>
-                      {timeTableContent}
-                      {errorMessage && (
-                        <tr>
-                            <th colSpan={8}>{errorMessage}</th>
-                        </tr>
-                        )}
-                      </tbody>
-                  </table>
-              </div>
+                  <TableBody>
+                  {timeTableContent}
+                  {errorMessage && (
+                    <TableRow>
+                        <TableCell colSpan={8}>{errorMessage}</TableCell>
+                    </TableRow>
+                    )}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Box>
         </body>
         </html>
     );
