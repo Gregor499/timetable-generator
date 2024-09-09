@@ -7,13 +7,30 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
+import { CssBaseline, Box, ThemeProvider, createTheme } from '@mui/material';
 
 const container = document.getElementById("root");
 const root = createRoot(container!);
 
+const theme = createTheme({
+    palette: {
+      background: {
+        default: '#DAA520', // Set your universal background color here
+      },
+      text: {
+        primary: '#000000', // Set the default text color if needed
+      },
+    },
+  });
+
 root.render(
     <React.StrictMode>
-        <App/>
+        <ThemeProvider theme={theme}>
+            <CssBaseline>
+                <App/>
+            </CssBaseline>
+        </ThemeProvider>
+    
     </React.StrictMode>
 );
 
