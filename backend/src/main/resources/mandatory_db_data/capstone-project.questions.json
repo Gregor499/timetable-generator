@@ -1,0 +1,99 @@
+[{
+  "_id": {
+    "$oid": "62f02f2c9038ea1975e6b250"
+  },
+  "question": "When do you want to wake up ?",
+  "order": 1,
+  "type": "morningSleep",
+  "_class": "com.example.demo.questionDB.Question",
+  "previousQuestionId": "6371381c8e972843e1ce0227"
+},
+{
+  "_id": {
+    "$oid": "62f02f449038ea1975e6b251"
+  },
+  "question": "When are you ready for the day?",
+  "order": 2,
+  "type": "morningRoutine",
+  "previousQuestionId": "62f02f2c9038ea1975e6b250",
+  "_class": "com.example.demo.questionDB.Question"
+},
+{
+  "_id": {
+    "$oid": "62f02f629038ea1975e6b252"
+  },
+  "question": "When do you want to begin going to work ?",
+  "order": 3,
+  "type": "workWayTime",
+  "previousQuestionId": "62f02f449038ea1975e6b251",
+  "_class": "com.example.demo.questionDB.Question"
+},
+{
+  "_id": {
+    "$oid": "62f02f8c9038ea1975e6b253"
+  },
+  "question": "When does your work start ?",
+  "order": 4,
+  "type": "workStart",
+  "previousQuestionId": "62f02f629038ea1975e6b252",
+  "_class": "com.example.demo.questionDB.Question"
+},
+{
+  "_id": {
+    "$oid": "62f02faf9038ea1975e6b254"
+  },
+  "question": "When does your work end ?",
+  "order": 5,
+  "type": "workEnd",
+  "previousQuestionId": "62f02f8c9038ea1975e6b253",
+  "_class": "com.example.demo.questionDB.Question"
+},
+{
+  "_id": {
+    "$oid": "62f02fcb9038ea1975e6b255"
+  },
+  "question": "When does your leisure time start ?",
+  "order": 6,
+  "type": "leisureStart",
+  "previousQuestionId": "62f02faf9038ea1975e6b254",
+  "_class": "com.example.demo.questionDB.Question"
+},
+{
+  "_id": {
+    "$oid": "62f02fd99038ea1975e6b256"
+  },
+  "question": "When does your leisure time end ?",
+  "order": 7,
+  "type": "leisureEnd",
+  "previousQuestionId": "62f02fcb9038ea1975e6b255",
+  "_class": "com.example.demo.questionDB.Question"
+},
+{
+  "_id": {
+    "$oid": "62f0303d9038ea1975e6b257"
+  },
+  "question": "When do you want to start to get ready for bed ?",
+  "order": 8,
+  "type": "eveningRoutine",
+  "previousQuestionId": "62f02fd99038ea1975e6b256",
+  "_class": "com.example.demo.questionDB.Question"
+},
+{
+  "_id": {
+    "$oid": "62f0305d9038ea1975e6b258"
+  },
+  "question": "When do you want to sleep ?",
+  "order": 9,
+  "type": "nightSleep",
+  "previousQuestionId": "62f0303d9038ea1975e6b257",
+  "_class": "com.example.demo.questionDB.Question"
+},
+{
+  "_id": {
+    "$oid": "6371381c8e972843e1ce0227"
+  },
+  "question": "On which days do you work ?",
+  "order": 0,
+  "type": "workdays",
+  "_class": "com.example.demo.questionDB.Question"
+}]
