@@ -35,9 +35,6 @@ Frontend:
 - **HTML5 & CSS3**: For building and styling the frontend structure and layout.
 - **TypeScript**: Type-safe JavaScript code for the frontend.
 
-////
-
-
 Deployment:
 - **Heroku and MongoDB Altas**: Hosting and deploying the application including its database online.
 - ----------**Docker**: Containerizing the application for easier development and deployment.
