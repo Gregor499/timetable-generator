@@ -44,7 +44,7 @@ Frontend-Utils:
 - **'react-to-pdf'**:  JavaScript package to export the timetable as a downloadable PDF.
 - **Testing & Debugging**: Various tools and methods to ensure reliability and smooth operation.
 ## ✨ Future Enhancements
-- use the Google Calendar API to export the timetable to your Google Calendar
+- using the Google Calendar API to export the timetable to your Google Calendar
 
 ## 🌟 What is Time Blocking?
 
