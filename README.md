@@ -15,11 +15,6 @@ Whether you're aiming to boost productivity, focus on important tasks, or better
 - **Time Blocking**: Implements the time blocking method by organizing tasks into dedicated time slots, reducing distractions and improving focus.
 - **Downloadable PDF**: Easily download your generated timetable as a **PDF** to use offline, print, or share.
 - **Enhanced Productivity**: Use the timetable as a guide to structure your day and make the most of your time.
-## 🌟 What is Time Blocking?
-
-**Time blocking** is a productivity technique that involves dividing your day into blocks of time, with each block dedicated to a specific task or activity. By planning your day in advance, you eliminate indecision, minimize distractions, and ensure that time is reserved for important tasks.
-
-With this timetable generator, you can easily implement time blocking by visually organizing your day into structured, goal-oriented blocks.
 
 ## 🛠️ Technologies Used
 
@@ -50,6 +45,12 @@ Frontend-Utils:
 - **Testing & Debugging**: Various tools and methods to ensure reliability and smooth operation.
 ## ✨ Future Enhancements
 - use the Google Calendar API to export the timetable to your Google Calendar
+
+## 🌟 What is Time Blocking?
+
+**Time blocking** is a productivity technique that involves dividing your day into blocks of time, with each block dedicated to a specific task or activity. By planning your day in advance, you eliminate indecision, minimize distractions, and ensure that time is reserved for important tasks.
+
+With this timetable generator, you can easily implement time blocking by visually organizing your day into structured, goal-oriented blocks.
 
 ## 💡 How Time Blocking Helps You
 
