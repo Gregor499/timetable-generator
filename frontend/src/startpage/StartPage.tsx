@@ -62,27 +62,27 @@ export default function StartPage() {
 
             {errorMessage && <div>{errorMessage}</div>}
             <div>
-                <Grid2 container spacing={3.5} direction="column" justifyContent="center" alignItems="center" sx={{ mt: '5%' }}>
+                <Grid2 container spacing={{ xs: 1, sm: 2, md: 3 }} direction="column" justifyContent="center" alignItems="center" sx={{ mt: '5%' }}>
                     <Grid2 size={3}>
                         <Box textAlign='center'>
-                            <Button size='large' variant='contained' href='/questions' sx={{ width: '100%'}}>Let's create !</Button>
+                            <Button size='large' variant='contained' href='/questions' sx={{ width: '100%', whiteSpace:'nowrap'}}>Let's create !</Button>
                         </Box>
                     </Grid2>
                     <Grid2 size={3}>
                         <Box textAlign='center'>
-                            <Button size='large' variant='contained' href='/register' sx={{ width: '100%'}}>Register</Button>
+                            <Button size='large' variant='contained' href='/register' sx={{ width: '100%', whiteSpace:'nowrap'}}>Register</Button>
                         </Box>
                     </Grid2>
                         
                     <Grid2 size={3}>
                         <Box textAlign='center' sx={{ pb: '5%' }}>
                         {!loginStatus ? (
-                            <Button size='large' variant='contained' href='/login' sx={{ width: '100%'}}>
+                            <Button size='large' variant='contained' href='/login' sx={{ width: '100%', whiteSpace:'nowrap'}}>
                                 Log in
                             </Button>
                         ) : (                            
                         <form onSubmit={loginOut}>
-                            <Button size='large' variant='contained' type="submit" sx={{ width: '100%'}}>
+                            <Button size='large' variant='contained' type="submit" sx={{ width: '100%', whiteSpace:'nowrap'}}>
                                 Log out
                             </Button>
                         </form>     
