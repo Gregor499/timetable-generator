@@ -4,9 +4,9 @@ Welcome to the **Timetable Generator**! This project helps you manage your daily
 
 Whether you're aiming to boost productivity, focus on important tasks, or better organize your day, this tool can help you plan your time more efficiently.
 
-**Launch App:** https://timetable-generator-56e20f5e9751.herokuapp.com/
+**Launch App**: https://timetable-generator-56e20f5e9751.herokuapp.com/
 
-**Dev-Build with new UI (Material Design):**: https://timetable-generator-dev-build-c7fe78681da2.herokuapp.com/
+**Dev-Build with new UI (Material Design)**: https://timetable-generator-dev-build-c7fe78681da2.herokuapp.com/
  
 ## 📝 Features
 
