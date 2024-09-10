@@ -1,7 +1,7 @@
 import {NavLink} from "react-router-dom";
 import {useEffect, useState, useCallback} from "react";
 import {getQuestionList, getTimeAnswer} from "../service/apiService";
-import QuestionManager from "./QuestionComponent";
+import QuestionManager from "./QuestionManager";
 import {Question, TimeAnswer} from "../service/models";
 import "./Questions.css"
 import { Button, Box, Container, Typography, Grid2, AppBar, Toolbar } from '@mui/material';
