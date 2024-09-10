@@ -4,14 +4,16 @@ import { getProcessedTimeAnswers, getTimeUnitList } from "../service/apiService"
 import { ProcessedTimeAnswer, TimeUnit } from "../service/models";
 import TimeTableContent from "./TimeTableContent";
 import { convertTimeUnitToMinutes } from "../utilities/Util"
-//import { useScreenshot, createFileName } from "use-react-screenshot";
-import { Container, Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography } from '@mui/material';
-
+import { usePDF } from "react-to-pdf";
+import { Container, Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, AppBar, Toolbar } from '@mui/material';
+import { AccessAlarm } from "@mui/icons-material";
 
 export default function Timetable() {
     const [timeUnitList, setTimeUnitList] = useState<Array<TimeUnit>>([])
     const [processedTimeAnswerList, setProcessedTimeAnswerList] = useState<Array<ProcessedTimeAnswer>>([])
     const [errorMessage, setErrorMessage] = useState("")
+    
+    const { toPDF, targetRef } = usePDF({filename: 'timetable.pdf'});
 
 /*     const ref = createRef();
       const [image, takeScreenShot] = useScreenshot({
@@ -44,30 +46,40 @@ const [maxStart, maxEnd] = calculateTimeRange(processedTimeAnswerList);
 const timeTableContent = generateTimeTableContent(timeUnitList, processedTimeAnswerList, maxStart, maxEnd);
 
 const tableStyles = {
+    textAlign: 'center',
     border: 'thin solid',
-
+    width: '100px', // Set a fixed width for the table cells
+    height: '30px', // Set a fixed height for the table cells
+    padding: '4px', // Adjust padding to fit the smaller height
 };
 
-//onClick={downloadScreenshot}
-//refactore TableCell to avoid redundancy
+//refactor TableCell to avoid redundancy
   return (
         <html>
         <head>
             <title>Timetable</title>
         </head>
         <body>
-            <Container>
+            <Container disableGutters>
+                <Box textAlign='center'>
+                    <AppBar position='static'>
+                        <Toolbar>
+                            <AccessAlarm/>
+                            <Typography variant="h6" textAlign={'center'} sx={{ textDecoration: 'none' }}>Timetable Generator</Typography>
+                        </Toolbar>
+                    </AppBar>
+                </Box>
                 <Box textAlign='center'>
                     <Typography variant="h2" gutterBottom>Timetable</Typography>
                 </Box>
                 <Box textAlign='center'>
-                <Button variant="contained">Download screenshot</Button>
+                <Button onClick={() => toPDF()} variant="contained">Download screenshot</Button>
                 </Box>
-                <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 4 }}>
-                <TableContainer component={Paper}>
+                <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 4, px:4 }}>
+                <TableContainer  ref={targetRef} component={Paper}  sx={{ mb: '5%' }}>
                     <Table>
                     <TableHead>
-                        <TableRow className="flex-item">
+                        <TableRow sx={{background: 'rgba(255, 158, 0, 0.68)'}}>
                             <TableCell sx={tableStyles} className="timeUnits">Time</TableCell>
                             <TableCell sx={tableStyles}>Monday</TableCell>
                             <TableCell sx={tableStyles}>Tuesday</TableCell>
@@ -82,8 +94,8 @@ const tableStyles = {
                     <TableBody>
                     {timeTableContent}
                     {errorMessage && (
-                        <TableRow>
-                            <TableCell colSpan={8}>{errorMessage}</TableCell>
+                        <TableRow sx={{background: '#FC3442'}}>
+                            <TableCell sx={tableStyles} colSpan={8}>{errorMessage}</TableCell>
                         </TableRow>
                         )}
                     </TableBody>
