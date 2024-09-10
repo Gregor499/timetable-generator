@@ -1,7 +1,6 @@
 import {useEffect, useState} from "react";
 import axios, {AxiosResponse} from "axios";
 import {postTimeUnitCreationData} from "../service/apiService";
-//import "./StartPage.css"
 import { Button, Box, Container, Typography, Grid2, AppBar, Toolbar } from '@mui/material';
 import { AccessAlarm } from "@mui/icons-material";
 
