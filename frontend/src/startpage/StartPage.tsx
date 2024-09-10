@@ -1,9 +1,9 @@
-import {NavLink} from "react-router-dom";
 import {useEffect, useState} from "react";
 import axios, {AxiosResponse} from "axios";
 import {postTimeUnitCreationData} from "../service/apiService";
-import "./StartPage.css"
-import Button from '@mui/material/Button';
+//import "./StartPage.css"
+import { Button, Box, Container, Typography, Grid2, AppBar, Toolbar } from '@mui/material';
+import { AccessAlarm } from "@mui/icons-material";
 
 export default function StartPage() {
 
@@ -46,34 +46,52 @@ export default function StartPage() {
     }, [])
 
     return (
-        <div className="body">
-            <div className="content">
-                <h3 className="timetableHeadline">Timetable Generator</h3>
-                <h3 className="greeting">Hello{", " + username + " !"}</h3>
+        <Container disableGutters>
+            <Box textAlign='center'>
+                <AppBar position='static'>
+                    <Toolbar>
+                        <AccessAlarm/>
+                        <Typography variant="h6" textAlign={'center'} sx={{ textDecoration: 'none' }}>Timetable Generator</Typography>
+                    </Toolbar>
+                </AppBar>
+            </Box>
+            <Box textAlign='center'>
+                <Typography variant="h2" gutterBottom>Timetable Generator</Typography>
+                <Typography variant="h4" gutterBottom>Hello{", " + username + " !"}</Typography>
+            </Box>
 
-                {errorMessage && <div>{errorMessage}</div>}
-                <div className="row">
-                    <NavLink className="selectionBox" to={"/questions"}>
-                        <Button variant="contained">Let's create !</Button>
-                        <button className="navButton">Let's create !</button>
-                    </NavLink>
-
-                    <NavLink className="selectionBox" to={"/register"}>
-                        <button className="navButton">Register</button>
-                    </NavLink>
-
-                    {!loginStatus && <NavLink className="selectionBox" to={"/login"}>
-                        <button className="navButton">Log in</button>
-                    </NavLink>}
-
-                    {loginStatus && <div className="selectionBox">
+            {errorMessage && <div>{errorMessage}</div>}
+            <div>
+                <Grid2 container spacing={3.5} direction="column" justifyContent="center" alignItems="center" sx={{ mt: '5%' }}>
+                    <Grid2 size={3}>
+                        <Box textAlign='center'>
+                            <Button size='large' variant='contained' href='/questions' sx={{ width: '100%'}}>Let's create !</Button>
+                        </Box>
+                    </Grid2>
+                    <Grid2 size={3}>
+                        <Box textAlign='center'>
+                            <Button size='large' variant='contained' href='/register' sx={{ width: '100%'}}>Register</Button>
+                        </Box>
+                    </Grid2>
+                        
+                    <Grid2 size={3}>
+                        <Box textAlign='center' sx={{ pb: '5%' }}>
+                        {!loginStatus ? (
+                            <Button size='large' variant='contained' href='/login' sx={{ width: '100%'}}>
+                                Log in
+                            </Button>
+                        ) : (                            
                         <form onSubmit={loginOut}>
-                            <input className="navButton" type="submit" value="Log out"/>
-                        </form>
-                    </div>
-                    }
-                </div>
+                            <Button size='large' variant='contained' type="submit" sx={{ width: '100%'}}>
+                                Log out
+                            </Button>
+                        </form>     
+                        )}
+                        </Box>
+                    </Grid2>
+                </Grid2>
+                
             </div>
-        </div>
+        </Container>
     );
 }
