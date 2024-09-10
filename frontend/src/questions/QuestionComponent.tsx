@@ -1,9 +1,11 @@
 import {Question, TimeAnswer, TimeUnit, WorkdayAnswer} from "../service/models";
 import {useEffect, useState} from "react";
 import {getTimeUnitList, postTimeAnswer, postWorkdayAnswer} from "../service/apiService";
-import TimeAnswerProperties from "./TimeAnswerProperties";
-import "./QuestionComponent.css"
+import TimeUnitAnswer from "../components/TimeUnitAnswer";
+//import "./QuestionManager.css"
 import {convertTimeUnitToMinutes} from "../utilities/Util"
+import WorkdayCheckboxes from "../components/WorkdayCheckboxes";
+import { Select, FormControl, Box, Typography, Grid2, Card, InputLabel, MenuItem, SelectChangeEvent } from '@mui/material';
 
 interface QuestionProps {
     question: Question
@@ -11,7 +13,7 @@ interface QuestionProps {
     answerCallback: () => void //refreshing site
 }
 
-export default function QuestionListComponent(props: QuestionProps) {
+export default function QuestionManager(props: QuestionProps) {
     const [timeUnitList, setTimeUnitList] = useState<Array<TimeUnit>>([])
     const [currentTimeAnswer, setCurrentTimeAnswer] = useState<string>()
     const [workdays, setWorkdays] = useState<boolean[]>([true, true, true, true, true, false, false]);
@@ -75,7 +77,7 @@ export default function QuestionListComponent(props: QuestionProps) {
                 })
     };
 
-    const timeUnitsToChoose = timeUnitList
+    const filteredTimeUnitSelection = timeUnitList
         .filter(timeUnit => {
             if (!props.question.previousQuestionId) {
                 return true;
@@ -91,65 +93,68 @@ export default function QuestionListComponent(props: QuestionProps) {
                 }
             }
         })
-        .map(timeUnit => <TimeAnswerProperties key={timeUnit.id} timeUnit={timeUnit}/>)
+        .map(timeUnit => <TimeUnitAnswer key={timeUnit.id} timeUnit={timeUnit}/>)
 
-       const renderWorkdayCheckboxes = () => {
-           const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-           return days.map((day, index) => (
-               <span key={index}>
-                   <input
-                       type="checkbox"
-                       id={`check${index}`}
-                       checked={workdays[index]}
-                       onChange={event => {
-                           const newWorkdays = [...workdays];
-                           newWorkdays[index] = event.target.checked;
-                           setWorkdays(newWorkdays);
-                       }}
-                   />
-                   <label htmlFor={`check${index}`}>{day}</label>
-               </span>
-           ));
-       };
+        const initialTimeUnitValue = <TimeUnitAnswer key={currentTimeAnswer} timeUnit={{
+            time: currentTimeAnswer + "",
+            length: 15,
+            end: "24:00"
+            }}
+            />
 
-       const QuestionType = () => {
+       const QuestionTypeResolver = () => {
            if (props.question.question === "On which days do you work ?") {
                return (
                    <div>
-                       {renderWorkdayCheckboxes()}
+                       <WorkdayCheckboxes workdays={workdays} setWorkdays={setWorkdays} />
                    </div>
                );
            }
 
            else{
                return(
-               <div>
-                   <select
-                       className="questionAnswer"
+                //create extra 'TimeSelection' component
+               <FormControl>
+                   <InputLabel>Time</InputLabel>
+                   <Select
                        name={props.question.type}
                        id={props.question.id}
+                       value={initialTimeUnitValue}
+
                        onChange={event => timeAnswerDbUpdate(Number(event.target.value))}
                    >
-                              value=<TimeAnswerProperties
-                              key={currentTimeAnswer}
-                              timeUnit={{
-                                time: currentTimeAnswer + "",
-                                length: 15,
-                                 end: "24:00"
-                              }}
-                              />
-                              {timeUnitsToChoose}
-                   </select>
-               </div>
+                        {filteredTimeUnitSelection}
+                   </Select>
+
+                    <Select
+                        value={age}
+                        onChange={event => setAge(event.target.value as string)}
+                    >
+                        <MenuItem value={10}>Ten</MenuItem>
+                        <MenuItem value={20}>Twenty</MenuItem>
+                        <MenuItem value={30}>Thirty</MenuItem>
+                    </Select>
+               </FormControl>
                );
            }
         };
+        const [age, setAge] =useState('');
 
+        const handleChange = (event: SelectChangeEvent) => {
+          setAge(event.target.value as string);
+        };
     return (
-        <div className="question">
-            <p>{props.question.question}</p>
-            {errorMessage && <div>{errorMessage}</div>}
-            {QuestionType()}
-        </div>
+            <Grid2 size={8}>
+                <Card sx={{
+                    backgroundColor: "primary.main",
+                    marginTop:'40px'
+                    }}>
+                    <Box textAlign='center' >
+                    <Typography>{props.question.question}</Typography>
+                    {errorMessage && <div>{errorMessage}</div>}
+                    {QuestionTypeResolver()}
+                    </Box>
+                </Card>
+            </Grid2>
     );
 }
