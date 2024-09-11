@@ -26,7 +26,7 @@ export default function StartPage() {
 
         if (token == null) {
             setLoginStatus(false)
-            setUsername("you are not logged in ")
+            setUsername("you are not logged in")
         }
     }, [token])
 
@@ -56,7 +56,7 @@ export default function StartPage() {
             </Box>
             <Box textAlign='center'>
                 <Typography variant="h2" gutterBottom>Timetable Generator</Typography>
-                <Typography variant="h4" gutterBottom>Hello{", " + username + " !"}</Typography>
+                <Typography variant="h4" gutterBottom>Hello{" " + username}</Typography>
             </Box>
 
             {errorMessage && <div>{errorMessage}</div>}
