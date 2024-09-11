@@ -26,7 +26,7 @@ export default function StartPage() {
 
         if (token == null) {
             setLoginStatus(false)
-            setUsername("you are not logged in")
+            setUsername("Please log in to continue.")
         }
     }, [token])
 
@@ -56,12 +56,13 @@ export default function StartPage() {
             </Box>
             <Box textAlign='center'>
                 <Typography variant="h2" gutterBottom>Timetable Generator</Typography>
-                <Typography variant="h4" gutterBottom>Hello{" " + username}</Typography>
+                <Typography variant="h4" gutterBottom>Welcome!</Typography>
+                <Typography variant="h4" gutterBottom>{username}</Typography>
             </Box>
 
             {errorMessage && <div>{errorMessage}</div>}
             <div>
-                <Grid2 container spacing={{ xs: 1, sm: 2, md: 3 }} direction="column" justifyContent="center" alignItems="center" sx={{ mt: '5%' }}>
+                <Grid2 container spacing={{ xs: 1, sm: 2, md: 3 }} direction="column" justifyContent="center" alignItems="center" sx={{ mt: '4%' }}>
                     <Grid2 size={3}>
                         <Box textAlign='center'>
                             <Button size='large' variant='contained' href='/questions' sx={{ width: '100%', whiteSpace:'nowrap'}}>Let's create !</Button>
