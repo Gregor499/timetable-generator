@@ -30,14 +30,11 @@ const tableRowStyles = {
     width: '80%',
     marginTop: '10px',
     lineHeight: '15px',
-    color: 'black',
-    fontWeight: 'bold',
-    fontSize: '1em',
-    textAlign: 'center',
+
 };
 
 
-const tableCellStyles: Record<string, { backgroundColor: string; textAlign?: string; height?: string; padding?: string }> = {
+const tableCellStyles: Record<string, { backgroundColor: string; textAlign?: string; }> = {
     morningSleep: { backgroundColor: 'rgba(134, 134, 134, 0.3)', textAlign: 'center' },
     morningRoutine: { backgroundColor: 'rgba(142, 255, 148, 0.71)', textAlign: 'center' },
     workWayTime: { backgroundColor: 'rgba(48, 163, 255, 0.51)', textAlign: 'center' },
@@ -45,14 +42,14 @@ const tableCellStyles: Record<string, { backgroundColor: string; textAlign?: str
     leisureTime: { backgroundColor: 'rgba(255, 228, 11, 0.64)', textAlign: 'center' },
     eveningRoutine: { backgroundColor: 'rgba(148, 85, 255, 0.5)', textAlign: 'center' },
     nightSleep: { backgroundColor: 'rgba(134, 134, 134, 0.3)', textAlign: 'center' },
-    free: { backgroundColor: 'rgba(255, 158, 0, 0.68)', textAlign: 'center', height: '30px', padding: '4px' },
+    free: { backgroundColor: 'rgba(255, 158, 0, 0.68)', textAlign: 'center' },
 };
 
 export default function TimeTableContent(props: TimeTableProps) {
     const taskName = taskNameMapping[props.task] || props.task;
 
     return (
-        <TableRow sx={tableRowStyles} className="timeTableContent">
+        <TableRow sx={tableRowStyles}>
             <TableCell className="timeUnits">{props.timeUnit.time}</TableCell>
             <TableCell sx={props.monday ? tableCellStyles[props.task] : tableCellStyles.free}>
                 {props.monday ? taskName : "free"}

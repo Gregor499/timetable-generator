@@ -62,7 +62,7 @@ const tableStyles = {
                 </Box>
                 <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 4, px:4 }}>
                 <TableContainer  ref={targetRef} component={Paper}  sx={{ mb: '5%' }}>
-                    <Table>
+                    <Table size="small" >
                     <TableHead>
                         <TableRow sx={{background: 'rgba(255, 158, 0, 0.68)'}}>
                             <TableCell sx={tableStyles} className="timeUnits">Time</TableCell>
