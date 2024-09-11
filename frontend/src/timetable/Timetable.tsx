@@ -1,5 +1,5 @@
 import "./Timetable.css"
-import { useEffect, useState, /* createRef */ } from "react";
+import { useEffect, useState } from "react";
 import { getProcessedTimeAnswers, getTimeUnitList } from "../service/apiService";
 import { ProcessedTimeAnswer, TimeUnit } from "../service/models";
 import TimeTableContent from "./TimeTableContent";
@@ -14,21 +14,6 @@ export default function Timetable() {
     const [errorMessage, setErrorMessage] = useState("")
     
     const { toPDF, targetRef } = usePDF({filename: 'timetable.pdf'});
-
-/*     const ref = createRef();
-      const [image, takeScreenShot] = useScreenshot({
-        type: "image/jpeg",
-        quality: 1.0
-      });
-
-      const download = (image: string, { name = "img", extension = "jpg" } = {}) => {
-        const a = document.createElement("a");
-        a.href = image;
-        a.download = createFileName(extension, name);
-        a.click();
-      };
-
-      const downloadScreenshot = () => takeScreenShot(ref.current).then(download); */
 
     useEffect(() => {
         getTimeUnitList()
