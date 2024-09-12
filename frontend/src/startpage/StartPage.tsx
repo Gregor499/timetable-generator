@@ -64,9 +64,11 @@ export default function StartPage() {
             <div>
                 <Grid2 container spacing={{ xs: 1, sm: 2, md: 3 }} direction="column" justifyContent="center" alignItems="center" sx={{ mt: '5%' }}>
                     <Grid2 size={3}>
+                        {loginStatus && 
                         <Box textAlign='center'>
                             <Button size='large' variant='contained' href='/questions' sx={{ width: '100%', whiteSpace:'nowrap'}}>Let's create !</Button>
                         </Box>
+                        }
                     </Grid2>
                     <Grid2 size={3}>
                         <Box textAlign='center'>
