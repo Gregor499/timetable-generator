@@ -115,7 +115,7 @@ export default function QuestionManager(props: QuestionProps) {
 
            else{
                return(
-                //create extra 'TimeSelection' component
+                //move extra 'TimeSelection' component if necessary
                <FormControl>
                    <InputLabel>Time</InputLabel>
                    <Select
@@ -124,7 +124,7 @@ export default function QuestionManager(props: QuestionProps) {
                        onChange={event => timeAnswerDbUpdate(Number(event.target.value))}
                        value={convertTimeUnitToMinutes(currentTimeAnswer)}
                    >
-                                            {[initialTimeUnitValue, ...filteredTimeUnitSelection]}
+                        {[initialTimeUnitValue, ...filteredTimeUnitSelection]}
 
                    </Select>
 
