@@ -8,6 +8,6 @@ interface AnswerProps {
 export default function TimeUnitAnswer(props: AnswerProps) {
 
     return (
-    <MenuItem key={props.timeUnit.timeInMinutes} value={props.timeUnit.timeInMinutes}>{props.timeUnit.time}h</MenuItem>
+    <MenuItem value={props.timeUnit.timeInMinutes}>{props.timeUnit.time}h</MenuItem>
     )
 }

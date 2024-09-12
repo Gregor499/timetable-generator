@@ -95,12 +95,18 @@ export default function QuestionManager(props: QuestionProps) {
         })
         .map(timeUnit => <TimeUnitAnswer key={timeUnit.id} timeUnit={timeUnit}/>)
 
-        const initialTimeUnitValue = <TimeUnitAnswer key={currentTimeAnswer} timeUnit={{
-            time: currentTimeAnswer + "",
-            length: 15,
-            end: "24:00"
-            }}
-            />
+        const initialTimeUnitValue = <TimeUnitAnswer
+            key={currentTimeAnswer}
+
+            //the crucial information here is 'currentTimeAnswer' the rest is just for filling up the timeUnit type
+                //todo: as length and end are unnecessary in this component, I could create new model type for this.
+                //but eventually I need to adapt the backend aswell
+            timeUnit={{
+                time: currentTimeAnswer + "",
+                length: 15,
+                end: "24:00"
+                }}
+                />
 
        const QuestionTypeResolver = () => {
            if (props.question.question === "On which days do you work ?") {
@@ -119,10 +125,9 @@ export default function QuestionManager(props: QuestionProps) {
                    <Select
                        name={props.question.type}
                        id={props.question.id}
-                       value={initialTimeUnitValue}
-
                        onChange={event => timeAnswerDbUpdate(Number(event.target.value))}
                    >
+                        value={initialTimeUnitValue}
                         {filteredTimeUnitSelection}
                    </Select>
 
