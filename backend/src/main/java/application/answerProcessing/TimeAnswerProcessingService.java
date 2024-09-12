@@ -137,7 +137,8 @@ public class TimeAnswerProcessingService {
     }
 
 
-    public List<ProcessedTimeAnswer> getProcessedAnswersByUserId(String userId) {
+    public List<ProcessedTimeAnswer> getProcessedAnswersByUserId(Principal principal) {
+        String userId = getUserId(principal);
         return processedAnswerRepository.getProcessedAnswerListByUserId(userId);
     }
 }
