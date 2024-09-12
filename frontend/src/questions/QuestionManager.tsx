@@ -4,7 +4,7 @@ import {getTimeUnitList, postTimeAnswer, postWorkdayAnswer} from "../service/api
 //import "./QuestionManager.css"
 import {convertTimeUnitToMinutes} from "../utilities/Util"
 import WorkdayCheckboxes from "../components/WorkdayCheckboxes";
-import { Select, FormControl, Box, Typography, Grid2, Card, InputLabel, MenuItem, SelectChangeEvent } from '@mui/material';
+import { Select, FormControl, Box, Typography, Grid2, Card, InputLabel, MenuItem } from '@mui/material';
 
 interface QuestionProps {
     question: Question
@@ -100,10 +100,6 @@ export default function QuestionManager(props: QuestionProps) {
         const initialTimeUnitValue =
             <MenuItem
                 key={`initial-${currentTimeAnswer}`} // Ensure unique key
-
-                //the crucial information here is 'currentTimeAnswer' the rest is just for filling up the timeUnit type
-                    //todo: as length and end are unnecessary in this component, I could create new model type for this.
-                    //but eventually I need to adapt the backend aswell
                 value={convertTimeUnitToMinutes(currentTimeAnswer)}>
                     {currentTimeAnswer}h
                 </MenuItem>
