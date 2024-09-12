@@ -6,7 +6,7 @@ Whether you're aiming to boost productivity, focus on important tasks, or better
 
 **Launch App**: https://timetable-generator-56e20f5e9751.herokuapp.com/
 
-**Dev-Build with new UI (Material Design)**: https://timetable-generator-dev-build-c7fe78681da2.herokuapp.com/
+**Launch Dev-Build with new UI (Material Design)**: https://timetable-generator-dev-build-c7fe78681da2.herokuapp.com/
  
 ## 📝 Features
 
