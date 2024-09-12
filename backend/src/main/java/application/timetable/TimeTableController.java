@@ -1,9 +1,9 @@
 package application.timetable;
 
-import application.answerDB.TimeAnswerService;
-import application.answerDB.TimeAnswer;
-import application.answerDB.WeekdayAnswer;
-import application.answerDB.WeekdayAnswerService;
+import application.answer.TimeAnswer;
+import application.answer.TimeAnswerService;
+import application.answer.WeekdayAnswer;
+import application.answer.WeekdayAnswerService;
 import application.answerProcessing.ProcessedTimeAnswer;
 import application.answerProcessing.TimeAnswerProcessingService;
 import application.questionDB.Question;

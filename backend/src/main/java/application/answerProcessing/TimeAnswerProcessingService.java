@@ -1,9 +1,9 @@
 package application.answerProcessing;
 
-import application.answerDB.TimeAnswer;
-import application.answerDB.TimeAnswerService;
-import application.answerDB.WeekdayAnswer;
-import application.answerDB.WeekdayAnswerService;
+import application.answer.TimeAnswer;
+import application.answer.TimeAnswerService;
+import application.answer.WeekdayAnswer;
+import application.answer.WeekdayAnswerService;
 import application.questionDB.QuestionConnection;
 import application.timetable.TimeUnit;
 import application.timetable.TimeUnitService;
@@ -58,6 +58,7 @@ public class TimeAnswerProcessingService {
             connectAnswers(questionConnection, userId);
         }
     }
+    
     public void connectAnswers(QuestionConnection questionConnection, String userId) throws Exception {
         int timeOffset = questionConnection.getTimeOffset();
         String taskName = questionConnection.getTaskName();
