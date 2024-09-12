@@ -1,9 +1,11 @@
 package application.timetableGenerator;
 
-import application.questionDB.Question;
-import application.questionDB.QuestionRepository;
-import application.questionDB.QuestionService;
 import org.junit.jupiter.api.Test;
+
+import application.question.Question;
+import application.question.QuestionRepository;
+import application.question.QuestionService;
+
 import org.assertj.core.api.Assertions;
 
 

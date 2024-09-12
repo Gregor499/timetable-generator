@@ -1,4 +1,4 @@
-package application.questionDB;
+package application.answerProcessing;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -4,7 +4,6 @@ import application.answer.TimeAnswer;
 import application.answer.TimeAnswerService;
 import application.answer.WeekdayAnswer;
 import application.answer.WeekdayAnswerService;
-import application.questionDB.QuestionConnection;
 import application.timetable.TimeUnit;
 import application.timetable.TimeUnitService;
 import application.user.User;
