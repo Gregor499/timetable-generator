@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import axios, {AxiosResponse} from "axios";
-import {postTimeUnitCreationData} from "../service/apiService";
+import {getProcessedTimeAnswers, postTimeUnitCreationData} from "../service/apiService";
 import { Button, Box, Container, Typography, Grid2, AppBar, Toolbar } from '@mui/material';
 import { AccessAlarm } from "@mui/icons-material";
 
@@ -9,6 +9,7 @@ export default function StartPage() {
     const [username, setUsername] = useState("")
     const [errorMessage, setErrorMessage] = useState("")
     const [loginStatus, setLoginStatus] = useState(true)
+    const [timetableStatus, setTimetable] = useState(false)
     let token = localStorage.getItem("jwt")
 
     useEffect(() => {
@@ -28,6 +29,14 @@ export default function StartPage() {
             setLoginStatus(false)
             setUsername("Please log in to continue.")
         }
+
+        getProcessedTimeAnswers()
+            .then((data: string | any[]) => {
+                if(data && data.length > 0) setTimetable(true)
+                else setTimetable(false)
+                })
+            .catch(() => setErrorMessage("Error while processing Answers:\nCheck if one is missing or falsely set !"));
+        
     }, [token])
 
     const loginOut = () => {
@@ -70,6 +79,7 @@ export default function StartPage() {
                         </Box>
                         }
                     </Grid2>
+
                     <Grid2 size={3}>
                         <Box textAlign='center'>
                             <Button size='large' variant='contained' href='/register' sx={{ width: '100%', whiteSpace:'nowrap'}}>Create new account</Button>
@@ -91,6 +101,14 @@ export default function StartPage() {
                         )}
                         </Box>
                     </Grid2>
+
+                    {timetableStatus && 
+                    <Grid2 size={3}>
+                        <Box textAlign='center'>
+                            <Button size='large' variant='contained' href='/timetable' sx={{ width: '100%', whiteSpace:'nowrap'}}>View previous timetable</Button>
+                        </Box>
+                    </Grid2>
+                    }
                 </Grid2>
                 
             </div>

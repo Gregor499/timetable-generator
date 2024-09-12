@@ -83,7 +83,7 @@ public class TimeTableController {
         return timeAnswerProcessingService.processTimeAnswers(principal);
     }
 
-    @GetMapping("/oldProcessedTimeAnswers")
+    @GetMapping("/prevProcessedTimeAnswers")
     List<ProcessedTimeAnswer> getProcessedAnswers(Principal principal) {
         return timeAnswerProcessingService.getProcessedAnswersByUserId(principal);
     }

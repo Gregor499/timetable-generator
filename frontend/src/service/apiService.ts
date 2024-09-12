@@ -69,8 +69,17 @@ export const getTimeAnswer = () => {
         .then((response: AxiosResponse<TimeAnswer[]>) => response.data)
 }
 
-export const getProcessedTimeAnswers = () => {
+export const processAndGetProcessedTimeAnswers = () => {
     return axios.get("api/processedTimeAnswers", {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('jwt')}`
+        }
+    })
+        .then((response: AxiosResponse<ProcessedTimeAnswer[]>) => response.data)
+}
+
+export const getProcessedTimeAnswers = () => {
+    return axios.get("api/prevProcessedTimeAnswers", {
         headers: {
             Authorization: `Bearer ${localStorage.getItem('jwt')}`
         }

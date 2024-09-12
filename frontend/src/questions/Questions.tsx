@@ -1,6 +1,6 @@
 import {NavLink} from "react-router-dom";
 import {useEffect, useState, useCallback} from "react";
-import {getQuestionList, getTimeAnswer} from "../service/apiService";
+import {getQuestionList, getTimeAnswer, processAndGetProcessedTimeAnswers} from "../service/apiService";
 import QuestionManager from "./QuestionManager";
 import {Question, TimeAnswer} from "../service/models";
 import "./Questions.css"
@@ -32,6 +32,12 @@ export default function QuestionList() {
     const sortedQuestions = questionList.sort((s1, s2) => s1.order - s2.order).map(question => <QuestionManager
             key={question.id} question={question} answers={answers} answerCallback={onAnswer}/>)
 
+    const processAnswers = () => {
+        processAndGetProcessedTimeAnswers()
+            .then(() => window.location.href = '/timetable')
+            .catch(() => setErrorMessage("Error while processing Answers:\nCheck if one is missing or falsely set !"));
+    }
+
     return (
         <Box sx={{ backgroundColor: '#DAA520', minHeight: '100vh' }}>
             <Container disableGutters>
@@ -53,7 +59,7 @@ export default function QuestionList() {
                 <br/>
                 <br/>
                 <Box textAlign='center' sx={{ pb: '5%' }}>
-                    <Button variant='contained' href='/timetable'>create</Button>
+                    <Button onClick={processAnswers} variant='contained'>create</Button>
                 </Box>
             </Container>
         </Box>
