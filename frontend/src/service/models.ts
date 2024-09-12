@@ -18,7 +18,7 @@ export interface TimeUnit {
     time: string
     length: number
     end: string
-    timeInMinutes?: number
+    timeInMinutes?: number // just for caching purposes
 }
 
 export interface Question {

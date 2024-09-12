@@ -1,7 +1,6 @@
 import {Question, TimeAnswer, TimeUnit, WorkdayAnswer} from "../service/models";
 import {useEffect, useState} from "react";
 import {getTimeUnitList, postTimeAnswer, postWorkdayAnswer} from "../service/apiService";
-import TimeUnitAnswer from "../components/TimeUnitAnswer";
 //import "./QuestionManager.css"
 import {convertTimeUnitToMinutes} from "../utilities/Util"
 import WorkdayCheckboxes from "../components/WorkdayCheckboxes";
@@ -93,20 +92,21 @@ export default function QuestionManager(props: QuestionProps) {
                 }
             }
         })
-        .map(timeUnit => <TimeUnitAnswer key={timeUnit.id} timeUnit={timeUnit}/>)
+        .map(timeUnit =>
+            <MenuItem key={timeUnit.id} value={convertTimeUnitToMinutes(timeUnit.time)}>{
+                timeUnit.time}h
+            </MenuItem>)
 
-        const initialTimeUnitValue = <TimeUnitAnswer
-            key={currentTimeAnswer}
+        const initialTimeUnitValue =
+            <MenuItem
+                key={`initial-${currentTimeAnswer}`} // Ensure unique key
 
-            //the crucial information here is 'currentTimeAnswer' the rest is just for filling up the timeUnit type
-                //todo: as length and end are unnecessary in this component, I could create new model type for this.
-                //but eventually I need to adapt the backend aswell
-            timeUnit={{
-                time: currentTimeAnswer + "",
-                length: 15,
-                end: "24:00"
-                }}
-                />
+                //the crucial information here is 'currentTimeAnswer' the rest is just for filling up the timeUnit type
+                    //todo: as length and end are unnecessary in this component, I could create new model type for this.
+                    //but eventually I need to adapt the backend aswell
+                value={convertTimeUnitToMinutes(currentTimeAnswer)}>
+                    {currentTimeAnswer}h
+                </MenuItem>
 
        const QuestionTypeResolver = () => {
            if (props.question.question === "On which days do you work ?") {
@@ -126,28 +126,18 @@ export default function QuestionManager(props: QuestionProps) {
                        name={props.question.type}
                        id={props.question.id}
                        onChange={event => timeAnswerDbUpdate(Number(event.target.value))}
+                       value={convertTimeUnitToMinutes(currentTimeAnswer)}
                    >
-                        value={initialTimeUnitValue}
-                        {filteredTimeUnitSelection}
+                                            {[initialTimeUnitValue, ...filteredTimeUnitSelection]}
+
                    </Select>
 
-                    <Select
-                        value={age}
-                        onChange={event => setAge(event.target.value as string)}
-                    >
-                        <MenuItem value={10}>Ten</MenuItem>
-                        <MenuItem value={20}>Twenty</MenuItem>
-                        <MenuItem value={30}>Thirty</MenuItem>
-                    </Select>
+                    
                </FormControl>
                );
            }
         };
-        const [age, setAge] =useState('');
 
-        const handleChange = (event: SelectChangeEvent) => {
-          setAge(event.target.value as string);
-        };
     return (
             <Grid2 size={8}>
                 <Card sx={{

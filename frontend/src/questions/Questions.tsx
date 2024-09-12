@@ -17,7 +17,7 @@ export default function QuestionList() {
     useEffect(() => {
         getQuestionList()
             .then(data => setQuestionList(data))
-            .catch(() => setErrorMessage("questionList doesnt load"));
+            .catch(() => setErrorMessage("Question database entries do not load, you might not be logged in"));
     }, [])
 
     const onAnswer = useCallback(() => {
@@ -29,7 +29,7 @@ export default function QuestionList() {
             .catch(() => setErrorMessage("timeAnswer doesnt load"));
     }, []);
 
-    const questions = questionList.sort((s1, s2) => s1.order - s2.order).map(question => <QuestionManager
+    const sortedQuestions = questionList.sort((s1, s2) => s1.order - s2.order).map(question => <QuestionManager
             key={question.id} question={question} answers={answers} answerCallback={onAnswer}/>)
 
     return (
@@ -47,7 +47,7 @@ export default function QuestionList() {
                     <Typography variant="h2" gutterBottom>Questions:</Typography>
                 </Box>            {errorMessage && <div>{errorMessage}</div>}
                 <Grid2 container spacing={0.5} justifyContent={"center"}>
-                {questions}
+                {sortedQuestions}
                 </Grid2>
 
                 <br/>

@@ -41,7 +41,7 @@ export default function StartPage() {
             "length": 15,
             "end": "24:00"
         })
-            .catch(() => setErrorMessage("timeUnitList does not load"));
+            .catch(() => setErrorMessage("Time unit database entries do not load"));
     }, [])
 
     return (
@@ -62,7 +62,7 @@ export default function StartPage() {
 
             {errorMessage && <div>{errorMessage}</div>}
             <div>
-                <Grid2 container spacing={{ xs: 1, sm: 2, md: 3 }} direction="column" justifyContent="center" alignItems="center" sx={{ mt: '4%' }}>
+                <Grid2 container spacing={{ xs: 1, sm: 2, md: 3 }} direction="column" justifyContent="center" alignItems="center" sx={{ mt: '5%' }}>
                     <Grid2 size={3}>
                         <Box textAlign='center'>
                             <Button size='large' variant='contained' href='/questions' sx={{ width: '100%', whiteSpace:'nowrap'}}>Let's create !</Button>
@@ -70,7 +70,7 @@ export default function StartPage() {
                     </Grid2>
                     <Grid2 size={3}>
                         <Box textAlign='center'>
-                            <Button size='large' variant='contained' href='/register' sx={{ width: '100%', whiteSpace:'nowrap'}}>Register</Button>
+                            <Button size='large' variant='contained' href='/register' sx={{ width: '100%', whiteSpace:'nowrap'}}>Create new account</Button>
                         </Box>
                     </Grid2>
                         
