@@ -51,15 +51,26 @@ export default function QuestionList() {
                 </Box>
                 <Box textAlign='center'>
                     <Typography variant="h2" gutterBottom>Questions:</Typography>
-                </Box>            {errorMessage && <div>{errorMessage}</div>}
+                </Box>
                 <Grid2 container spacing={0.5} justifyContent={"center"}>
-                {sortedQuestions}
+                    <Grid2 size={8}>
+                        <Box textAlign='center' justifyContent="center">
+                            <Button variant='contained' href='/' sx={{ whiteSpace:'nowrap'}}>
+                                Back to Startpage
+                            </Button>
+                        </Box>
+                        
+                    </Grid2>
+                    {sortedQuestions}
                 </Grid2>
 
                 <br/>
                 <br/>
-                <Box textAlign='center' sx={{ pb: '5%' }}>
+                <Box textAlign='center'  sx={{ pb: '2%' }}>
                     <Button onClick={processAnswers} variant='contained'>create</Button>
+                </Box>
+                <Box textAlign='center' sx={{ pb: '5%' }}>
+                    {errorMessage && <Typography>{errorMessage}</Typography>}
                 </Box>
             </Container>
         </Box>

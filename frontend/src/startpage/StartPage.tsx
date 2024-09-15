@@ -79,14 +79,18 @@ export default function StartPage() {
                     <Grid2 size={3}>
                         {loginStatus && 
                         <Box textAlign='center'>
-                            <Button size='large' variant='contained' href='/questions' sx={{ width: '100%', whiteSpace:'nowrap'}}>Let's create !</Button>
+                            <Button size='large' variant='contained' href='/questions' sx={{ width: '100%', whiteSpace:'nowrap'}}>
+                                Let's create !
+                            </Button>
                         </Box>
                         }
                     </Grid2>
 
                     <Grid2 size={3}>
                         <Box textAlign='center'>
-                            <Button size='large' variant='contained' href='/register' sx={{ width: '100%', whiteSpace:'nowrap'}}>Create new account</Button>
+                            <Button size='large' variant='contained' href='/register' sx={{ width: '100%', whiteSpace:'nowrap'}}>
+                                Create new account
+                            </Button>
                         </Box>
                     </Grid2>
                         
