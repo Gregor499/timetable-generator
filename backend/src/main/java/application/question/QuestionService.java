@@ -1,4 +1,4 @@
-package application.questionDB;
+package application.question;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

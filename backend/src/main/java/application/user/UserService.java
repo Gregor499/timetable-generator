@@ -3,6 +3,7 @@ package application.user;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,6 +14,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
+    @Transactional
     public void createNewUser(UserCreationData userCreationData) {
         if (!userCreationData.getPassword().equals(userCreationData.getPasswordRepeat())) {
             throw new IllegalArgumentException("passwords do not match");

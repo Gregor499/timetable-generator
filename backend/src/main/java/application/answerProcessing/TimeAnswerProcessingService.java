@@ -1,23 +1,23 @@
 package application.answerProcessing;
 
-import application.answerDB.TimeAnswer;
-import application.answerDB.TimeAnswerService;
-import application.answerDB.WeekdayAnswer;
-import application.answerDB.WeekdayAnswerService;
-import application.questionDB.QuestionConnection;
+import java.security.Principal;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import org.springframework.stereotype.Service;
+
+import application.answer.TimeAnswer;
+import application.answer.TimeAnswerService;
+import application.answer.WeekdayAnswer;
+import application.answer.WeekdayAnswerService;
 import application.timetable.TimeUnit;
 import application.timetable.TimeUnitService;
 import application.user.User;
 import application.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-
-import java.security.Principal;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -58,7 +58,7 @@ public class TimeAnswerProcessingService {
             connectAnswers(questionConnection, userId);
         }
     }
-
+    
     public void connectAnswers(QuestionConnection questionConnection, String userId) throws Exception {
         int timeOffset = questionConnection.getTimeOffset();
         String taskName = questionConnection.getTaskName();
@@ -138,7 +138,8 @@ public class TimeAnswerProcessingService {
     }
 
 
-    public List<ProcessedTimeAnswer> getProcessedAnswersByUserId(String userId) {
+    public List<ProcessedTimeAnswer> getProcessedAnswersByUserId(Principal principal) {
+        String userId = getUserId(principal);
         return processedAnswerRepository.getProcessedAnswerListByUserId(userId);
     }
 }

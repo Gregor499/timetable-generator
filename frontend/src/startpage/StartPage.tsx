@@ -1,14 +1,15 @@
-import {NavLink} from "react-router-dom";
 import {useEffect, useState} from "react";
 import axios, {AxiosResponse} from "axios";
-import {postTimeUnitCreationData} from "../service/apiService";
-import "./StartPage.css"
+import {getProcessedTimeAnswers, postTimeUnitCreationData} from "../service/apiService";
+import { Button, Box, Container, Typography, Grid2, AppBar, Toolbar } from '@mui/material';
+import { AccessAlarm } from "@mui/icons-material";
 
 export default function StartPage() {
 
     const [username, setUsername] = useState("")
     const [errorMessage, setErrorMessage] = useState("")
     const [loginStatus, setLoginStatus] = useState(true)
+    const [timetableStatus, setTimetable] = useState(false)
     let token = localStorage.getItem("jwt")
 
     useEffect(() => {
@@ -26,8 +27,25 @@ export default function StartPage() {
 
         if (token == null) {
             setLoginStatus(false)
-            setUsername("you are not logged in ")
+            setUsername("Please log in to continue.")
         }
+
+        if ( token != null) {
+        getProcessedTimeAnswers()
+            .then((data: string | any[]) => {
+                if(data && data.length > 0) setTimetable(true)
+                else setTimetable(false)
+                })
+            .catch(() => setErrorMessage("Error while processing Answers:\nCheck if one is missing or falsely set !"));
+
+        postTimeUnitCreationData({
+            "time": "00:00",
+            "length": 15,
+            "end": "24:00"
+        })
+            .catch(() => setErrorMessage("time unit database entries do not load"));
+        }
+        
     }, [token])
 
     const loginOut = () => {
@@ -36,42 +54,72 @@ export default function StartPage() {
     }
 
     useEffect(() => {
-        postTimeUnitCreationData({
-            "time": "00:00",
-            "length": 15,
-            "end": "24:00"
-        })
-            .catch(() => setErrorMessage("timeUnitList does not load"));
-    }, [])
+        
+    }, [token])
 
     return (
-        <div className="body">
-            <div className="content">
-                <h3 className="timetableHeadline">Timetable Generator</h3>
-                <h3 className="greeting">Hello{", " + username + " !"}</h3>
+        <Container disableGutters>
+            <Box textAlign='center'>
+                <AppBar position='static'>
+                    <Toolbar>
+                        <AccessAlarm/>
+                        <Typography variant="h6" textAlign={'center'} sx={{ textDecoration: 'none' }}>Timetable Generator</Typography>
+                    </Toolbar>
+                </AppBar>
+            </Box>
+            <Box textAlign='center'>
+                <Typography variant="h2" gutterBottom>Timetable Generator</Typography>
+                <Typography variant="h4" gutterBottom>Welcome!</Typography>
+                <Typography variant="h4" gutterBottom>{username}</Typography>
+            </Box>
 
-                {errorMessage && <div>{errorMessage}</div>}
-                <div className="row">
-                    <NavLink className="selectionBox" to={"/questions"}>
-                        <button className="navButton">Let's create !</button>
-                    </NavLink>
+            {errorMessage && <div>{errorMessage}</div>}
+            <div>
+                <Grid2 container spacing={{ xs: 1, sm: 2, md: 3 }} direction="column" justifyContent="center" alignItems="center" sx={{ mt: '5%' }}>
+                    <Grid2 size={3}>
+                        {loginStatus && 
+                        <Box textAlign='center'>
+                            <Button size='large' variant='contained' href='/questions' sx={{ width: '100%', whiteSpace:'nowrap'}}>
+                                Let's create !
+                            </Button>
+                        </Box>
+                        }
+                    </Grid2>
 
-                    <NavLink className="selectionBox" to={"/register"}>
-                        <button className="navButton">Register</button>
-                    </NavLink>
-
-                    {!loginStatus && <NavLink className="selectionBox" to={"/login"}>
-                        <button className="navButton">Log in</button>
-                    </NavLink>}
-
-                    {loginStatus && <div className="selectionBox">
+                    <Grid2 size={3}>
+                        <Box textAlign='center'>
+                            <Button size='large' variant='contained' href='/register' sx={{ width: '100%', whiteSpace:'nowrap'}}>
+                                Create new account
+                            </Button>
+                        </Box>
+                    </Grid2>
+                        
+                    <Grid2 size={3}>
+                        <Box textAlign='center' sx={{ pb: '5%' }}>
+                        {!loginStatus ? (
+                            <Button size='large' variant='contained' href='/login' sx={{ width: '100%', whiteSpace:'nowrap'}}>
+                                Log in
+                            </Button>
+                        ) : (                            
                         <form onSubmit={loginOut}>
-                            <input className="navButton" type="submit" value="Log out"/>
-                        </form>
-                    </div>
+                            <Button size='large' variant='contained' type="submit" sx={{ width: '100%', whiteSpace:'nowrap'}}>
+                                Log out
+                            </Button>
+                        </form>     
+                        )}
+                        </Box>
+                    </Grid2>
+
+                    {timetableStatus && 
+                    <Grid2 size={3}>
+                        <Box textAlign='center'>
+                            <Button size='large' variant='contained' href='/timetable' sx={{ width: '100%', whiteSpace:'nowrap'}}>View previous timetable</Button>
+                        </Box>
+                    </Grid2>
                     }
-                </div>
+                </Grid2>
+                
             </div>
-        </div>
+        </Container>
     );
 }

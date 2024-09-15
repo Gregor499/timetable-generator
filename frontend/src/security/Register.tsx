@@ -1,7 +1,8 @@
 import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { registerUser } from "../service/apiService";
+import { registerUser, loginUser } from "../service/apiService";
 import "./LoginAndRegister.css"
+import { error } from "console";
 
 export default function Register() {
     const [username, setUsername] = useState("");
@@ -13,8 +14,12 @@ export default function Register() {
     const register = (ev: FormEvent) => {
         ev.preventDefault();
         registerUser({ username, password, passwordRepeat })
-            .then(() => nav("/"))
-            .catch(() => setErrorMessage("User could not be created."));
+        .then(() => {
+            return loginUser({ username, password });
+        })
+        .then((loginResponse) => localStorage.setItem("jwt", loginResponse.jwt))
+        .then(() => nav("/"))
+        .catch(() => setErrorMessage("User could not be created. User already exists ?"));
     };
 
     return (

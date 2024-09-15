@@ -1,19 +1,23 @@
-package application.answerDB;
+package application.answer;
 
 import application.timetable.TimeUnitService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class TimeAnswerService {
     private final TimeAnswerRepository timeAnswerRepository;
     private final TimeUnitService timeUnitService;
 
+    @Transactional
     public void safeOrUpdateAnswer(TimeAnswer timeAnswer) {
         deleteExistingAnswerIfPresent(timeAnswer.getUserId(), timeAnswer.getQuestionId());
         timeAnswer.setTime(timeUnitService.convertMinutesToTimeUnit(timeAnswer.getTimeInMinutes()));
@@ -40,8 +44,8 @@ public class TimeAnswerService {
     private void deleteExistingAnswerIfPresent(String userId, String questionId) {
         findByUserIdAndQuestionId(userId, questionId)
                 .ifPresentOrElse(
-                        timeAnswerRepository::delete,
-                        () -> { throw new NoSuchElementException("Answer not found for userId: " + userId + " and questionId: " + questionId); }
+                        timeAnswerRepository::delete, () -> log.debug("Answer not found for userId: {} and questionId: {}", userId, questionId)
                 );
     }
+
 }

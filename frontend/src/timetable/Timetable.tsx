@@ -1,30 +1,19 @@
 import "./Timetable.css"
-import { useEffect, useState, /* createRef */ } from "react";
+import { useEffect, useState } from "react";
 import { getProcessedTimeAnswers, getTimeUnitList } from "../service/apiService";
 import { ProcessedTimeAnswer, TimeUnit } from "../service/models";
 import TimeTableContent from "./TimeTableContent";
 import { convertTimeUnitToMinutes } from "../utilities/Util"
-//import { useScreenshot, createFileName } from "use-react-screenshot";
+import { usePDF } from "react-to-pdf";
+import { Container, Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, AppBar, Toolbar, Grid2 } from '@mui/material';
+import { AccessAlarm } from "@mui/icons-material";
 
 export default function Timetable() {
     const [timeUnitList, setTimeUnitList] = useState<Array<TimeUnit>>([])
     const [processedTimeAnswerList, setProcessedTimeAnswerList] = useState<Array<ProcessedTimeAnswer>>([])
     const [errorMessage, setErrorMessage] = useState("")
-
-/*     const ref = createRef();
-      const [image, takeScreenShot] = useScreenshot({
-        type: "image/jpeg",
-        quality: 1.0
-      });
-
-      const download = (image: string, { name = "img", extension = "jpg" } = {}) => {
-        const a = document.createElement("a");
-        a.href = image;
-        a.download = createFileName(extension, name);
-        a.click();
-      };
-
-      const downloadScreenshot = () => takeScreenShot(ref.current).then(download); */
+    
+    const { toPDF, targetRef } = usePDF({filename: 'timetable.pdf'});
 
     useEffect(() => {
         getTimeUnitList()
@@ -41,40 +30,76 @@ export default function Timetable() {
 const [maxStart, maxEnd] = calculateTimeRange(processedTimeAnswerList);
 const timeTableContent = generateTimeTableContent(timeUnitList, processedTimeAnswerList, maxStart, maxEnd);
 
-//onClick={downloadScreenshot}
-    return (
-        <>
-            <h1 className="headline">Timetable</h1>
-            <div>
-              <button >Download screenshot</button>
-              <div className="flex-container">
-                  <table className="table">
-                      <thead>
-                      <tr className="flex-item">
-                          <th className="timeUnits">Time</th>
-                          <th>Monday</th>
-                          <th>Tuesday</th>
-                          <th>Wednesday</th>
-                          <th>Thursday</th>
-                          <th>Friday</th>
-                          <th>Saturday</th>
-                          <th>Sunday</th>
-                      </tr>
-                      </thead>
+const tableStyles = {
+    textAlign: 'center',
+    border: 'thin solid',
+    width: '100px', // Set a fixed width for the table cells
+    height: '30px', // Set a fixed height for the table cells
+    padding: '4px', // Adjust padding to fit the smaller height
+};
 
-                      <tbody>
-                      {timeTableContent}
-                      {errorMessage && (
-                        <tr>
-                            <th colSpan={8}>{errorMessage}</th>
-                        </tr>
-                        )}
-                      </tbody>
-                  </table>
-              </div>
-            </div>
+//refactor TableCell to avoid redundancy
+  return (
+    <Box sx={{ backgroundColor: '#DAA520', minHeight: '100vh' }}>
+        <Container disableGutters>
+            <Box textAlign='center'>
+                <AppBar position='static'>
+                    <Toolbar>
+                        <AccessAlarm/>
+                        <Typography variant="h6" textAlign={'center'} sx={{ textDecoration: 'none' }}>Timetable Generator</Typography>
+                    </Toolbar>
+                </AppBar>
+            </Box>
+            <Box textAlign='center'>
+                <Typography variant="h2" gutterBottom>Timetable</Typography>
+            </Box>
+            <Grid2 container spacing={{ xs: 1, sm: 2, md: 3 }} direction="row" justifyContent="center" alignItems="center">
+                <Grid2 size={2.5}>
+                    <Box textAlign='center' justifyContent="center" gap={2}>
+                        <Button onClick={() => toPDF()} variant="contained"  sx={{ whiteSpace:'nowrap'}}>
+                            Download screenshot
+                        </Button>
+                    </Box>
+                </Grid2>
+                <Grid2 size={2.5}>
+                    <Box textAlign='center' justifyContent="center" gap={2}>
+                        <Button variant='contained' href='/' sx={{ whiteSpace:'nowrap'}}>
+                            Back to Startpage
+                        </Button>
+                    </Box>
+                </Grid2>
+            </Grid2>
 
-        </>
+            <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 4, px:4 }}>
+            <TableContainer  ref={targetRef} component={Paper}  sx={{ mb: '5%' }}>
+                <Table size="small" >
+                <TableHead>
+                    <TableRow sx={{background: 'rgba(255, 158, 0, 0.68)'}}>
+                        <TableCell sx={tableStyles} className="timeUnits">Time</TableCell>
+                        <TableCell sx={tableStyles}>Monday</TableCell>
+                        <TableCell sx={tableStyles}>Tuesday</TableCell>
+                        <TableCell sx={tableStyles}>Wednesday</TableCell>
+                        <TableCell sx={tableStyles}>Thursday</TableCell>
+                        <TableCell sx={tableStyles}>Friday</TableCell>
+                        <TableCell sx={tableStyles}>Saturday</TableCell>
+                        <TableCell sx={tableStyles}>Sunday</TableCell>
+                    </TableRow>
+                </TableHead>
+
+                <TableBody>
+                {timeTableContent}
+                {errorMessage && (
+                    <TableRow sx={{background: '#FC3442'}}>
+                        <TableCell sx={tableStyles} colSpan={8}>{errorMessage}</TableCell>
+                    </TableRow>
+                    )}
+                </TableBody>
+                </Table>
+            </TableContainer>
+            </Box>
+        </Container>
+    </Box>
+
     );
 }
 

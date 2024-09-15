@@ -1,13 +1,13 @@
 package application.timetable;
 
-import application.answerDB.TimeAnswerService;
-import application.answerDB.TimeAnswer;
-import application.answerDB.WeekdayAnswer;
-import application.answerDB.WeekdayAnswerService;
+import application.answer.TimeAnswer;
+import application.answer.TimeAnswerService;
+import application.answer.WeekdayAnswer;
+import application.answer.WeekdayAnswerService;
 import application.answerProcessing.ProcessedTimeAnswer;
 import application.answerProcessing.TimeAnswerProcessingService;
-import application.questionDB.Question;
-import application.questionDB.QuestionService;
+import application.question.Question;
+import application.question.QuestionService;
 import application.user.User;
 import application.user.UserService;
 import lombok.RequiredArgsConstructor;
@@ -79,7 +79,12 @@ public class TimeTableController {
     }
 
     @GetMapping("/processedTimeAnswers")
-    List<ProcessedTimeAnswer> getProcessedAnswers(Principal principal) throws Exception {
+    List<ProcessedTimeAnswer> processAndGetProcessedAnswers(Principal principal) throws Exception {
         return timeAnswerProcessingService.processTimeAnswers(principal);
+    }
+
+    @GetMapping("/prevProcessedTimeAnswers")
+    List<ProcessedTimeAnswer> getProcessedAnswers(Principal principal) {
+        return timeAnswerProcessingService.getProcessedAnswersByUserId(principal);
     }
 }
