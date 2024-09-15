@@ -1,5 +1,13 @@
 package application.answerProcessing;
 
+import java.security.Principal;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import org.springframework.stereotype.Service;
+
 import application.answer.TimeAnswer;
 import application.answer.TimeAnswerService;
 import application.answer.WeekdayAnswer;
@@ -10,13 +18,6 @@ import application.user.User;
 import application.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-
-import java.security.Principal;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 @Slf4j
 @Service

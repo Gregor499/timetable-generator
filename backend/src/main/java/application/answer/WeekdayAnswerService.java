@@ -15,7 +15,7 @@ public class WeekdayAnswerService {
     private final WeekdayAnswerRepository weekdayAnswerRepository;
 
     @Transactional
-    public void saveOrUpdateAnswer(WeekdayAnswer weekdayAnswer) { // wie können sich hier doppelte Einträge einschleichen?
+    public void saveOrUpdateAnswer(WeekdayAnswer weekdayAnswer) {
         deleteExistingAnswerIfPresent(weekdayAnswer.getUserId(), weekdayAnswer.getQuestionId());
         weekdayAnswerRepository.save(weekdayAnswer);
     }
@@ -38,7 +38,7 @@ public class WeekdayAnswerService {
 
     public void deleteExistingAnswerIfPresent(String userId, String questionId) {
         findByUserIdAndQuestionId(userId, questionId)
-                .ifPresentOrElse( //fehler falls multiple anwers found
+                .ifPresentOrElse( //error if multiple answers found
                     weekdayAnswerRepository::delete, () -> log.debug("Answer not found for userId: {} and questionId: {}", userId, questionId)
 
                 );
