@@ -5,7 +5,7 @@ import { ProcessedTimeAnswer, TimeUnit } from "../service/models";
 import TimeTableContent from "./TimeTableContent";
 import { convertTimeUnitToMinutes } from "../utilities/Util"
 import { usePDF } from "react-to-pdf";
-import { Container, Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, AppBar, Toolbar } from '@mui/material';
+import { Container, Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, AppBar, Toolbar, Grid2 } from '@mui/material';
 import { AccessAlarm } from "@mui/icons-material";
 
 export default function Timetable() {
@@ -40,56 +40,66 @@ const tableStyles = {
 
 //refactor TableCell to avoid redundancy
   return (
-        <html>
-        <head>
-            <title>Timetable</title>
-        </head>
-        <body>
-            <Container disableGutters>
-                <Box textAlign='center'>
-                    <AppBar position='static'>
-                        <Toolbar>
-                            <AccessAlarm/>
-                            <Typography variant="h6" textAlign={'center'} sx={{ textDecoration: 'none' }}>Timetable Generator</Typography>
-                        </Toolbar>
-                    </AppBar>
-                </Box>
-                <Box textAlign='center'>
-                    <Typography variant="h2" gutterBottom>Timetable</Typography>
-                </Box>
-                <Box textAlign='center'>
-                <Button onClick={() => toPDF()} variant="contained">Download screenshot</Button>
-                </Box>
-                <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 4, px:4 }}>
-                <TableContainer  ref={targetRef} component={Paper}  sx={{ mb: '5%' }}>
-                    <Table size="small" >
-                    <TableHead>
-                        <TableRow sx={{background: 'rgba(255, 158, 0, 0.68)'}}>
-                            <TableCell sx={tableStyles} className="timeUnits">Time</TableCell>
-                            <TableCell sx={tableStyles}>Monday</TableCell>
-                            <TableCell sx={tableStyles}>Tuesday</TableCell>
-                            <TableCell sx={tableStyles}>Wednesday</TableCell>
-                            <TableCell sx={tableStyles}>Thursday</TableCell>
-                            <TableCell sx={tableStyles}>Friday</TableCell>
-                            <TableCell sx={tableStyles}>Saturday</TableCell>
-                            <TableCell sx={tableStyles}>Sunday</TableCell>
-                        </TableRow>
-                    </TableHead>
+    <Box sx={{ backgroundColor: '#DAA520', minHeight: '100vh' }}>
+        <Container disableGutters>
+            <Box textAlign='center'>
+                <AppBar position='static'>
+                    <Toolbar>
+                        <AccessAlarm/>
+                        <Typography variant="h6" textAlign={'center'} sx={{ textDecoration: 'none' }}>Timetable Generator</Typography>
+                    </Toolbar>
+                </AppBar>
+            </Box>
+            <Box textAlign='center'>
+                <Typography variant="h2" gutterBottom>Timetable</Typography>
+            </Box>
+            <Grid2 container spacing={{ xs: 1, sm: 2, md: 3 }} direction="row" justifyContent="center" alignItems="center">
+                <Grid2 size={2.5}>
+                    <Box textAlign='center' justifyContent="center" gap={2}>
+                        <Button onClick={() => toPDF()} variant="contained"  sx={{ whiteSpace:'nowrap'}}>
+                            Download screenshot
+                        </Button>
+                    </Box>
+                </Grid2>
+                <Grid2 size={2.5}>
+                    <Box textAlign='center' justifyContent="center" gap={2}>
+                        <Button variant='contained' href='/' sx={{ whiteSpace:'nowrap'}}>
+                            Back to Startpage
+                        </Button>
+                    </Box>
+                </Grid2>
+            </Grid2>
 
-                    <TableBody>
-                    {timeTableContent}
-                    {errorMessage && (
-                        <TableRow sx={{background: '#FC3442'}}>
-                            <TableCell sx={tableStyles} colSpan={8}>{errorMessage}</TableCell>
-                        </TableRow>
-                        )}
-                    </TableBody>
-                    </Table>
-                </TableContainer>
-                </Box>
-            </Container>
-        </body>
-        </html>
+            <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 4, px:4 }}>
+            <TableContainer  ref={targetRef} component={Paper}  sx={{ mb: '5%' }}>
+                <Table size="small" >
+                <TableHead>
+                    <TableRow sx={{background: 'rgba(255, 158, 0, 0.68)'}}>
+                        <TableCell sx={tableStyles} className="timeUnits">Time</TableCell>
+                        <TableCell sx={tableStyles}>Monday</TableCell>
+                        <TableCell sx={tableStyles}>Tuesday</TableCell>
+                        <TableCell sx={tableStyles}>Wednesday</TableCell>
+                        <TableCell sx={tableStyles}>Thursday</TableCell>
+                        <TableCell sx={tableStyles}>Friday</TableCell>
+                        <TableCell sx={tableStyles}>Saturday</TableCell>
+                        <TableCell sx={tableStyles}>Sunday</TableCell>
+                    </TableRow>
+                </TableHead>
+
+                <TableBody>
+                {timeTableContent}
+                {errorMessage && (
+                    <TableRow sx={{background: '#FC3442'}}>
+                        <TableCell sx={tableStyles} colSpan={8}>{errorMessage}</TableCell>
+                    </TableRow>
+                    )}
+                </TableBody>
+                </Table>
+            </TableContainer>
+            </Box>
+        </Container>
+    </Box>
+
     );
 }
 
