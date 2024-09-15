@@ -30,12 +30,21 @@ export default function StartPage() {
             setUsername("Please log in to continue.")
         }
 
+        if ( token != null) {
         getProcessedTimeAnswers()
             .then((data: string | any[]) => {
                 if(data && data.length > 0) setTimetable(true)
                 else setTimetable(false)
                 })
             .catch(() => setErrorMessage("Error while processing Answers:\nCheck if one is missing or falsely set !"));
+
+        postTimeUnitCreationData({
+            "time": "00:00",
+            "length": 15,
+            "end": "24:00"
+        })
+            .catch(() => setErrorMessage("time unit database entries do not load"));
+        }
         
     }, [token])
 
@@ -45,13 +54,8 @@ export default function StartPage() {
     }
 
     useEffect(() => {
-        postTimeUnitCreationData({
-            "time": "00:00",
-            "length": 15,
-            "end": "24:00"
-        })
-            .catch(() => setErrorMessage("Time unit database entries do not load"));
-    }, [])
+        
+    }, [token])
 
     return (
         <Container disableGutters>
