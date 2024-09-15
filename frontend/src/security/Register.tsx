@@ -19,7 +19,7 @@ export default function Register() {
         })
         .then((loginResponse) => localStorage.setItem("jwt", loginResponse.jwt))
         .then(() => nav("/"))
-        .catch(() => setErrorMessage("User could not be created"));
+        .catch(() => setErrorMessage("User could not be created. User already exists ?"));
     };
 
     return (

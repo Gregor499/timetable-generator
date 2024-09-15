@@ -23,24 +23,27 @@ export default function QuestionManager(props: QuestionProps) {
 
     useEffect(() => {
       const workdayAnswerDbUpdate = () => {
-        const workdayAnswer: WorkdayAnswer = {
-          questionId: question.id,
-          question: question.question,
-          monday: workdays[0],
-          tuesday: workdays[1],
-          wednesday: workdays[2],
-          thursday: workdays[3],
-          friday: workdays[4],
-          saturday: workdays[5],
-          sunday: workdays[6],
-        };
-
-        postWorkdayAnswer(workdayAnswer)
-          .then(() => answerCallback()) // refreshing site
-          .catch(() => {
-            console.error("Error posting workday answer:", Error);
-            setErrorMessage("error posting answer");
-          });
+        if (question.question == "On which days do you work ?") {
+            const workdayAnswer: WorkdayAnswer = {
+                questionId: question.id,
+                question: question.question,
+                monday: workdays[0],
+                tuesday: workdays[1],
+                wednesday: workdays[2],
+                thursday: workdays[3],
+                friday: workdays[4],
+                saturday: workdays[5],
+                sunday: workdays[6],
+              };
+      
+              postWorkdayAnswer(workdayAnswer)
+                .then(() => answerCallback()) // refreshing site
+                .catch(() => {
+                  console.error("Error posting workday answer:", Error);
+                  setErrorMessage("error posting answer");
+                });
+        }
+    
       };
 
       workdayAnswerDbUpdate();
