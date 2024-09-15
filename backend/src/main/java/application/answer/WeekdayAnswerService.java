@@ -3,6 +3,7 @@ package application.answer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,7 +14,8 @@ import java.util.Optional;
 public class WeekdayAnswerService {
     private final WeekdayAnswerRepository weekdayAnswerRepository;
 
-    public void saveOrUpdateAnswer(WeekdayAnswer weekdayAnswer) {
+    @Transactional
+    public void saveOrUpdateAnswer(WeekdayAnswer weekdayAnswer) { // wie können sich hier doppelte Einträge einschleichen?
         deleteExistingAnswerIfPresent(weekdayAnswer.getUserId(), weekdayAnswer.getQuestionId());
         weekdayAnswerRepository.save(weekdayAnswer);
     }
@@ -34,10 +36,11 @@ public class WeekdayAnswerService {
         weekdayAnswerRepository.deleteAll();
     }
 
-
-    private void deleteExistingAnswerIfPresent(String userId, String questionId) {
+    public void deleteExistingAnswerIfPresent(String userId, String questionId) {
         findByUserIdAndQuestionId(userId, questionId)
-                .ifPresentOrElse(weekdayAnswerRepository::delete, () -> { log.debug("Answer not found for userId: " + userId + " and questionId: " + questionId); }
+                .ifPresentOrElse( //fehler falls multiple anwers found
+                    weekdayAnswerRepository::delete, () -> log.debug("Answer not found for userId: {} and questionId: {}", userId, questionId)
+
                 );
     }
 }

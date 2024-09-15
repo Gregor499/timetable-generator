@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +17,7 @@ public class TimeAnswerService {
     private final TimeAnswerRepository timeAnswerRepository;
     private final TimeUnitService timeUnitService;
 
+    @Transactional
     public void safeOrUpdateAnswer(TimeAnswer timeAnswer) {
         deleteExistingAnswerIfPresent(timeAnswer.getUserId(), timeAnswer.getQuestionId());
         timeAnswer.setTime(timeUnitService.convertMinutesToTimeUnit(timeAnswer.getTimeInMinutes()));
