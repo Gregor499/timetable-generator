@@ -1,7 +1,6 @@
 import {Question, TimeAnswer, TimeUnit, WorkdayAnswer} from "../service/models";
 import {useEffect, useState} from "react";
 import {getTimeUnitList, postTimeAnswer, postWorkdayAnswer} from "../service/apiService";
-//import "./QuestionManager.css"
 import {convertTimeUnitToMinutes} from "../utilities/Util"
 import WorkdayCheckboxes from "../components/WorkdayCheckboxes";
 import { Select, FormControl, Box, Typography, Grid2, Card, InputLabel, MenuItem } from '@mui/material';
