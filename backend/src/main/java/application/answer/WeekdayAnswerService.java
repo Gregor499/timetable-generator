@@ -24,6 +24,10 @@ public class WeekdayAnswerService {
         return weekdayAnswerRepository.findAll();
     }
 
+    public Optional<List<WeekdayAnswer>> findAllByUserIdAndQuestionId(String userId, String questionId) {
+        return weekdayAnswerRepository.findAllByUserIdAndQuestionId(userId, questionId);
+    }
+
     public Optional<WeekdayAnswer> findByUserIdAndQuestionId(String userId, String questionId) {
         return weekdayAnswerRepository.findByUserIdAndQuestionId(userId, questionId);
     }
@@ -37,10 +41,9 @@ public class WeekdayAnswerService {
     }
 
     public void deleteExistingAnswerIfPresent(String userId, String questionId) {
-        findByUserIdAndQuestionId(userId, questionId)
-                .ifPresentOrElse( //error if multiple answers found
-                    weekdayAnswerRepository::delete, () -> log.debug("Answer not found for userId: {} and questionId: {}", userId, questionId)
-
+        findAllByUserIdAndQuestionId(userId, questionId)
+                .ifPresentOrElse( weekdayAnswers ->
+                    weekdayAnswers.forEach(weekdayAnswerRepository::delete), () -> log.debug("Answer not found for userId: {} and questionId: {}", userId, questionId)
                 );
     }
 }
