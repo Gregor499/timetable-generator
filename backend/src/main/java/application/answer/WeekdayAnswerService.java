@@ -16,7 +16,7 @@ public class WeekdayAnswerService {
 
     @Transactional
     public void saveOrUpdateAnswer(WeekdayAnswer weekdayAnswer) {
-        deleteExistingAnswerIfPresent(weekdayAnswer.getUserId(), weekdayAnswer.getQuestionId());
+        deleteAllExistingAnswersIfPresent(weekdayAnswer.getUserId(), weekdayAnswer.getQuestionId());
         weekdayAnswerRepository.save(weekdayAnswer);
     }
 
@@ -40,7 +40,7 @@ public class WeekdayAnswerService {
         weekdayAnswerRepository.deleteAll();
     }
 
-    public void deleteExistingAnswerIfPresent(String userId, String questionId) {
+    public void deleteAllExistingAnswersIfPresent(String userId, String questionId) {
         findAllByUserIdAndQuestionId(userId, questionId)
                 .ifPresentOrElse( weekdayAnswers ->
                     weekdayAnswers.forEach(weekdayAnswerRepository::delete), () -> log.debug("Answer not found for userId: {} and questionId: {}", userId, questionId)

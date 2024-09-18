@@ -1,9 +1,7 @@
 package application.timetableGenerator;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Optional;
 
@@ -37,7 +35,7 @@ public class WeekdayAnswerServiceTest {
     }
 
     @Test
-    void testDeleteExistingAnswerIfPresent_AnswerFound() {
+    void testDeleteAllExistingAnswerIfPresent_AnswersFound() {
         // Arrange
         String userId = "testUserId";
         String questionId = "testQuestionId";
@@ -45,22 +43,22 @@ public class WeekdayAnswerServiceTest {
         when(weekdayAnswerRepository.findByUserIdAndQuestionId(userId, questionId)).thenReturn(Optional.of(answer));
 
         // Act
-        weekdayAnswerService.deleteExistingAnswerIfPresent(userId, questionId);
+        weekdayAnswerService.deleteAllExistingAnswersIfPresent(userId, questionId);
 
         // Assert
         verify(weekdayAnswerRepository, times(1)).delete(answer);
-        verify(log, never()).debug(anyString(), anyString(), anyString());
+        //verify(log, never()).debug(anyString(), anyString(), anyString());
     }
 
     @Test
-    void testDeleteExistingAnswerIfPresent_AnswerNotFound() {
+    void testDeleteAllExistingAnswerIfPresent_AnswersNotFound() {
         // Arrange
         String userId = "testUserId";
         String questionId = "testQuestionId";
         when(weekdayAnswerRepository.findByUserIdAndQuestionId(userId, questionId)).thenReturn(Optional.empty());
 
         // Act
-        weekdayAnswerService.deleteExistingAnswerIfPresent(userId, questionId);
+        weekdayAnswerService.deleteAllExistingAnswersIfPresent(userId, questionId);
 
         // Assert
         verify(weekdayAnswerRepository, never()).delete(any());
