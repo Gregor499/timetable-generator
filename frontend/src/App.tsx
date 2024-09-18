@@ -4,8 +4,11 @@ import Timetable from "./timetable/Timetable";
 import Register from "./security/Register";
 import Login from "./security/Login";
 import Questions from "./questions/Questions";
+import ReactGA from 'react-ga4';
 
 export default function App() {
+    ReactGA.initialize('GTM-PMF7QLLT');
+
     return (
         <BrowserRouter>
             <Routes>

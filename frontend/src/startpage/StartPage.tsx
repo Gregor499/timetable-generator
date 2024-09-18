@@ -2,10 +2,17 @@ import {useEffect, useState} from "react";
 import axios, {AxiosResponse} from "axios";
 import {getProcessedTimeAnswers, postTimeUnitCreationData} from "../service/apiService";
 import { Button, Box, Container, Typography, Grid2, AppBar, Toolbar } from '@mui/material';
-import { AccessAlarm } from "@mui/icons-material";
 import Header from "../components/Header";
+import ReactGA from 'react-ga4';
 
 export default function StartPage() {
+    const StartPage = () => {
+    ReactGA.send({
+        hitType: 'pageview',
+        page: "/",
+        title: "StartPage"
+    })
+    }
 
     const [username, setUsername] = useState("")
     const [errorMessage, setErrorMessage] = useState("")
