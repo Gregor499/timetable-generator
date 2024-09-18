@@ -6,13 +6,12 @@ import Header from "../components/Header";
 import ReactGA from 'react-ga4';
 
 export default function StartPage() {
-    const StartPage = () => {
+
     ReactGA.send({
         hitType: 'pageview',
         page: "/",
         title: "StartPage"
     })
-    }
 
     const [username, setUsername] = useState("")
     const [errorMessage, setErrorMessage] = useState("")
