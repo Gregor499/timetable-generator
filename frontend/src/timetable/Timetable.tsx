@@ -7,6 +7,7 @@ import { convertTimeUnitToMinutes } from "../utilities/Util"
 import { usePDF } from "react-to-pdf";
 import { Container, Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, AppBar, Toolbar, Grid2 } from '@mui/material';
 import { AccessAlarm } from "@mui/icons-material";
+import Header from "../components/Header";
 
 export default function Timetable() {
     const [timeUnitList, setTimeUnitList] = useState<Array<TimeUnit>>([])
@@ -42,14 +43,7 @@ const tableStyles = {
   return (
     <Box sx={{ backgroundColor: '#DAA520', minHeight: '100vh' }}>
         <Container disableGutters>
-            <Box textAlign='center'>
-                <AppBar position='static'>
-                    <Toolbar>
-                        <AccessAlarm/>
-                        <Typography variant="h6" textAlign={'center'} sx={{ textDecoration: 'none' }}>Timetable Generator</Typography>
-                    </Toolbar>
-                </AppBar>
-            </Box>
+            <Header/>
             <Box textAlign='center'>
                 <Typography variant="h2" gutterBottom>Timetable</Typography>
             </Box>

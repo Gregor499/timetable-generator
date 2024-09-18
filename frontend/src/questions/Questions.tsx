@@ -6,6 +6,7 @@ import {Question, TimeAnswer} from "../service/models";
 import "./Questions.css"
 import { Button, Box, Container, Typography, Grid2, AppBar, Toolbar } from '@mui/material';
 import { AccessAlarm } from "@mui/icons-material";
+import Header from "../components/Header";
 
 
 export default function QuestionList() {
@@ -41,14 +42,7 @@ export default function QuestionList() {
     return (
         <Box sx={{ backgroundColor: '#DAA520', minHeight: '100vh' }}>
             <Container disableGutters>
-                <Box textAlign='center'>
-                    <AppBar position='static'>
-                        <Toolbar>
-                            <AccessAlarm/>
-                            <Typography variant="h6" textAlign={'center'} sx={{ textDecoration: 'none' }}>Timetable Generator</Typography>
-                        </Toolbar>
-                    </AppBar>
-                </Box>
+                <Header/>
                 <Box textAlign='center'>
                     <Typography variant="h2" gutterBottom>Questions:</Typography>
                 </Box>

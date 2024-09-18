@@ -3,6 +3,7 @@ import axios, {AxiosResponse} from "axios";
 import {getProcessedTimeAnswers, postTimeUnitCreationData} from "../service/apiService";
 import { Button, Box, Container, Typography, Grid2, AppBar, Toolbar } from '@mui/material';
 import { AccessAlarm } from "@mui/icons-material";
+import Header from "../components/Header";
 
 export default function StartPage() {
 
@@ -59,14 +60,7 @@ export default function StartPage() {
 
     return (
         <Container disableGutters>
-            <Box textAlign='center'>
-                <AppBar position='static'>
-                    <Toolbar>
-                        <AccessAlarm/>
-                        <Typography variant="h6" textAlign={'center'} sx={{ textDecoration: 'none' }}>Timetable Generator</Typography>
-                    </Toolbar>
-                </AppBar>
-            </Box>
+            <Header/>
             <Box textAlign='center'>
                 <Typography variant="h2" gutterBottom>Timetable Generator</Typography>
                 <Typography variant="h4" gutterBottom>Welcome!</Typography>
