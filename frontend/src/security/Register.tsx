@@ -2,7 +2,6 @@ import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { registerUser, loginUser } from "../service/apiService";
 import "./LoginAndRegister.css"
-import { error } from "console";
 
 export default function Register() {
     const [username, setUsername] = useState("");

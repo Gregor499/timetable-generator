@@ -1,11 +1,9 @@
-import {NavLink} from "react-router-dom";
 import {useEffect, useState, useCallback} from "react";
 import {getQuestionList, getTimeAnswer, processAndGetProcessedTimeAnswers} from "../service/apiService";
 import QuestionManager from "./QuestionManager";
 import {Question, TimeAnswer} from "../service/models";
 import "./Questions.css"
-import { Button, Box, Container, Typography, Grid2, AppBar, Toolbar } from '@mui/material';
-import { AccessAlarm } from "@mui/icons-material";
+import { Button, Box, Container, Typography, Grid2 } from '@mui/material';
 import Header from "../components/Header";
 
 

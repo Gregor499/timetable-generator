@@ -22,7 +22,7 @@ export default function QuestionManager(props: QuestionProps) {
 
     useEffect(() => {
       const workdayAnswerDbUpdate = () => {
-        if (question.question == "On which days do you work ?") {
+        if (question.question === "On which days do you work ?") {
             const workdayAnswer: WorkdayAnswer = {
                 questionId: question.id,
                 question: question.question,

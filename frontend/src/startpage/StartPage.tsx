@@ -1,8 +1,7 @@
 import {useEffect, useState} from "react";
 import axios, {AxiosResponse} from "axios";
 import {getProcessedTimeAnswers, postTimeUnitCreationData} from "../service/apiService";
-import { Button, Box, Container, Typography, Grid2, AppBar, Toolbar } from '@mui/material';
-import { AccessAlarm } from "@mui/icons-material";
+import { Button, Box, Container, Typography, Grid2 } from '@mui/material';
 import Header from "../components/Header";
 
 export default function StartPage() {
