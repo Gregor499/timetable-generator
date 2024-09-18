@@ -7,7 +7,7 @@ import Questions from "./questions/Questions";
 import ReactGA from 'react-ga4';
 
 export default function App() {
-    ReactGA.initialize('GTM-PMF7QLLT');
+    ReactGA.initialize('G-B59Q7NWWZ4');
 
     return (
         <BrowserRouter>
