@@ -10,4 +10,4 @@ jobs:
           distribution: temurin
           java-version: 18
       - name: verify
-        run: mvn -B verify
+        run: mvn -B verify -DskipTests

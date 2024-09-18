@@ -5,8 +5,7 @@ import { ProcessedTimeAnswer, TimeUnit } from "../service/models";
 import TimeTableContent from "./TimeTableContent";
 import { convertTimeUnitToMinutes } from "../utilities/Util"
 import { usePDF } from "react-to-pdf";
-import { Container, Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, AppBar, Toolbar, Grid2 } from '@mui/material';
-import { AccessAlarm } from "@mui/icons-material";
+import { Container, Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Grid2 } from '@mui/material';
 import Header from "../components/Header";
 
 export default function Timetable() {
