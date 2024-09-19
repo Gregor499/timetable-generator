@@ -6,7 +6,7 @@ Whether you're aiming to boost productivity, focus on important tasks, or better
 
 **Launch App**: https://timetable-generator-56e20f5e9751.herokuapp.com/
 
-![](https://github.com/Gregor499/timetable-generator/blob/main/timetable-generator-video2.gif)
+![](https://github.com/Gregor499/timetable-generator/blob/main/timetable-generator-showcase.gif)
 
 ## 📝 Features
 
