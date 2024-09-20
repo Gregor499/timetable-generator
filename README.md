@@ -34,7 +34,7 @@ Frontend:
 
 Deployment:
 - **Heroku and MongoDB Altas**: Hosting and deploying the application including its database online.
-- **GitLab CI/CD**: ----
+- **GitLab CI/CD**: Being used for automatic code checks and deployment after each push to remote
 - **Docker**: Containerized MongoDB for local deployment.
 
 Frontend-Utils:
