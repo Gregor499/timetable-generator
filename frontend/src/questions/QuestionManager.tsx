@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import {getTimeUnitList, postTimeAnswer, postWorkdayAnswer} from "../service/apiService";
 import {convertTimeUnitToMinutes} from "../utilities/Util"
 import WorkdayCheckboxes from "../components/WorkdayCheckboxes";
-import { Select, FormControl, Box, Typography, Grid2, Card, InputLabel, MenuItem } from '@mui/material';
+import { Select, FormControl, Box, Typography, Grid2, Card, InputLabel, MenuItem, styled } from '@mui/material';
 
 interface QuestionProps {
     question: Question
@@ -78,6 +78,21 @@ export default function QuestionManager(props: QuestionProps) {
                 })
     };
 
+    const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
+        backgroundColor: '#1976D2',
+        color: theme.palette.text.primary,
+        '&:hover': {
+            backgroundColor: theme.palette.action.hover,
+        },
+        '&.Mui-selected': {
+            backgroundColor: theme.palette.action.selected,
+            color: theme.palette.text.primary,
+        },
+        '&.Mui-selected:hover': {
+            backgroundColor: theme.palette.action.selected,
+        },
+    }));
+
     const filteredTimeUnitSelection = timeUnitList
         .filter(timeUnit => {
             if (!props.question.previousQuestionId) {
@@ -95,16 +110,16 @@ export default function QuestionManager(props: QuestionProps) {
             }
         })
         .map(timeUnit =>
-            <MenuItem key={timeUnit.id} value={convertTimeUnitToMinutes(timeUnit.time)}>{
-                timeUnit.time}h
-            </MenuItem>)
+            <StyledMenuItem key={timeUnit.id} value={convertTimeUnitToMinutes(timeUnit.time)}>
+                {timeUnit.time}h
+            </StyledMenuItem>)
 
         const initialTimeUnitValue =
-            <MenuItem
+            <StyledMenuItem
                 key={`initial-${currentTimeAnswer}`} // Ensure unique key
                 value={convertTimeUnitToMinutes(currentTimeAnswer)}>
                     {currentTimeAnswer}h
-                </MenuItem>
+                </StyledMenuItem>
 
        const QuestionTypeResolver = () => {
            if (props.question.question === "On which days do you work ?") {
@@ -119,7 +134,7 @@ export default function QuestionManager(props: QuestionProps) {
                return(
                 //move extra 'TimeSelection' component if necessary
                <FormControl>
-                   <InputLabel>Time</InputLabel>
+                   <InputLabel color="secondary">Time</InputLabel>
                    <Select
                        name={props.question.type}
                        id={props.question.id}
