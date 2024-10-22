@@ -8,7 +8,7 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
-import { blue, green, purple } from '@mui/material/colors';
+import { blue } from '@mui/material/colors';
 
 const container = document.getElementById("root");
 const root = createRoot(container!);
