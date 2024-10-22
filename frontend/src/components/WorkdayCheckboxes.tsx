@@ -14,6 +14,7 @@ const WorkdayCheckboxes: React.FC<WorkdayCheckboxesProps> = ({ workdays, setWork
                 <span key={index}>
                     <Checkbox
                         id={`check${index}`}
+                        color= 'secondary'
                         checked={workdays[index]}
                         onChange={event => {
                             const newWorkdays = [...workdays];
