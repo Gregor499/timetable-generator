@@ -6,4 +6,8 @@
   html, body {
     @apply h-full min-h-screen w-full m-0 p-0 bg-[#DAA520]; /* Tailwind classes for background color and reset */
   }
+
+    input {
+      color: black; /* Set the font color of all input fields to black */
+    }
 }
