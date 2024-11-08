@@ -67,7 +67,7 @@ const tableStyles = {
             <TableContainer  ref={targetRef} component={Paper}  sx={{ mb: '5%' }}>
                 <Table size="small" >
                 <TableHead>
-                    <TableRow sx={{background: 'rgba(255, 158, 0, 0.68)'}}>
+                    <TableRow sx={{background: 'rgba(255, 158, 0, 1)'}}>
                         <TableCell sx={tableStyles} className="timeUnits">Time</TableCell>
                         <TableCell sx={tableStyles}>Monday</TableCell>
                         <TableCell sx={tableStyles}>Tuesday</TableCell>

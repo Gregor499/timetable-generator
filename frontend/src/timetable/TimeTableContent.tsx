@@ -25,14 +25,13 @@ const taskNameMapping: Record<string, string> = {
 };
 
 const tableRowStyles = {
-    background: 'rgba(255, 158, 0, 0.68)',
+    background: 'rgba(255, 158, 0, 1)',
     padding: '5px',
     width: '80%',
     marginTop: '10px',
     lineHeight: '15px',
 
 };
-
 
 const tableCellStyles: Record<string, { backgroundColor: string; textAlign?: string; }> = {
     morningSleep: { backgroundColor: 'rgba(134, 134, 134, 0.3)', textAlign: 'center' },
@@ -44,6 +43,7 @@ const tableCellStyles: Record<string, { backgroundColor: string; textAlign?: str
     nightSleep: { backgroundColor: 'rgba(134, 134, 134, 0.3)', textAlign: 'center' },
     free: { backgroundColor: 'rgba(255, 158, 0, 0.68)', textAlign: 'center' },
 };
+
 
 export default function TimeTableContent(props: TimeTableProps) {
     const taskName = taskNameMapping[props.task] || props.task;
